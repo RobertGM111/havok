@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1577474386166.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "61BA88B2",
+    "lastKnownWriteTime" : 1577476617,
+    "last_content_update" : 1577476617880,
+    "path" : "~/Box Sync/MyProjects/Packages/havok/R/havok.R",
+    "project_path" : "R/havok.R",
+    "properties" : {
+        "cursorPosition" : "67,25",
+        "scrollLine" : "59",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 12,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

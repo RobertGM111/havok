@@ -1,0 +1,119 @@
+#setwd("C:/Users/Blood/Box Sync/Collaborations/ElenaMartynova/HAVOK/R_HAVOK")
+setwd("/Users/robertmoulder/Box Sync/Collaborations/ElenaMartynova/HAVOK/R_HAVOK")
+
+source("HAVOKfunction.r")
+
+library(deSolve)
+library(plot3D)
+
+#Generate Data
+##Set Lorenz Parameters
+parameters <- c(s = 10, r = 28, b = 8/3)
+n <- 3
+state <- c(X=-8, Y=8, Z=27) ##Inital Values
+
+#Intergrate
+dt<-0.001
+tspan<-seq(dt,200,dt)
+N<-length(tspan)
+
+Lorenz <- function(t, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    dX <- s * (Y - X)
+    dY <- X * (r - Z) - Y
+    dZ <- X * Y - b * Z
+    list(c(dX, dY, dZ))
+  })
+}
+
+out <- ode(y = state, times = tspan, func = Lorenz, parms = parameters, rtol = 1e-12, atol = 1e-12)
+xdat <- out[,"X"]
+t <- out[,"time"]
+
+
+a <- HAVOK(xdat = xdat, dt = dt)
+
+
+# Figure 1 - Original Attractor
+L = 1:200000
+scatter3D(x = out[L,"X"], y = out[L,"Y"], z = out[L,"Z"], col = rgb(0,0,0,1), type = "l")
+
+# Figure 2 - Original Time Series
+plot(t, xdat, type = "l")
+
+# Figure 3 - Embedded Attractor
+L = 1:170000
+scatter3D(x = a$V[L,1], y = a$V[L,2], z = a$V[L,3], col = rgb(0,0,0,1), type = "l")
+
+# Figure 4 - Model Time Series
+L <- 300:25000
+L2 <- seq(300,25000,50)
+par(mfrow = c(2,1))
+plot(tspan[L],a$x[L,1], type = "l")
+
+lines(tspan[L2],a$HAVOK$y[1,L2], col = rgb(1,0,0,1))
+
+plot(tspan[L],a$x[L,a$r],col = rgb(.5,0,0,1), type = "l")
+par(mfrow = c (1,1))
+
+# Figure 5 - Reconstructed Attractor
+L <- 300:50000
+scatter3D(x = a$HAVOK$y[1,L], y = a$HAVOK$y[2,L], z = a$HAVOK$y[3,L], col = rgb(0,0,.5,1), type = "l")
+
+
+# Figure 6 - Forcing Statistics
+Vtest <- sd(a$V[,a$r])*randn(200000,1)
+hist(a$V[,a$r], xlim = c(-.03, .03))
+hist(Vtest-mean(Vtest), xlim = c(-.03, .03), add = TRUE)
+
+# Figure 7 - U Modes
+CC <- matrix(c(2, 15, 32,
+               2, 35, 92,
+               22, 62, 149,
+               41, 85, 180,
+               83, 124, 213,
+               112, 148, 223,
+               114, 155, 215), nrow = 7, ncol = 3, byrow = TRUE)
+
+plot(a$U[,1], type = "l", ylim = c(-.3,.3))
+for (k in 2:5){
+  lines(a$U[,k])
+}
+
+
+# Figure 8 - Lobe Switching
+L <- 1:max(dim(a$V))
+inds <- a$V[L,a$r]^2 > 4e-6
+L <- L[inds]
+startvals <- NA
+endvals <- NA
+start <- 1683
+numhits <- 100
+for (k in 1:numhits){
+startvals <- c(startvals,start)
+endmax <- start + 500
+interval <- start:endmax
+hits <- which(inds[interval] ==TRUE)
+endval <- start+hits[length(hits)]
+endvals <- c(endvals, endval)
+newhit <-  which(inds[(endval+1):length(inds)] != 0)
+start <- endval+newhit[1]
+}
+
+startvals <- na.omit(startvals)
+endvals <- na.omit(endvals)
+
+# Figure 9 - PLOT PREDICTION AS TIME SERIES
+plot(tspan[1:max(dim(a$V))],a$V[,1], type = "l")
+
+
+for (k in 1:numhits){
+  lines(tspan[startvals[k]:endvals[k]], a$V[startvals[k]:endvals[k],1], type = "l", col = rgb(1,0,0,1))
+}
+
+
+
+
+
+
+

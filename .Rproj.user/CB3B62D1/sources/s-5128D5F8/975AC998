@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1577474647059.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "975AC998",
+    "lastKnownWriteTime" : 1577475330,
+    "last_content_update" : 1577475330275,
+    "path" : "~/Box Sync/MyProjects/Packages/havok/man/havok.Rd",
+    "project_path" : "man/havok.Rd",
+    "properties" : {
+        "cursorPosition" : "16,1",
+        "scrollLine" : "6"
+    },
+    "relative_order" : 12,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_doc"
+}

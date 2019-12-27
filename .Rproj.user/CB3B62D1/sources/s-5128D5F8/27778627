@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1577470962139.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "27778627",
+    "lastKnownWriteTime" : 1577474826,
+    "last_content_update" : 1577474826199,
+    "path" : "~/Box Sync/MyProjects/Packages/havok/R/optimal_SVHT_coef.R",
+    "project_path" : "R/optimal_SVHT_coef.R",
+    "properties" : {
+        "cursorPosition" : "38,6",
+        "scrollLine" : "30",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 10,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

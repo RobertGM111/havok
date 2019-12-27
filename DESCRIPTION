@@ -1,0 +1,19 @@
+Package: havok
+Type: Package
+Title: Hankel Alternative View of Koopman (HAVOK) Analysis
+Version: 0.1.0
+Authors@R: c(person("Moulder", "Robert", email = "rgm4fd@virginia.edu",
+  role = c("aut", "cre"), comment = c(ORCID = "0000-0001-7504-9560"))),
+  person("Martynova", "Elena", email = "em6gg@virginia.edu",
+  role = "aut"))
+Authors: Robert Moulder [aut, cre] ,
+  Elena Martynova [aut]
+Maintainer: Robert Moulder <rgm4fd@virginia.edu>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.5.2)
+Imports: pracma (>= 2.2.5), control (>= 0.2.5)
+RoxygenNote: 7.0.2

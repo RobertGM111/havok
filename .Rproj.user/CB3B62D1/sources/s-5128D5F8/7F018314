@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1577395517499.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "7F018314",
+    "lastKnownWriteTime" : 1577475811,
+    "last_content_update" : 1577475811971,
+    "path" : "~/Box Sync/MyProjects/Packages/havok/R/sparsify_dynamics.R",
+    "project_path" : "R/sparsify_dynamics.R",
+    "properties" : {
+        "cursorPosition" : "26,6",
+        "scrollLine" : "19",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

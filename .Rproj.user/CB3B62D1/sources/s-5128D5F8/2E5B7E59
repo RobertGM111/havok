@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1577396478313.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2490440279",
+    "id" : "2E5B7E59",
+    "lastKnownWriteTime" : 1577397586,
+    "last_content_update" : 1577397586322,
+    "path" : "~/Box Sync/MyProjects/Packages/havok/man/sparsify_dynamics.Rd",
+    "project_path" : "man/sparsify_dynamics.Rd",
+    "properties" : {
+        "cursorPosition" : "0,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_doc"
+}

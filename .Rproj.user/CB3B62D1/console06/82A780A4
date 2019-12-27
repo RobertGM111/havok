@@ -1,0 +1,9 @@
+]0;~/Box Sync/MyProjects/Packages/havok[?1034hvpn-user-1-223:havok robertmoulder$ [Kvpn-user-1-223:havok robertmoulder$ git remote add origin https://github.com/username/re ponameRobertGM111[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K[K[K[K[K[K[K[K[K[KRobertGM111 /havok
+fatal: not a git repository (or any of the parent directories): .git
+]0;~/Box Sync/MyProjects/Packages/havokvpn-user-1-223:havok robertmoulder$ git init
+Initialized empty Git repository in /Users/robertmoulder/Box Sync/MyProjects/Packages/havok/.git/
+]0;~/Box Sync/MyProjects/Packages/havokvpn-user-1-223:havok robertmoulder$ git add
+Nothing specified, nothing added.
+Maybe you wanted to say 'git add .'?
+]0;~/Box Sync/MyProjects/Packages/havokvpn-user-1-223:havok robertmoulder$ git add .
