@@ -11,7 +11,7 @@ havok(
   lambda = 0,
   rmax = 15,
   polyorder = 1,
-  usesine = FALSE,
+  useSine = FALSE,
   n = 1
 )
 }
@@ -26,7 +26,7 @@ havok(
 
 \item{polyorder}{A number.}
 
-\item{usesine}{A number.}
+\item{useSine}{A number.}
 
 \item{n}{A number.}
 
@@ -41,6 +41,30 @@ Coefficient determining optimal location of Hard Threshold for Matrix
  unknown.  Recreation of matlab code by Matan Gavish and David Donoho.
 }
 \examples{
-add(1, 1)
-add(10, 1)
+#Generate Data
+library(deSolve)
+##Set Lorenz Parameters
+parameters <- c(s = 10, r = 28, b = 8/3)
+n <- 3
+state <- c(X = -8, Y = 8, Z =2 7) ##Inital Values
+
+#Intergrate
+dt <- 0.001
+tspan <- seq(dt, 200, dt)
+N <- length(tspan)
+
+Lorenz <- function(t, state, parameters) {
+ with(as.list(c(state, parameters)), {
+   dX <- s * (Y - X)
+   dY <- X * (r - Z) - Y
+   dZ <- X * Y - b * Z
+   list(c(dX, dY, dZ))
+ })
+}
+
+out <- ode(y = state, times = tspan, func = Lorenz, parms = parameters, rtol = 1e-12, atol = 1e-12)
+xdat <- out[, "X"]
+t <- out[, "time"]
+hav <- <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0, rmax = 15, polyorder = 1, useSine = FALSE, n = 1)
+#'
 }
