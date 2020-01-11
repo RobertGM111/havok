@@ -2,29 +2,34 @@
 % Please edit documentation in R/sparsify_dynamics.R
 \name{sparsify_dynamics}
 \alias{sparsify_dynamics}
-\title{Matrix Sparcification for SINDy Algorithm}
+\title{Matrix Sparsifcation for SINDy Algorithm}
 \usage{
 sparsify_dynamics(Theta, dXdt, lambda, n)
 }
 \arguments{
-\item{Theta}{A number.}
+\item{Theta}{A matrix of candidate functions.}
 
-\item{dXdt}{A number.}
+\item{dXdt}{A matrix of first order derivatives of the variables of interest with respect to time.}
 
-\item{lambda}{A number.}
+\item{lambda}{A numeric value; sparsification threshold.}
 
-\item{n}{A number.}
+\item{n}{An integer that indicates the number of variables.}
 }
 \value{
-A matrix of sparse coefficients
+A matrix of sparse coefficients.
 }
 \description{
-Sparcification function for sparsifying dynamics as shown in
-the SINDy algorithm as shown in "Discovering
-governing equations from data: Sparse identification of nonlinear dynamical
-systems" (Brunton, Proctor, & Kutz, 2015).
+Sparsification function based on sequential thresholded least-squares
+as shown in the SINDy algorithm in "Discovering governing equations from data:
+Sparse identification of nonlinear dynamical systems" (Brunton, Proctor, & Kutz, 2016).
 }
 \examples{
-add(1, 1)
-add(10, 1)
+sparsify_dynamics(Theta, dXdt, lambda, n)
+sparsify_dynamics(Theta, dXdt, 0.1, 10)
+sparsify_dynamics(pool_data(yIn, 15, 5, TRUE), dXdt, 0, 15)
+}
+\references{
+Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2016). Discovering
+governing equations from data by sparse identification of nonlinear dynamical
+systems. Proceedings of the National Academy of Sciences, 113(15), 3932-3937.
 }

@@ -2,29 +2,39 @@
 % Please edit documentation in R/pool_data.R
 \name{pool_data}
 \alias{pool_data}
-\title{Data Pooling for SINDy Algorithm}
+\title{Data Pooling into the Matrix of Candidate Functions for SINDy Algorithm}
 \usage{
 pool_data(yIn, nVars, polyOrder, useSine)
 }
 \arguments{
-\item{yIn}{A number.}
+\item{yIn}{A matrix/data frame of time-dependent variables.}
 
-\item{nVars}{A number.}
+\item{nVars}{An integer that indicates the number of variables.}
 
-\item{polyOrder}{A number.}
+\item{polyOrder}{An integer from 0 to 5 indicating the highest degree of polynomials
+included in the matrix of candidate functions.}
 
-\item{useSine}{A number.}
+\item{useSine}{A logical value indicating whether sine and cosine functions
+of variables should be added to the library of potential candidate functions.
+If TRUE, candidate function matrix is augmented with sine and cosine functions
+of integer multiples 1 through 10 of all the variables in \code{yIn}.}
 }
 \value{
-A matrix of candidate functions
+A matrix of candidate functions.
 }
 \description{
-Pooling function for sparsifyIng dynamics as shown in
-the SINDy algorithm as shown in "Discovering
+Pooling function for contruction of the library of potential right
+hand-side candidate functions as shown in the SINDy algorithm in "Discovering
 governing equations from data: Sparse identification of nonlinear dynamical
-systems" (Brunton, Proctor, & Kutz, 2015).
+systems" (Brunton, Proctor, & Kutz, 2016).
 }
 \examples{
-add(1, 1)
-add(10, 1)
+pool_data(yIn, nVars, polyOrder, useSine)
+pool_data(yIn, 15, 5, TRUE)
+pool_data(yIn, 3, 1, 0)
+}
+\references{
+Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2016). Discovering
+governing equations from data by sparse identification of nonlinear dynamical
+systems. Proceedings of the National Academy of Sciences, 113(15), 3932-3937.
 }

@@ -5,24 +5,23 @@ havok
 
 <!-- badges: start -->
 <!-- badges: end -->
-This package allows for modeling of chaotic systems as intermittently forced linear systems through the use of Hankel Alturnative View of Koopman (HAVOK) analysis (Brunton, Brunton, Proctor, Kaiser, & Kutz, 2017). This package has additional functionality for the SINDy algoirthm (Brunton, Proctor, & Kutz, 2016).
+This package allows for modeling of chaotic systems as intermittently forced linear systems through the use of Hankel Alternative View of Koopman (HAVOK) analysis (Brunton, Brunton, Proctor, Kaiser, & Kutz, 2017). This package has additional functionality for the SINDy algoirthm (Brunton, Proctor, & Kutz, 2016).
 
 Installation
 ------------
 
-You can install the released version of havok from [CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("havok")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("RobertGM111/havok")
 ```
 
+<!--
+``` r
+install.packages("havok")
+```
+-->
 Example
 -------
 
