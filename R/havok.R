@@ -37,8 +37,7 @@
 #'out <- ode(y = state, times = tspan, func = Lorenz, parms = parameters, rtol = 1e-12, atol = 1e-12)
 #'xdat <- out[, "X"]
 #'t <- out[, "time"]
-#'hav <- <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0, rmax = 15, polyorder = 1, useSine = FALSE, n = 1)
-#'#'
+#'hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0, rmax = 15, polyorder = 1, useSine = FALSE, n = 1)
 ###################################
 
 havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
