@@ -5,10 +5,10 @@
 #'  unknown.  Recreation of matlab code by Matan Gavish and David Donoho.
 #' @param xdat A number.
 #' @param dt A number.
-#' @param stackman A number.
+#' @param stackmax A number.
 #' @param lambda A number.
 #' @param rmax A number.
-#' @param polyorder A number.
+#' @param polyOrder A number.
 #' @param useSine A number.
 #' @param n A number.
 #' @return  A matrix of sparse coefficients
@@ -37,11 +37,11 @@
 #'out <- ode(y = state, times = tspan, func = Lorenz, parms = parameters, rtol = 1e-12, atol = 1e-12)
 #'xdat <- out[, "X"]
 #'t <- out[, "time"]
-#'hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0, rmax = 15, polyorder = 1, useSine = FALSE, n = 1)
+#'hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0, rmax = 15, polyOrder = 1, useSine = FALSE, n = 1)
 ###################################
 
 havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
-                  rmax = 15, polyorder = 1, useSine = FALSE, n = 1) {
+                  rmax = 15, polyOrder = 1, useSine = FALSE, n = 1) {
 
   H <- matrix(0, nrow = stackmax, ncol = length(xdat) - stackmax)
 
@@ -73,7 +73,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
   x <- V[3:(nrow(V) - 3), 1:r]
   dx <- dV
 
-  polyorder <- 1
+  polyOrder <- 1
   Theta <- pool_data(x, r, 1, useSine)
 
 
