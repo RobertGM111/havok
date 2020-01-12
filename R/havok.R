@@ -111,8 +111,8 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
   sys <- control::ss(A, B, pracma::eye(r - 1), 0 * B)
   HAVOK <- control::lsim(sys, x[L, r], dt * (L - 1), x[1, 1:(r - 1)])
 
-  res <- list(HAVOK, r, x, sys, Theta, Xi, U, sigs, V)
-  names(res) <- c("havok", "r", "x", "sys", "theta", "Xi", "U", "sigs", "V")
+  res <- list(HAVOK, dx, r, x, sys, Theta, Xi, U, sigs, V)
+  names(res) <- c("havok", "dxdt", "r", "x", "sys", "theta", "Xi", "U", "sigs", "V")
   return(res)
 }
 
