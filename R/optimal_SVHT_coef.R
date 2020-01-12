@@ -11,7 +11,7 @@
 #' unknown) or up to \code{sigma*sqrt(n)} (sigma known); a vector of the same dimension
 #' as \code{beta}, where \code{coef[i]} is the coefficient correcponding to \code{beta[i]}.
 #' @references Gavish, M., & Donoho, D. L. (2014). The optimal hard threshold for singular
-#' values is $4/sqrt(3). IEEE Transactions on Information Theory, 60(8), 5040-5053.
+#' values is 4/sqrt(3). IEEE Transactions on Information Theory, 60(8), 5040-5053.
 #' @examples
 #' # Usage in known noise level:
 #' # Given an m-by-n matrix \code{Y} known to be low rank and observed in white noise

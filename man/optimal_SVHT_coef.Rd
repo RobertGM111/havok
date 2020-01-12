@@ -41,5 +41,5 @@ David Donoho.
 }
 \references{
 Gavish, M., & Donoho, D. L. (2014). The optimal hard threshold for singular
-values is $4/sqrt(3). IEEE Transactions on Information Theory, 60(8), 5040-5053.
+values is 4/sqrt(3). IEEE Transactions on Information Theory, 60(8), 5040-5053.
 }
