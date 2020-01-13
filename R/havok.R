@@ -7,6 +7,7 @@
 #' @param dt A number.
 #' @param stackmax A number.
 #' @param lambda A number.
+#' @param center A number.
 #' @param rmax A number.
 #' @param polyOrder A number.
 #' @param useSine A number.
@@ -40,8 +41,12 @@
 #'hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0, rmax = 15, polyOrder = 1, useSine = FALSE, n = 1)
 ###################################
 
-havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
+havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
                   rmax = 15, polyOrder = 1, useSine = FALSE, n = 1) {
+
+  if (center == TRUE){
+    xdat <- xdat - mean(xdat)
+  }
 
   H <- matrix(0, nrow = stackmax, ncol = length(xdat) - stackmax)
 
@@ -107,7 +112,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
   B <- A[, r]
   A <- A[ , 1:(r - 1)]
   L <- 1:nrow(x)
-  #Need State space models!
+
   sys <- control::ss(A, B, pracma::eye(r - 1), 0 * B)
   HAVOK <- control::lsim(sys, x[L, r], dt * (L - 1), x[1, 1:(r - 1)])
 

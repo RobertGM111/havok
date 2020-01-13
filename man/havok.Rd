@@ -9,8 +9,9 @@ havok(
   dt = 1,
   stackmax = 100,
   lambda = 0,
+  center = TRUE,
   rmax = 15,
-  polyorder = 1,
+  polyOrder = 1,
   useSine = FALSE,
   n = 1
 )
@@ -20,17 +21,19 @@ havok(
 
 \item{dt}{A number.}
 
+\item{stackmax}{A number.}
+
 \item{lambda}{A number.}
+
+\item{center}{A number.}
 
 \item{rmax}{A number.}
 
-\item{polyorder}{A number.}
+\item{polyOrder}{A number.}
 
 \item{useSine}{A number.}
 
 \item{n}{A number.}
-
-\item{stackman}{A number.}
 }
 \value{
 A matrix of sparse coefficients
@@ -65,5 +68,5 @@ Lorenz <- function(t, state, parameters) {
 out <- ode(y = state, times = tspan, func = Lorenz, parms = parameters, rtol = 1e-12, atol = 1e-12)
 xdat <- out[, "X"]
 t <- out[, "time"]
-hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0, rmax = 15, polyorder = 1, useSine = FALSE, n = 1)
+hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0, rmax = 15, polyOrder = 1, useSine = FALSE, n = 1)
 }
