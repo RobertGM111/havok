@@ -15,7 +15,7 @@ be denoised. 0<\code{beta}<=1.}
 \value{
 Optimal location of hard threshold, up the median data singular value (sigma
 unknown) or up to \code{sigma*sqrt(n)} (sigma known); a vector of the same dimension
-as \code{beta}, where \code{coef[i]} is the coefficient correcponding to \code{beta[i]}.
+as \code{beta}, where \code{coef[i]} is the coefficient corresponding to \code{beta[i]}.
 }
 \description{
 A function for the calculation of the coefficient determining optimal
@@ -24,6 +24,7 @@ when noise level is known or unknown. Recreation of MATLAB code by Matan Gavish 
 David Donoho.
 }
 \examples{
+\donttest{
 # Usage in known noise level:
 # Given an m-by-n matrix \code{Y} known to be low rank and observed in white noise
 # with mean zero and known variance \code{sigma^2}, form a denoised matrix \code{Xhat} by:
@@ -38,6 +39,7 @@ David Donoho.
  y <- USV$d
  y(y < (optimal_SVHT_coef(m/n,0) * median(y)) ) <- 0
  Xhat <- USV$u * diag(y) * t(USV$v)
+ }
 }
 \references{
 Gavish, M., & Donoho, D. L. (2014). The optimal hard threshold for singular

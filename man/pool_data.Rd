@@ -23,15 +23,17 @@ of integer multiples 1 through 10 of all the variables in \code{yIn}.}
 A matrix of candidate functions.
 }
 \description{
-Pooling function for contruction of the library of potential right
+Pooling function for construction of the library of potential right
 hand-side candidate functions as shown in the SINDy algorithm in "Discovering
 governing equations from data: Sparse identification of nonlinear dynamical
 systems" (Brunton, Proctor, & Kutz, 2016).
 }
 \examples{
+\donttest{
 pool_data(yIn, nVars, polyOrder, useSine)
 pool_data(yIn, 15, 5, TRUE)
 pool_data(yIn, 3, 1, 0)
+}
 }
 \references{
 Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2016). Discovering

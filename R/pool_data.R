@@ -1,6 +1,6 @@
 #' Data Pooling into the Matrix of Candidate Functions for SINDy Algorithm
 #'
-#' @description Pooling function for contruction of the library of potential right
+#' @description Pooling function for construction of the library of potential right
 #' hand-side candidate functions as shown in the SINDy algorithm in "Discovering
 #' governing equations from data: Sparse identification of nonlinear dynamical
 #' systems" (Brunton, Proctor, & Kutz, 2016).
@@ -17,10 +17,13 @@
 #' governing equations from data by sparse identification of nonlinear dynamical
 #' systems. Proceedings of the National Academy of Sciences, 113(15), 3932-3937.
 #' @examples
+#' \donttest{
 #' pool_data(yIn, nVars, polyOrder, useSine)
 #' pool_data(yIn, 15, 5, TRUE)
 #' pool_data(yIn, 3, 1, 0)
+#' }
 ###################################
+
 pool_data <- function(yIn, nVars, polyOrder, useSine) {
   n <- dim(yIn)[1]
 

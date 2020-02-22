@@ -1,25 +1,32 @@
 #' Hankel Alternative View of Koopman (HAVOK) Analysis
 #'
-#' @description Coefficient determining optimal location of Hard Threshold for Matrix
-#'  Denoising by Singular Values Hard Thresholding when noise level is known or
-#'  unknown.  Recreation of matlab code by Matan Gavish and David Donoho.
-#' @param xdat A number.
-#' @param dt A number.
-#' @param stackmax A number.
-#' @param lambda A number.
-#' @param center A number.
-#' @param rmax A number.
-#' @param polyOrder A number.
-#' @param useSine A number.
-#' @param n A number.
+#' @description Data-driven decomposition of chaotic time series into an intermittently
+#' forced linear system. HAVOK combines delay embedding and Koopman theory to decompose
+#' chaotic dynamics into a linear model in the leading delay coordinates with forcing by
+#' low-energy delay coordinates. Forcing activity demarcates coherent phase space regions
+#' where the dynamics are approximately linear from those that are strongly nonlinear.
+#' @param xdat A vector of equally spaced measurements over time.
+#' @param dt A numeric value indicating the time-lag between two subsequent time series measures.
+#' @param stackmax An integer; number of shift-stacked rows.
+#' @param lambda A numeric value; sparsification threshold.
+#' @param rmax An integer; maximum number of singular vectors to include.
+#' @param polyorder An integer from 0 to 5 indicating the highest degree of polynomials
+#' included in the matrix of candidate functions.
+#' @param usesine A logical value indicating whether sine and cosine functions
+#' of variables should be added to the library of potential candidate functions.
+#' If TRUE, candidate function matrix is augmented with sine and cosine functions
+#' of integer multiples 1 through 10 of all the variables in \code{yIn}.
 #' @return  A matrix of sparse coefficients
+#' @references S. L. Brunton, B. W. Brunton, J. L. Proctor, E. Kaiser, and J. N. Kutz,
+#' "Chaos as an intermittently forced linear system," Nature Communications, 8(19):1-9, 2017.
 #' @examples
+#' \donttest{
 #'#Generate Data
 #'library(deSolve)
 #'##Set Lorenz Parameters
 #'parameters <- c(s = 10, r = 28, b = 8/3)
 #'n <- 3
-#'state <- c(X = -8, Y = 8, Z =2 7) ##Inital Values
+#'state <- c(X = -8, Y = 8, Z =27) ##Inital Values
 #'
 #'#Intergrate
 #'dt <- 0.001
@@ -38,21 +45,19 @@
 #'out <- ode(y = state, times = tspan, func = Lorenz, parms = parameters, rtol = 1e-12, atol = 1e-12)
 #'xdat <- out[, "X"]
 #'t <- out[, "time"]
-#'hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0, rmax = 15, polyOrder = 1, useSine = FALSE, n = 1)
+#'hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0,
+#'             rmax = 15, polyOrder = 1, useSine = FALSE)
+#'}
 ###################################
 
 havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
-                  rmax = 15, polyOrder = 1, useSine = FALSE, n = 1) {
+                  rmax = 15, polyOrder = 1, useSine = FALSE) {
 
   if (center == TRUE){
     xdat <- xdat - mean(xdat)
   }
 
-  H <- matrix(0, nrow = stackmax, ncol = length(xdat) - stackmax)
-
-  for (k in 1:stackmax) {
-    H[k,] <- xdat[k:(length(xdat) - stackmax - 1 + k)]
-  }
+  H <- build_hankel(x = xdat, stackmax = stackmax)
 
   USV <- svd(H)
   U <- USV$u
@@ -64,15 +69,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
   r <- min(rmax, r)
 
   # COMPUTE DERIVATIVES
-  dV <- matrix(0, nrow = max(dim(V)) - 5, ncol = r)
-  for (i in 3:(nrow(V) - 3)) {
-    for (k in 1:r) {
-      dV[(i-2),k] <- (1 / (12 * dt)) *
-        (-V[i + 2, k] + 8 * V[i + 1, k] -
-           8 * V[i - 1, k] + V[i - 2, k])
-    }
-  }
-
+  dV <- compute_derivative(x = V, dt = dt, r = r)
 
   # concatenate
   x <- V[3:(nrow(V) - 3), 1:r]
@@ -80,7 +77,6 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
 
   polyOrder <- 1
   Theta <- pool_data(x, r, 1, useSine)
-
 
   # normalize columns of Theta (required in new time-delay coords)
   normTheta <- rep(NA, dim(Theta)[2])

@@ -12,44 +12,46 @@ havok(
   center = TRUE,
   rmax = 15,
   polyOrder = 1,
-  useSine = FALSE,
-  n = 1
+  useSine = FALSE
 )
 }
 \arguments{
-\item{xdat}{A number.}
+\item{xdat}{A vector of equally spaced measurements over time.}
 
-\item{dt}{A number.}
+\item{dt}{A numeric value indicating the time-lag between two subsequent time series measures.}
 
-\item{stackmax}{A number.}
+\item{stackmax}{An integer; number of shift-stacked rows.}
 
-\item{lambda}{A number.}
+\item{lambda}{A numeric value; sparsification threshold.}
 
-\item{center}{A number.}
+\item{rmax}{An integer; maximum number of singular vectors to include.}
 
-\item{rmax}{A number.}
+\item{polyorder}{An integer from 0 to 5 indicating the highest degree of polynomials
+included in the matrix of candidate functions.}
 
-\item{polyOrder}{A number.}
-
-\item{useSine}{A number.}
-
-\item{n}{A number.}
+\item{usesine}{A logical value indicating whether sine and cosine functions
+of variables should be added to the library of potential candidate functions.
+If TRUE, candidate function matrix is augmented with sine and cosine functions
+of integer multiples 1 through 10 of all the variables in \code{yIn}.}
 }
 \value{
 A matrix of sparse coefficients
 }
 \description{
-Coefficient determining optimal location of Hard Threshold for Matrix
- Denoising by Singular Values Hard Thresholding when noise level is known or
- unknown.  Recreation of matlab code by Matan Gavish and David Donoho.
+Data-driven decomposition of chaotic time series into an intermittently
+forced linear system. HAVOK combines delay embedding and Koopman theory to decompose
+chaotic dynamics into a linear model in the leading delay coordinates with forcing by
+low-energy delay coordinates. Forcing activity demarcates coherent phase space regions
+where the dynamics are approximately linear from those that are strongly nonlinear.
 }
 \examples{
+\donttest{
 #Generate Data
 library(deSolve)
 ##Set Lorenz Parameters
 parameters <- c(s = 10, r = 28, b = 8/3)
 n <- 3
-state <- c(X = -8, Y = 8, Z =2 7) ##Inital Values
+state <- c(X = -8, Y = 8, Z =27) ##Inital Values
 
 #Intergrate
 dt <- 0.001
@@ -68,5 +70,11 @@ Lorenz <- function(t, state, parameters) {
 out <- ode(y = state, times = tspan, func = Lorenz, parms = parameters, rtol = 1e-12, atol = 1e-12)
 xdat <- out[, "X"]
 t <- out[, "time"]
-hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0, rmax = 15, polyOrder = 1, useSine = FALSE, n = 1)
+hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0,
+            rmax = 15, polyOrder = 1, useSine = FALSE)
+}
+}
+\references{
+S. L. Brunton, B. W. Brunton, J. L. Proctor, E. Kaiser, and J. N. Kutz,
+"Chaos as an intermittently forced linear system," Nature Communications, 8(19):1-9, 2017.
 }

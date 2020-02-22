@@ -9,10 +9,11 @@
 #' @param sigma_known A logical value. TRUE if noise level known, FALSE if unknown.
 #' @return  Optimal location of hard threshold, up the median data singular value (sigma
 #' unknown) or up to \code{sigma*sqrt(n)} (sigma known); a vector of the same dimension
-#' as \code{beta}, where \code{coef[i]} is the coefficient correcponding to \code{beta[i]}.
+#' as \code{beta}, where \code{coef[i]} is the coefficient corresponding to \code{beta[i]}.
 #' @references Gavish, M., & Donoho, D. L. (2014). The optimal hard threshold for singular
 #' values is 4/sqrt(3). IEEE Transactions on Information Theory, 60(8), 5040-5053.
 #' @examples
+#' \donttest{
 #' # Usage in known noise level:
 #' # Given an m-by-n matrix \code{Y} known to be low rank and observed in white noise
 #' # with mean zero and known variance \code{sigma^2}, form a denoised matrix \code{Xhat} by:
@@ -27,7 +28,9 @@
 #'  y <- USV$d
 #'  y(y < (optimal_SVHT_coef(m/n,0) * median(y)) ) <- 0
 #'  Xhat <- USV$u * diag(y) * t(USV$v)
+#'  }
 ###################################
+
 
 optimal_SVHT_coef <- function(beta, sigma_known = FALSE) {
   if (sigma_known == TRUE) {
