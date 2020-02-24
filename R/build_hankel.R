@@ -18,4 +18,6 @@ build_hankel <- function(x, stackmax){
     H[k,] <- x[k:(length(x) - stackmax - 1 + k)]
   }
 
+  return(H)
+
 }
