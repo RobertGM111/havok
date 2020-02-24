@@ -115,6 +115,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
 
   res <- list(HAVOK, dx, r, x, sys, Theta, Xi, U, sigs, V)
   names(res) <- c("havok", "dxdt", "r", "x", "sys", "theta", "Xi", "U", "sigs", "V")
+  class(res) <- "havok"
   return(res)
 }
 
