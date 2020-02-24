@@ -51,6 +51,7 @@
 #'}
 ###################################
 
+#' @export
 havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
                   rmax = 15, polyOrder = 1, useSine = FALSE) {
 

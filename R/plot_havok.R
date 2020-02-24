@@ -4,6 +4,7 @@
 #' @param x A "havok" object.
 #' @param ... Other calls to plot
 #' @examples
+
 #' \donttest{
 #'#Generate Data
 #'library(deSolve)
@@ -37,6 +38,7 @@
 ###################################
 
 ## S3 method for class "havok"
+#' @export
 plot.havok <- function(x,...){
 
   par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
