@@ -45,6 +45,8 @@ plot.havok <- function(x,...){
 
   plot(x$havok$t, x$havok$x[1,], type = "l", xlab = NA, ylab = "Value")
 
+  par(mai = c(1, 1.0, 0.1, 0.1))
+
   plot(x$havok$t, x$x[,x$r], type = "l", xlab = "Time", ylab = "Forcing")
 
 }
