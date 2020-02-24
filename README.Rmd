@@ -41,7 +41,7 @@ install.packages("havok")
 
 Simulate data from a Lorenz attractor.
 
-```{r example, eval=FALSE}
+```{r example, eval=TRUE}
 library(havok)
 library(deSolve)
 library(plot3D)
@@ -73,6 +73,13 @@ t <- out[,"time"]
 # Run HAVOK Analysis
 hav <- havok(xdat = xdat, dt = dt)
 ```
+
+To plot the resulting time series and forcing term use `plot(hav)`
+
+```{r plotting, eval=TRUE}
+plot(hav)
+```
+
 
 ## References
 

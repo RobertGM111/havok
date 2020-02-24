@@ -62,6 +62,14 @@ t <- out[,"time"]
 hav <- havok(xdat = xdat, dt = dt)
 ```
 
+To plot the resulting time series and forcing term use `plot(hav)`
+
+``` r
+plot(hav)
+```
+
+<img src="man/figures/README-plotting-1.png" width="100%" />
+
 References
 ----------
 
