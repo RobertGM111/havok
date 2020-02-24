@@ -34,7 +34,7 @@
 #'}
 ###################################
 
-
+#' @export
 compute_derivative <- function(x, dt, r = min(dim(as.matrix(x)))){
 
   if (is.vector(x)){

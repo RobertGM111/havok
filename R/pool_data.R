@@ -23,7 +23,7 @@
 #' pool_data(yIn, 3, 1, 0)
 #' }
 ###################################
-
+#' @export
 pool_data <- function(yIn, nVars, polyOrder, useSine) {
 
   if(polyOrder > 5 | polyOrder < 0){

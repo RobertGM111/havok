@@ -9,7 +9,7 @@
 #' build_hankel(x = xdat, stackmax = 15)
 #' }
 ###################################
-
+#' @export
 build_hankel <- function(x, stackmax){
 
   H <- matrix(0, nrow = stackmax, ncol = length(x) - stackmax)

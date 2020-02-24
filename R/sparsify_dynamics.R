@@ -18,7 +18,7 @@
 #' sparsify_dynamics(pool_data(yIn, 15, 5, TRUE), dXdt, 0, 15)
 #' }
 ###################################
-
+#' @export
 sparsify_dynamics <- function(Theta, dXdt, lambda, n){
 
   # Original regression result

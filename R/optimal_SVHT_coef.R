@@ -31,7 +31,7 @@
 #'  }
 ###################################
 
-
+#' @export
 optimal_SVHT_coef <- function(beta, sigma_known = FALSE) {
   if (sigma_known == TRUE) {
     coef = optimal_SVHT_coef_sigma_known(beta)
