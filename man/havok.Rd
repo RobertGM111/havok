@@ -24,12 +24,14 @@ havok(
 
 \item{lambda}{A numeric value; sparsification threshold.}
 
+\item{center}{Logical; Should \code{xdat} be centered around 0?}
+
 \item{rmax}{An integer; maximum number of singular vectors to include.}
 
-\item{polyorder}{An integer from 0 to 5 indicating the highest degree of polynomials
+\item{polyOrder}{An integer from 0 to 5 indicating the highest degree of polynomials
 included in the matrix of candidate functions.}
 
-\item{usesine}{A logical value indicating whether sine and cosine functions
+\item{useSine}{A logical value indicating whether sine and cosine functions
 of variables should be added to the library of potential candidate functions.
 If TRUE, candidate function matrix is augmented with sine and cosine functions
 of integer multiples 1 through 10 of all the variables in \code{yIn}.}

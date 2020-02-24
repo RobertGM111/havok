@@ -68,7 +68,7 @@ inc_mar_pas <- function(x0, beta, gamma) {
   } else {
     fun <- function(x) MarPas(x)
   }
-  Int <- integrate(fun, x0, topSpec)
+  Int <- stats::integrate(fun, x0, topSpec)
   return(Int$value)
 }
 
@@ -103,7 +103,7 @@ marcenko_pastur_integral <- function(x, beta) {
   hibnd <- (1 + sqrt(beta))^2
   if (x < lobnd | x > hibnd) stop("X is out of bounds")
   dens <- function(t) sqrt((hibnd - t) * (t - lobnd)) / (2 * pi * beta * t)
-  Int <- integrate(dens, lobnd, x)
+  Int <- stats::integrate(dens, lobnd, x)
   print(cat("\r", paste("x=", x, " beta=", beta,
                         " I=", round(Int$value, 5), sep = "")))
   return(Int$value)

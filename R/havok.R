@@ -9,10 +9,11 @@
 #' @param dt A numeric value indicating the time-lag between two subsequent time series measures.
 #' @param stackmax An integer; number of shift-stacked rows.
 #' @param lambda A numeric value; sparsification threshold.
+#' @param center Logical; Should \code{xdat} be centered around 0?
 #' @param rmax An integer; maximum number of singular vectors to include.
-#' @param polyorder An integer from 0 to 5 indicating the highest degree of polynomials
+#' @param polyOrder An integer from 0 to 5 indicating the highest degree of polynomials
 #' included in the matrix of candidate functions.
-#' @param usesine A logical value indicating whether sine and cosine functions
+#' @param useSine A logical value indicating whether sine and cosine functions
 #' of variables should be added to the library of potential candidate functions.
 #' If TRUE, candidate function matrix is augmented with sine and cosine functions
 #' of integer multiples 1 through 10 of all the variables in \code{yIn}.
@@ -64,7 +65,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
   sigs <- USV$d
   V <- USV$v
   beta <- nrow(H) / ncol(H)
-  thresh <- optimal_SVHT_coef(beta, FALSE) * median(sigs)
+  thresh <- optimal_SVHT_coef(beta, FALSE) * stats::median(sigs)
   r <- length(sigs[which(sigs > thresh)])
   r <- min(rmax, r)
 
@@ -95,7 +96,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
              ncol = r - 1)
 
   for (k in 1:(r - 1)) {
-    Xi[ , k] <- sparsify_dynamics(Theta, dx[ , k], lambda * k, 1)  # lambda = 0 gives better results
+    Xi[ , k] <- sparsify_dynamics(Theta, dx[ , k], lambda * k, 1)
   }
 
   Theta <- pool_data(x, r , 1, useSine)
