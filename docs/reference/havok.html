@@ -36,9 +36,11 @@
 
 
 <meta property="og:title" content="Hankel Alternative View of Koopman (HAVOK) Analysis — havok" />
-<meta property="og:description" content="Coefficient determining optimal location of Hard Threshold for Matrix
- Denoising by Singular Values Hard Thresholding when noise level is known or
- unknown.  Recreation of matlab code by Matan Gavish and David Donoho." />
+<meta property="og:description" content="Data-driven decomposition of chaotic time series into an intermittently
+forced linear system. HAVOK combines delay embedding and Koopman theory to decompose
+chaotic dynamics into a linear model in the leading delay coordinates with forcing by
+low-energy delay coordinates. Forcing activity demarcates coherent phase space regions
+where the dynamics are approximately linear from those that are strongly nonlinear." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,9 +110,11 @@
     </div>
 
     <div class="ref-description">
-    <p>Coefficient determining optimal location of Hard Threshold for Matrix
- Denoising by Singular Values Hard Thresholding when noise level is known or
- unknown.  Recreation of matlab code by Matan Gavish and David Donoho.</p>
+    <p>Data-driven decomposition of chaotic time series into an intermittently
+forced linear system. HAVOK combines delay embedding and Koopman theory to decompose
+chaotic dynamics into a linear model in the leading delay coordinates with forcing by
+low-energy delay coordinates. Forcing activity demarcates coherent phase space regions
+where the dynamics are approximately linear from those that are strongly nonlinear.</p>
     </div>
 
     <pre class="usage"><span class='fu'>havok</span>(
@@ -118,10 +122,10 @@
   <span class='kw'>dt</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>stackmax</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>center</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>rmax</span> <span class='kw'>=</span> <span class='fl'>15</span>,
-  <span class='kw'>polyorder</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>useSine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>
+  <span class='kw'>polyOrder</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>useSine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -129,50 +133,82 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>xdat</th>
-      <td><p>A number.</p></td>
+      <td><p>A vector of equally spaced measurements over time.</p></td>
     </tr>
     <tr>
       <th>dt</th>
-      <td><p>A number.</p></td>
+      <td><p>A numeric value indicating the time-lag between two subsequent time series measures.</p></td>
+    </tr>
+    <tr>
+      <th>stackmax</th>
+      <td><p>An integer; number of shift-stacked rows.</p></td>
     </tr>
     <tr>
       <th>lambda</th>
-      <td><p>A number.</p></td>
+      <td><p>A numeric value; sparsification threshold.</p></td>
     </tr>
     <tr>
       <th>rmax</th>
-      <td><p>A number.</p></td>
+      <td><p>An integer; maximum number of singular vectors to include.</p></td>
     </tr>
     <tr>
       <th>polyorder</th>
-      <td><p>A number.</p></td>
+      <td><p>An integer from 0 to 5 indicating the highest degree of polynomials
+included in the matrix of candidate functions.</p></td>
     </tr>
     <tr>
-      <th>useSine</th>
-      <td><p>A number.</p></td>
-    </tr>
-    <tr>
-      <th>n</th>
-      <td><p>A number.</p></td>
-    </tr>
-    <tr>
-      <th>stackman</th>
-      <td><p>A number.</p></td>
+      <th>usesine</th>
+      <td><p>A logical value indicating whether sine and cosine functions
+of variables should be added to the library of potential candidate functions.
+If TRUE, candidate function matrix is augmented with sine and cosine functions
+of integer multiples 1 through 10 of all the variables in <code>yIn</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A matrix of sparse coefficients</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>S. L. Brunton, B. W. Brunton, J. L. Proctor, E. Kaiser, and J. N. Kutz,
+"Chaos as an intermittently forced linear system," Nature Communications, 8(19):1-9, 2017.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='co'>#Generate Data</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>deSolve</span>)
+<span class='co'>##Set Lorenz Parameters</span>
+<span class='no'>parameters</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>s</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>r</span> <span class='kw'>=</span> <span class='fl'>28</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>8</span>/<span class='fl'>3</span>)
+<span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fl'>3</span>
+<span class='no'>state</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> -<span class='fl'>8</span>, <span class='kw'>Y</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>Z</span> <span class='kw'>=</span><span class='fl'>27</span>) <span class='co'>##Inital Values</span>
+
+<span class='co'>#Intergrate</span>
+<span class='no'>dt</span> <span class='kw'>&lt;-</span> <span class='fl'>0.001</span>
+<span class='no'>tspan</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='no'>dt</span>, <span class='fl'>200</span>, <span class='no'>dt</span>)
+<span class='no'>N</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>tspan</span>)
+
+<span class='no'>Lorenz</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>t</span>, <span class='no'>state</span>, <span class='no'>parameters</span>) {
+ <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>as.list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>state</span>, <span class='no'>parameters</span>)), {
+   <span class='no'>dX</span> <span class='kw'>&lt;-</span> <span class='no'>s</span> * (<span class='no'>Y</span> - <span class='no'>X</span>)
+   <span class='no'>dY</span> <span class='kw'>&lt;-</span> <span class='no'>X</span> * (<span class='no'>r</span> - <span class='no'>Z</span>) - <span class='no'>Y</span>
+   <span class='no'>dZ</span> <span class='kw'>&lt;-</span> <span class='no'>X</span> * <span class='no'>Y</span> - <span class='no'>b</span> * <span class='no'>Z</span>
+   <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>dX</span>, <span class='no'>dY</span>, <span class='no'>dZ</span>))
+ })
+}
+
+<span class='no'>out</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/deSolve/man/ode.html'>ode</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>state</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='no'>tspan</span>, <span class='kw'>func</span> <span class='kw'>=</span> <span class='no'>Lorenz</span>, <span class='kw'>parms</span> <span class='kw'>=</span> <span class='no'>parameters</span>, <span class='kw'>rtol</span> <span class='kw'>=</span> <span class='fl'>1e-12</span>, <span class='kw'>atol</span> <span class='kw'>=</span> <span class='fl'>1e-12</span>)
+<span class='no'>xdat</span> <span class='kw'>&lt;-</span> <span class='no'>out</span>[, <span class='st'>"X"</span>]
+<span class='no'>t</span> <span class='kw'>&lt;-</span> <span class='no'>out</span>[, <span class='st'>"time"</span>]
+<span class='no'>hav</span> <span class='kw'>&lt;-</span> <span class='fu'>havok</span>(<span class='kw'>xdat</span> <span class='kw'>=</span> <span class='no'>xdat</span>, <span class='kw'>dt</span> <span class='kw'>=</span> <span class='no'>dt</span>, <span class='kw'>stackmax</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+            <span class='kw'>rmax</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>polyOrder</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>useSine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0, rmax = 15,     polyOrder = 1, useSine = FALSE): could not find function "havok"</span></div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#references">References</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

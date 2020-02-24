@@ -25,14 +25,29 @@
 ###################################
 
 pool_data <- function(yIn, nVars, polyOrder, useSine) {
+
+  if(polyOrder > 5 | polyOrder < 0){
+    stop("polyOrder must be an integer between 0 and 5")
+  }
+
+
   n <- dim(yIn)[1]
 
   ind <- 1
 
-  # poly order 0
+  degree <- c(rep(1,times=polyOrder),rep(0,times=5-polyOrder))
+  rnum <- c(rep(1,times=nVars),rep(0,times=ifelse(nVars<5, 5-nVars,0)))
+
   yOut <- matrix(NA, nrow = n,
-                 ncol = 1 + nVars + (nVars * (nVars + 1) / 2) +
-                   (nVars * (nVars + 1) * (nVars + 2) / (2 * 3)) + 11)
+                 ncol = 1 +
+                   degree[1]*(nVars) +
+                   degree[2]*(nVars + rnum[2]*choose(nVars,2)) +
+                   degree[3]*(nVars + rnum[2]*2*choose(nVars,2) + rnum[3]*choose(nVars,3)) +
+                   degree[4]*(nVars + rnum[2]*3*choose(nVars,2) + rnum[3]*3*choose(nVars,3) + rnum[4]*choose(nVars,4)) +
+                   degree[5]*(nVars + rnum[2]*2*choose(nVars,2) + rnum[3]*6*choose(nVars,3) + rnum[4]*4*choose(nVars,4)+ rnum[5]*choose(nVars,5)))
+
+  yOut[ , ind] <- 1
+  ind <- ind + 1
 
   yOut[ , ind] <- 1
   ind <- ind + 1
