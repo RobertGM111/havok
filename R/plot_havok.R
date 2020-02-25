@@ -41,13 +41,13 @@
 #' @export
 plot.havok <- function(x,...){
 
-  par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
+  graphics::par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
 
-  plot(x$havok$t, x$havok$x[1,], type = "l", xlab = NA, ylab = "Value")
+  graphics::plot(x$havok$t, x$havok$x[1,], type = "l", xlab = NA, ylab = "Value")
 
-  par(mai = c(1, 1.0, 0.1, 0.1))
+  graphics::par(mai = c(1, 1.0, 0.1, 0.1))
 
-  plot(x$havok$t, x$x[,x$r], type = "l", xlab = "Time", ylab = "Forcing")
+  graphics::plot(x$havok$t, x$x[,x$r], type = "l", xlab = "Time", ylab = "Forcing")
 
 }
 
