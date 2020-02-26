@@ -47,7 +47,7 @@ plot.havok <- function(x,...){
 
   graphics::par(mai = c(1, 1.0, 0.1, 0.1))
 
-  graphics::plot(x$havok$t, x$x[,x$r], type = "l", xlab = "Time", ylab = "Forcing")
+  graphics::plot(x$havok$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing")
 
 }
 
