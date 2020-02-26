@@ -6,7 +6,6 @@
 #' @param Theta A matrix of candidate functions.
 #' @param dXdt A matrix of first order derivatives of the variables of interest with respect to time.
 #' @param lambda A numeric value; sparsification threshold.
-#' @param n An integer that indicates the number of variables.
 #' @return  A matrix of sparse coefficients.
 #' @references Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2016). Discovering
 #' governing equations from data by sparse identification of nonlinear dynamical
@@ -19,7 +18,9 @@
 #' }
 ###################################
 #' @export
-sparsify_dynamics <- function(Theta, dXdt, lambda, n){
+sparsify_dynamics <- function(Theta, dXdt, lambda){
+
+  n <- ncol(dXdt)
 
   # Original regression result
   Xi <- pracma::mldivide(Theta, dXdt)
