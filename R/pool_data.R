@@ -45,7 +45,7 @@ pool_data <- function(yIn, nVars, polyOrder, useSine) {
                    degree[2]*(nVars + rnum[2]*choose(nVars,2)) +
                    degree[3]*(nVars + rnum[2]*2*choose(nVars,2) + rnum[3]*choose(nVars,3)) +
                    degree[4]*(nVars + rnum[2]*3*choose(nVars,2) + rnum[3]*3*choose(nVars,3) + rnum[4]*choose(nVars,4)) +
-                   degree[5]*(nVars + rnum[2]*2*choose(nVars,2) + rnum[3]*6*choose(nVars,3) + rnum[4]*4*choose(nVars,4)+ rnum[5]*choose(nVars,5)))
+                   degree[5]*(nVars + rnum[2]*4*choose(nVars,2) + rnum[3]*6*choose(nVars,3) + rnum[4]*4*choose(nVars,4)+ rnum[5]*choose(nVars,5)))
 
 
   yOut[ , ind] <- 1
