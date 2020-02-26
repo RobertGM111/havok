@@ -60,7 +60,7 @@ pool_data <- function(yIn, nVars, polyOrder, useSine) {
   if (polyOrder >= 2) {
     # poly order 2
     for (i in 1:nVars) {
-      for (j in 1:nVars) {
+      for (j in i:nVars) {
         yOut[ , ind] <- yIn[ , i] * yIn[ , j]
         ind <- ind + 1
       }
