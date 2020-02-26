@@ -9,7 +9,7 @@
 #' @examples
 #' \donttest{
 #' hav <- havok(xdat = xdat, dt = dt)
-#' active_forcing(x = hav)
+#' active_forcing(hav)
 #' }
 ###################################
 #' @export
