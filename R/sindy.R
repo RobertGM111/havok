@@ -12,9 +12,11 @@
 #' governing equations from data by sparse identification of nonlinear dynamical
 #' systems. Proceedings of the National Academy of Sciences, 113(15), 3932-3937.
 #' @examples
+#' \donttest{
 #' sparsify_dynamics(Theta, dXdt, lambda, n)
 #' sparsify_dynamics(Theta, dXdt, 0.1, 10)
 #' sparsify_dynamics(pool_data(yIn, 15, 5, TRUE), dXdt, 0, 15)
+#' }
 ###################################
 
 
