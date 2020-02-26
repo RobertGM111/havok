@@ -16,3 +16,25 @@
 #' sparsify_dynamics(Theta, dXdt, 0.1, 10)
 #' sparsify_dynamics(pool_data(yIn, 15, 5, TRUE), dXdt, 0, 15)
 ###################################
+
+
+sindy <- function(x, lambda, polyOrder = 5, useSine = FALSE, nVars = ncol(xdat)) {
+
+  Theta <- pool_data(x, nVars = nVars, polyOrder = polyOrder, useSine = useSine)
+
+  Xi <- sparsifyDynamics(Theta,dx,lambda,n)
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
