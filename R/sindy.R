@@ -20,7 +20,7 @@
 ###################################
 
 
-sindy <- function(x, lambda, polyOrder = 5, useSine = FALSE, nVars = ncol(xdat)) {
+sindy <- function(x, lambda, polyOrder = 5, useSine = FALSE, normalize = FALSE, nVars = ncol(xdat)) {
 
   Theta <- pool_data(x, nVars = nVars, polyOrder = polyOrder, useSine = useSine)
 
