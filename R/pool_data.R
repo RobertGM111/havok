@@ -30,13 +30,14 @@ pool_data <- function(yIn, nVars, polyOrder, useSine) {
     stop("polyOrder must be an integer between 0 and 5")
   }
 
+  yIn <- as.matrix(yIn)
 
   n <- dim(yIn)[1]
 
   ind <- 1
 
-  degree <- c(rep(1,times=polyOrder),rep(0,times=5-polyOrder))
-  rnum <- c(rep(1,times=nVars),rep(0,times=ifelse(nVars<5, 5-nVars,0)))
+  degree <- c(rep(1, times = polyOrder), rep(0, times = 5 - polyOrder))
+  rnum <- c(rep(1, times = nVars), rep(0, times = ifelse(nVars < 5, 5 - nVars, 0)))
 
   yOut <- matrix(NA, nrow = n,
                  ncol = 1 +
