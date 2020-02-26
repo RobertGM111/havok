@@ -9,7 +9,7 @@
 #' @param dt A numeric value indicating the time-lag between two subsequent time series measures.
 #' @param stackmax An integer; number of shift-stacked rows.
 #' @param lambda A numeric value; sparsification threshold.
-#' @param center Logical; Should \code{xdat} BE centered around 0?
+#' @param center Logical; Should \code{xdat} be centered around 0?
 #' @param rmax An integer; maximum number of singular vectors to include.
 #' @param polyOrder An integer from 0 to 5 indicating the highest degree of polynomials
 #' included in the matrix of candidate functions.
