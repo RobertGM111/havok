@@ -148,16 +148,20 @@ where the dynamics are approximately linear from those that are strongly nonline
       <td><p>A numeric value; sparsification threshold.</p></td>
     </tr>
     <tr>
+      <th>center</th>
+      <td><p>Logical; Should <code>xdat</code> be centered around 0?</p></td>
+    </tr>
+    <tr>
       <th>rmax</th>
       <td><p>An integer; maximum number of singular vectors to include.</p></td>
     </tr>
     <tr>
-      <th>polyorder</th>
+      <th>polyOrder</th>
       <td><p>An integer from 0 to 5 indicating the highest degree of polynomials
 included in the matrix of candidate functions.</p></td>
     </tr>
     <tr>
-      <th>usesine</th>
+      <th>useSine</th>
       <td><p>A logical value indicating whether sine and cosine functions
 of variables should be added to the library of potential candidate functions.
 If TRUE, candidate function matrix is augmented with sine and cosine functions
@@ -200,8 +204,8 @@ of integer multiples 1 through 10 of all the variables in <code>yIn</code>.</p><
 <span class='no'>xdat</span> <span class='kw'>&lt;-</span> <span class='no'>out</span>[, <span class='st'>"X"</span>]
 <span class='no'>t</span> <span class='kw'>&lt;-</span> <span class='no'>out</span>[, <span class='st'>"time"</span>]
 <span class='no'>hav</span> <span class='kw'>&lt;-</span> <span class='fu'>havok</span>(<span class='kw'>xdat</span> <span class='kw'>=</span> <span class='no'>xdat</span>, <span class='kw'>dt</span> <span class='kw'>=</span> <span class='no'>dt</span>, <span class='kw'>stackmax</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-            <span class='kw'>rmax</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>polyOrder</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>useSine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0, rmax = 15,     polyOrder = 1, useSine = FALSE): could not find function "havok"</span></div><div class='input'># }
-</div></pre>
+            <span class='kw'>rmax</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>polyOrder</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>useSine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

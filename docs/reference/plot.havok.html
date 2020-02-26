@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute derivative using fourth order central difference — compute_derivative • havok</title>
+<title>Plotting functions for the havok package of class “havok" — plot.havok • havok</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Compute derivative using fourth order central difference — compute_derivative" />
-<meta property="og:description" content="Estimates the derivative of a time series using fourth order central difference." />
+<meta property="og:title" content="Plotting functions for the havok package of class “havok" — plot.havok" />
+<meta property="og:description" content="Generic plotting function for object of class (&quot;havok&quot;)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -100,37 +100,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute derivative using fourth order central difference</h1>
+    <h1>Plotting functions for the havok package of class “havok"</h1>
     
-    <div class="hidden name"><code>compute_derivative.Rd</code></div>
+    <div class="hidden name"><code>plot.havok.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Estimates the derivative of a time series using fourth order central difference.</p>
+    <p>Generic plotting function for object of class ("havok")</p>
     </div>
 
-    <pre class="usage"><span class='fu'>compute_derivative</span>(<span class='no'>x</span>, <span class='no'>dt</span>, <span class='kw'>r</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='no'>x</span>))))</pre>
+    <pre class="usage"><span class='co'># S3 method for havok</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A vector or matrix of measurements over time.</p></td>
+      <td><p>A "havok" object.</p></td>
     </tr>
     <tr>
-      <th>dt</th>
-      <td><p>A number representing the time between successive measurements.</p></td>
-    </tr>
-    <tr>
-      <th>r</th>
-      <td><p>A number representing the number of time series in x used to calculate dXdt.</p></td>
+      <th>...</th>
+      <td><p>Other calls to plot</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A vector or matrix of first order derivatives of the variables of interest with respect to time.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
@@ -157,14 +151,17 @@
 
 <span class='no'>out</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/deSolve/man/ode.html'>ode</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>state</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='no'>tspan</span>, <span class='kw'>func</span> <span class='kw'>=</span> <span class='no'>Lorenz</span>, <span class='kw'>parms</span> <span class='kw'>=</span> <span class='no'>parameters</span>, <span class='kw'>rtol</span> <span class='kw'>=</span> <span class='fl'>1e-12</span>, <span class='kw'>atol</span> <span class='kw'>=</span> <span class='fl'>1e-12</span>)
 <span class='no'>xdat</span> <span class='kw'>&lt;-</span> <span class='no'>out</span>[, <span class='st'>"X"</span>]
-<span class='no'>dXdt</span> <span class='kw'>&lt;-</span> <span class='fu'>compute_derivative</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>xdat</span>, <span class='kw'>dt</span> <span class='kw'>=</span> <span class='no'>dt</span>)
-<span class='co'># }</span></div></pre>
+<span class='no'>t</span> <span class='kw'>&lt;-</span> <span class='no'>out</span>[, <span class='st'>"time"</span>]
+<span class='no'>hav</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='havok.html'>havok</a></span>(<span class='kw'>xdat</span> <span class='kw'>=</span> <span class='no'>xdat</span>, <span class='kw'>dt</span> <span class='kw'>=</span> <span class='no'>dt</span>, <span class='kw'>stackmax</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+            <span class='kw'>rmax</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>polyOrder</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>useSine</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>hav</span>)</div><div class='img'><img src='plot.havok-1.png' alt='' width='700' height='433' /></div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
