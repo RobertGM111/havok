@@ -7,7 +7,7 @@
 #' where the dynamics are approximately linear from those that are strongly nonlinear.
 #' @param xdat A vector of equally spaced measurements over time.
 #' @param dt A numeric value indicating the time-lag between two subsequent time series measures.
-#' @param stackmax An integer; number of shift-stacked rows.
+#' @param stackmax An integer; number of shift-stacked rows. adsf
 #' @param lambda A numeric value; sparsification threshold.
 #' @param center Logical; Should \code{xdat} be centered around 0?
 #' @param rmax An integer; maximum number of singular vectors to include.
