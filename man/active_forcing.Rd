@@ -21,7 +21,7 @@ is active in a fitted "havok" object.
 }
 \examples{
 \donttest{
-havok(xdat = xdat, dt = dt)
+hav <- havok(xdat = xdat, dt = dt)
 active_forcing(x = hav)
 }
 }
