@@ -6,7 +6,6 @@
 #' @param x A vector or matrix of measurments over time.
 #' @param dXdt A matrix of first order derivatives of the variables of interest with respect to time.
 #' @param lambda A numeric value; sparsification threshold.
-#' @param n An integer that indicates the number of variables.
 #' @return  A matrix of sparse coefficients.
 #' @references Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2016). Discovering
 #' governing equations from data by sparse identification of nonlinear dynamical
@@ -19,15 +18,15 @@
 #' }
 ###################################
 
-
-sindy <- function(x, lambda, polyOrder = 5, useSine = FALSE, normalize = FALSE, nVars = ncol(xdat)) {
+#' @export
+sindy <- function(x, dXdt, lambda, polyOrder = 5, useSine = FALSE, normalize = FALSE, nVars = ncol(xdat)) {
 
   Theta <- pool_data(x, nVars = nVars, polyOrder = polyOrder, useSine = useSine)
 
-  Xi <- sparsifyDynamics(Theta,dx,lambda,n)
+  Xi <- sparsifyDynamics(Theta, dx = dXdt, lambda = lambda)
 
-
-
+  class(Xi) <- "sindy"
+  return(Xi)
 }
 
 
