@@ -4,16 +4,22 @@
 \alias{sindy}
 \title{Sparse Identification of Nonlinear Dynamics (SINDy)}
 \usage{
-sindy(x, lambda, polyOrder = 5, useSine = FALSE, nVars = ncol(xdat))
+sindy(
+  x,
+  dXdt,
+  lambda,
+  polyOrder = 5,
+  useSine = FALSE,
+  normalize = FALSE,
+  nVars = ncol(xdat)
+)
 }
 \arguments{
 \item{x}{A vector or matrix of measurments over time.}
 
-\item{lambda}{A numeric value; sparsification threshold.}
-
 \item{dXdt}{A matrix of first order derivatives of the variables of interest with respect to time.}
 
-\item{n}{An integer that indicates the number of variables.}
+\item{lambda}{A numeric value; sparsification threshold.}
 }
 \value{
 A matrix of sparse coefficients.

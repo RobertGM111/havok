@@ -4,7 +4,7 @@
 \alias{sparsify_dynamics}
 \title{Matrix Sparsifcation for SINDy Algorithm}
 \usage{
-sparsify_dynamics(Theta, dXdt, lambda, n)
+sparsify_dynamics(Theta, dXdt, lambda)
 }
 \arguments{
 \item{Theta}{A matrix of candidate functions.}
@@ -12,8 +12,6 @@ sparsify_dynamics(Theta, dXdt, lambda, n)
 \item{dXdt}{A matrix of first order derivatives of the variables of interest with respect to time.}
 
 \item{lambda}{A numeric value; sparsification threshold.}
-
-\item{n}{An integer that indicates the number of variables.}
 }
 \value{
 A matrix of sparse coefficients.

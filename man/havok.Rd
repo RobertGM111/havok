@@ -12,7 +12,8 @@ havok(
   center = TRUE,
   rmax = 15,
   polyOrder = 1,
-  useSine = FALSE
+  useSine = FALSE,
+  discrete = FALSE
 )
 }
 \arguments{
