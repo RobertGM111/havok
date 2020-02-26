@@ -78,7 +78,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
   dx <- dV
 
   polyOrder <- 1
-  Theta <- pool_data(x, r, 1, useSine)
+  Theta <- pool_data(x, r, polyOrder = polyOrder, useSine)
 
   # normalize columns of Theta (required in new time-delay coords)
   normTheta <- rep(NA, dim(Theta)[2])
@@ -99,8 +99,6 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
   for (k in 1:(r - 1)) {
     Xi[ , k] <- sparsify_dynamics(Theta, dx[ , k], lambda * k, 1)
   }
-
-  Theta <- pool_data(x, r , 1, useSine)
 
   for (k in 1:max(dim(Xi))) {
     Xi[k, ] <- Xi[k, ] / normTheta[k]
