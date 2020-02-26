@@ -22,6 +22,6 @@ is active in a fitted "havok" object.
 \examples{
 \donttest{
 hav <- havok(xdat = xdat, dt = dt)
-active_forcing(x = hav)
+active_forcing(hav)
 }
 }
