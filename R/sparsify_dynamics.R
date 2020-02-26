@@ -20,7 +20,7 @@
 #' @export
 sparsify_dynamics <- function(Theta, dXdt, lambda){
 
-  n <- ncol(dXdt)
+  n <- ncol(as.matrix(dXdt))
 
   # Original regression result
   Xi <- pracma::mldivide(Theta, dXdt)
