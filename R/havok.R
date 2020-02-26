@@ -22,6 +22,7 @@
 #' "Chaos as an intermittently forced linear system," Nature Communications, 8(19):1-9, 2017.
 #' @examples
 #' \donttest{
+#'#Lorenz Attractor
 #'#Generate Data
 #'library(deSolve)
 #'##Set Lorenz Parameters
@@ -48,6 +49,16 @@
 #'t <- out[, "time"]
 #'hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0,
 #'             rmax = 15, polyOrder = 1, useSine = FALSE)
+#'
+#'# EEG Example
+#'
+#'
+#'
+#'
+#'
+#'
+#'
+#'
 #'}
 ###################################
 
