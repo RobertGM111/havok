@@ -92,11 +92,11 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
   #compute Sparse regression: sequential least squares
   #requires different lambda parameters for each column
   Xi <- matrix(NA,
-             nrow = nrow(sparsify_dynamics(Theta,dx[ , 1], lambda * 1, 1)),
+             nrow = nrow(sparsify_dynamics(Theta,dx[ , 1], lambda * 1)),
              ncol = r - 1)
 
   for (k in 1:(r - 1)) {
-    Xi[ , k] <- sparsify_dynamics(Theta, dx[ , k], lambda * k, 1)
+    Xi[ , k] <- sparsify_dynamics(Theta, dx[ , k], lambda * k)
   }
 
   for (k in 1:max(dim(Xi))) {
