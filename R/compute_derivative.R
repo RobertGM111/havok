@@ -41,10 +41,8 @@ compute_derivative <- function(x, dt, r = min(dim(as.matrix(x)))){
     x <- as.matrix(x)
   }
 
-  # Make empty matrix to store values of dx
   dXdt <- matrix(NA, nrow = max(dim(x)) - 5, ncol = r)
 
-  # Conduct 4th order central difference
   for (i in 3:(nrow(x) - 3)) {
     for (k in 1:r) {
       dXdt[(i-2),k] <- (1 / (12 * dt)) *
@@ -53,7 +51,6 @@ compute_derivative <- function(x, dt, r = min(dim(as.matrix(x)))){
     }
   }
 
-  # Return derivatives of x
   if (min(dim(dXdt)) == 1){
     return(as.vector(dXdt))
   } else {
@@ -61,3 +58,18 @@ compute_derivative <- function(x, dt, r = min(dim(as.matrix(x)))){
   }
 
 }
+
+
+# Copyright 2020 Robert Glenn Moulder Jr. & Elena Martynova
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
