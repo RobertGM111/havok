@@ -13,7 +13,7 @@ Authors: Robert Moulder [aut, cre] ,
   Steven Boker [ctb]
 Maintainer: Robert Moulder <rgm4fd@virginia.edu>
 Description: This package allows for modeling of chaotic systems as intermittently forced linear systems through the use of Hankel Alternative View of Koopman (HAVOK) analysis (Brunton, Brunton, Proctor, Kaiser, & Kutz, 2017).This package has additional functionality for the SINDy algoirthm (Brunton, Proctor, & Kutz, 2016).
-License: MIT
+License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5.2)
