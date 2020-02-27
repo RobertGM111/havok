@@ -6,18 +6,16 @@
 \usage{
 sindy(
   x,
-  dXdt,
+  dt,
   lambda,
   polyOrder = 5,
   useSine = FALSE,
   normalize = FALSE,
-  nVars = ncol(xdat)
+  nVars = ncol(as.matrix(x))
 )
 }
 \arguments{
 \item{x}{A vector or matrix of measurments over time.}
-
-\item{dXdt}{A matrix of first order derivatives of the variables of interest with respect to time.}
 
 \item{lambda}{A numeric value; sparsification threshold.}
 }

@@ -21,7 +21,7 @@ havok(
 
 \item{dt}{A numeric value indicating the time-lag between two subsequent time series measures.}
 
-\item{stackmax}{An integer; number of shift-stacked rows.}
+\item{stackmax}{An integer; number of shift-stacked rows. adsf}
 
 \item{lambda}{A numeric value; sparsification threshold.}
 
@@ -49,6 +49,7 @@ where the dynamics are approximately linear from those that are strongly nonline
 }
 \examples{
 \donttest{
+#Lorenz Attractor
 #Generate Data
 library(deSolve)
 ##Set Lorenz Parameters
@@ -72,9 +73,22 @@ Lorenz <- function(t, state, parameters) {
 
 out <- ode(y = state, times = tspan, func = Lorenz, parms = parameters, rtol = 1e-12, atol = 1e-12)
 xdat <- out[, "X"]
-t <- out[, "time"]
+
 hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0,
             rmax = 15, polyOrder = 1, useSine = FALSE)
+
+# EEG Example
+
+data(ECG_measurements)
+
+xdat <- ECG_measurements[,"channel1"]
+dt <- ECG_measurements[2,"time"] - ECG_measurements[1,"time"]
+stackmax <- 25
+rmax <- 5
+lambda <- .001
+hav <- havok(xdat = xdat, dt = dt, stackmax = stackmax, lambda = lambda,
+            rmax = 5, polyOrder = 1, useSine = FALSE)
+plot(hav)
 }
 }
 \references{
