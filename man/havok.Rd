@@ -21,7 +21,7 @@ havok(
 
 \item{dt}{A numeric value indicating the time-lag between two subsequent time series measures.}
 
-\item{stackmax}{An integer; number of shift-stacked rows. adsf}
+\item{stackmax}{An integer; number of shift-stacked rows.}
 
 \item{lambda}{A numeric value; sparsification threshold.}
 

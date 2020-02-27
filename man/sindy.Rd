@@ -17,6 +17,8 @@ sindy(
 \arguments{
 \item{x}{A vector or matrix of measurments over time.}
 
+\item{dt}{A numeric value indicating the time-lag between two subsequent time series measures.}
+
 \item{lambda}{A numeric value; sparsification threshold.}
 }
 \value{
