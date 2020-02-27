@@ -16,6 +16,6 @@ Description: This package allows for modeling of chaotic systems as intermittent
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.5.2)
-Imports: pracma (>= 2.2.5), control (>= 0.2.5), stats (>= 3.5.2), graphics (>= 3.5.2)
+Depends: R (>= 3.5.0)
+Imports: pracma (>= 2.2.5), control (>= 0.2.5), stats (>= 3.5.2), graphics (>= 3.5.2), grDevices (>= 3.5.2)
 RoxygenNote: 7.0.2
