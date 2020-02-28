@@ -5,7 +5,7 @@
 #' @param what Plot type
 #' @param ... Other calls to plot
 #' @examples
-
+#'
 #' \donttest{
 #'#Generate Data
 #'library(deSolve)
