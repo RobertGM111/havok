@@ -9,6 +9,8 @@
 \arguments{
 \item{x}{A "havok" object.}
 
+\item{what}{Plot type}
+
 \item{...}{Other calls to plot}
 }
 \description{
