@@ -2,6 +2,7 @@
 #'
 #' @description Generic plotting function for object of class ("havok")
 #' @param x A "havok" object.
+#' @param what Plot type
 #' @param ... Other calls to plot
 #' @examples
 
@@ -43,14 +44,19 @@ plot.havok <- function(x, what = "interactive", ...) {
 
   if (what == "interactive"){
 
-    cat("---Please select a plot type by number---\n
+    cat("--- Please select a plot type by number ---\n
         Plot Types:
         1 - Reconstruction
         2 - Forcing
         3 - Both
-        4 - U-modes")
+        4 - U-modes
+        5 - Embedded Attractor")
     repeat {
       whatPlot <- readline("Please select a number (press esc to exit): ")
+
+      if (!whatPlot %in% 1:5){
+        stop("Please pick a number between 1 and 5")
+      }
 
       if (whatPlot == 1){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
@@ -108,6 +114,13 @@ plot.havok <- function(x, what = "interactive", ...) {
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
 
       }
+
+      if (whatPlot == 5){
+        graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
+        graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
+        graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
+      }
+
     }
   }
 
@@ -163,6 +176,14 @@ plot.havok <- function(x, what = "interactive", ...) {
     }
 
   }
+
+  if (what == "embedded"){
+
+    graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
+    graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
+    graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
+
+    }
 
 
 }
