@@ -4,7 +4,7 @@
 \alias{active_forcing}
 \title{Determine when forcing is active for an object of class "havok"}
 \usage{
-active_forcing(x, minVal = stats::sd(x$x[, x$r]))
+active_forcing(x, minVal = stats::sd(x$Vr[, x$r]))
 }
 \arguments{
 \item{x}{An object of class "havok"}

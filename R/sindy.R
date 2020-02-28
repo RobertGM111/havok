@@ -4,7 +4,7 @@
 #' as shown in the SINDy algorithm in "Discovering governing equations from data:
 #' Sparse identification of nonlinear dynamical systems" (Brunton, Proctor, & Kutz, 2016).
 #' @param x A vector or matrix of measurments over time.
-#' @param dXdt A matrix of first order derivatives of the variables of interest with respect to time.
+#' @param dt A numeric value indicating the time-lag between two subsequent time series measures.
 #' @param lambda A numeric value; sparsification threshold.
 #' @return  A matrix of sparse coefficients.
 #' @references Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2016). Discovering
@@ -17,23 +17,41 @@
 #' sparsify_dynamics(pool_data(yIn, 15, 5, TRUE), dXdt, 0, 15)
 #' }
 ###################################
-
 #' @export
-sindy <- function(x, dXdt, lambda, polyOrder = 5, useSine = FALSE, normalize = FALSE, nVars = ncol(xdat)) {
+sindy <- function(x, dt, lambda, polyOrder = 5, useSine = FALSE,
+                  normalize = FALSE, nVars = ncol(as.matrix(x))) {
+
+  x <- as.matrix(x)
+
+  dXdt <- compute_derivative(x = x, dt = dt)
+
+  x <- x[3:(nrow(x) - 3), ]
 
   Theta <- pool_data(x, nVars = nVars, polyOrder = polyOrder, useSine = useSine)
 
-  Xi <- sparsifyDynamics(Theta, dx = dXdt, lambda = lambda)
+  Xi <- sparsify_dynamics(Theta, dXdt = dXdt, lambda = lambda)
 
-  class(Xi) <- "sindy"
-  return(Xi)
+  res <- list("candidateFunctions" = Theta,
+              "sparse" = Xi)
+
+  class(res) <- "sindy"
+  return(res)
 }
 
 
-
-
-
-
+# Copyright 2020 Robert Glenn Moulder Jr. & Elena Martynova
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 
 

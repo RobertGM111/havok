@@ -2,9 +2,10 @@
 #'
 #' @description Generic plotting function for object of class ("havok")
 #' @param x A "havok" object.
+#' @param what Plot type
 #' @param ... Other calls to plot
 #' @examples
-
+#'
 #' \donttest{
 #'#Generate Data
 #'library(deSolve)
@@ -39,21 +40,169 @@
 
 ## S3 method for class "havok"
 #' @export
-plot.havok <- function(x,...){
+plot.havok <- function(x, what = "interactive", ...) {
 
-  graphics::par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
+  if (what == "interactive"){
 
-  graphics::plot(x$havok$t, x$havok$x[1,], type = "l", xlab = NA, ylab = "Value")
+    cat("--- Please select a plot type by number ---\n
+        Plot Types:
+        1 - Reconstruction
+        2 - Forcing
+        3 - Both
+        4 - U-modes
+        5 - Embedded Attractor")
+    repeat {
+      whatPlot <- readline("Please select a number (press esc to exit): ")
 
-  graphics::par(mai = c(1, 1.0, 0.1, 0.1))
+      if (!whatPlot %in% 1:5){
+        stop("Please pick a number between 1 and 5")
+      }
 
-  graphics::plot(x$havok$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing")
+      if (whatPlot == 1){
+        graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
+        graphics::plot(x$havok$t, x$Vr[,1], type = "l", xlab = "Time", ylab = "Value", ...)
+        graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
+      }
+
+      if (whatPlot == 2){
+        graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
+        graphics::plot(x$havok$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
+        graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
+      }
+
+      if (whatPlot == 3){
+        graphics::par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
+
+        graphics::plot(x$havok$t, x$Vr[,1], type = "l", xlab = NA, ylab = "Value", ...)
+
+        graphics::par(mai = c(1, 1.0, 0.1, 0.1))
+
+        graphics::plot(x$havok$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
+
+        graphics::par(mfrow=c(1,1), mai = c(1.02, 0.82, 0.82, 0.42))
+      }
+
+      if (whatPlot == 4){
+        graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
+        plotBuff <- (.1 * (max(x$U[, 1:x$r]) - min(x$U[, 1:x$r])))
+        graphics::plot(x$U[,1], ylab = "Ur", xlab = "Time",
+                       type = "l",
+                       xaxt = "n",
+                       col = grDevices::rainbow(x$r)[1],
+                       ylim = c(min(x$U[,1:x$r]) - (.1*plotBuff), max(x$U[,1:x$r]) + (.1*plotBuff)))
+        graphics::axis(1, at = seq(1, ncol(x$U), length.out = 10),
+             labels = round(seq(1, max(x$havok$t), length.out = 10)))
+
+        for (i in 1:x$r){
+          graphics::lines(x$U[,i], col = grDevices::rainbow(x$r, alpha = 1/sqrt(i))[i])
+        }
+
+        if (x$r < 6){
+          graphics::legend("topleft",
+                 fill = grDevices::rainbow(x$r, alpha = 1/sqrt(1:x$r)),
+                 legend = paste("r = ", 1:x$r, sep = ""))
+        }
+
+        if (x$r >= 6){
+          graphics::legend("topleft",
+                 fill = grDevices::rainbow(x$r, alpha = 1/sqrt(1:x$r))[c(1:6,x$r)],
+                 legend = c(paste("r = ", 1:5, sep = ""),
+                            "...",
+                            paste("r = ", x$r, sep = ""))
+                 )
+        }
+        graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
+
+      }
+
+      if (whatPlot == 5){
+        graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
+        graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
+        graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
+      }
+
+    }
+  }
+
+
+  if (what == "reconstruction"){
+    graphics::plot(x$havok$t, x$Vr[,1], type = "l", xlab = NA, ylab = "Value", ...)
+  }
+
+  if (what == "forcing"){
+    graphics::plot(x$havok$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
+  }
+
+  if (what == "both") {
+     graphics::par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
+
+     graphics::plot(x$havok$t, x$Vr[,1], type = "l", xlab = NA, ylab = "Value", ...)
+
+     graphics::par(mai = c(1, 1.0, 0.1, 0.1))
+
+     graphics::plot(x$havok$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
+
+     graphics::par(mfrow=c(1,1), mai = c(1.02, 0.82, 0.82, 0.42))
+
+  }
+
+  if (what == "U-modes") {
+    plotBuff <- (.1 * (max(x$U[, 1:x$r]) - min(x$U[, 1:x$r])))
+    graphics::plot(x$U[,1], ylab = "Ur", xlab = "Time",
+                   type = "l",
+                   xaxt = "n",
+                   col = grDevices::rainbow(x$r)[1],
+                   ylim = c(min(x$U[,1:x$r]) - (.1*plotBuff), max(x$U[,1:x$r]) + (.1*plotBuff)))
+    graphics::axis(1, at = seq(1, ncol(x$U), length.out = 10),
+                   labels = round(seq(1, max(x$havok$t), length.out = 10)))
+
+    for (i in 1:x$r){
+      graphics::lines(x$U[,i], col = grDevices::rainbow(x$r, alpha = 1/sqrt(i))[i])
+    }
+
+    if (x$r < 6){
+      graphics::legend("topleft",
+             fill = grDevices::rainbow(x$r, alpha = 1/sqrt(1:x$r)),
+             legend = paste("r = ", 1:x$r, sep = ""))
+    }
+
+    if (x$r >= 6){
+      graphics::legend("topleft",
+             fill = grDevices::rainbow(x$r, alpha = 1/sqrt(1:x$r))[c(1:6, x$r)],
+             legend = c(paste("r = ", 1:5, sep = ""),
+                        "...",
+                        paste("r = ", x$r, sep = ""))
+      )
+    }
+
+  }
+
+  if (what == "embedded"){
+
+    graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
+    graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
+    graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
+
+    }
+
 
 }
 
 
 
-
+# Copyright 2020 Robert Glenn Moulder Jr. & Elena Martynova
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 
 

@@ -4,10 +4,12 @@
 \alias{plot.havok}
 \title{Plotting functions for the havok package of class “havok"}
 \usage{
-\method{plot}{havok}(x, ...)
+\method{plot}{havok}(x, what = "interactive", ...)
 }
 \arguments{
 \item{x}{A "havok" object.}
+
+\item{what}{Plot type}
 
 \item{...}{Other calls to plot}
 }

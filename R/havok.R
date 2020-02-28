@@ -46,19 +46,22 @@
 #'
 #'out <- ode(y = state, times = tspan, func = Lorenz, parms = parameters, rtol = 1e-12, atol = 1e-12)
 #'xdat <- out[, "X"]
-#'t <- out[, "time"]
+#'
 #'hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0,
 #'             rmax = 15, polyOrder = 1, useSine = FALSE)
 #'
 #'# EEG Example
 #'
+#'data(ECG_measurements)
 #'
-#'
-#'
-#'
-#'
-#'
-#'
+#'xdat <- ECG_measurements[,"channel1"]
+#'dt <- ECG_measurements[2,"time"] - ECG_measurements[1,"time"]
+#'stackmax <- 25
+#'rmax <- 5
+#'lambda <- .001
+#'hav <- havok(xdat = xdat, dt = dt, stackmax = stackmax, lambda = lambda,
+#'             rmax = 5, polyOrder = 1, useSine = FALSE)
+#'plot(hav)
 #'}
 ###################################
 
@@ -123,8 +126,21 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
   HAVOK <- control::lsim(sys, x[L, r], dt * (L - 1), x[1, 1:(r - 1)])
 
   res <- list(HAVOK, dx, r, x, sys, Theta, Xi, U, sigs)
-  names(res) <- c("havok", "dxdt", "r", "Vr", "sys", "normTheta", "Xi", "U", "sigs")
+  names(res) <- c("havok", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "U", "sigs")
   class(res) <- "havok"
   return(res)
 }
 
+# Copyright 2020 Robert Glenn Moulder Jr. & Elena Martynova
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
