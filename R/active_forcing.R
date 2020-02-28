@@ -15,12 +15,12 @@
 #' @export
 
 
-active_forcing <- function(x, minVal = stats::sd(x$x[,x$r])){
+active_forcing <- function(x, minVal = stats::sd(x$Vr[,x$r])){
   if (class(x) != "havok"){
     stop("Object x must be of class \"havok\"")
   }
 
-  allForcing <- x$x[,x$r]
+  allForcing <- x$Vr[,x$r]
 
   forcingOn <- ifelse(abs(allForcing) >= minVal, 1, 0)
 
