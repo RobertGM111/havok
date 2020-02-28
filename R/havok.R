@@ -126,7 +126,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
   HAVOK <- control::lsim(sys, x[L, r], dt * (L - 1), x[1, 1:(r - 1)])
 
   res <- list(HAVOK, dx, r, x, sys, Theta, Xi, U, sigs)
-  names(res) <- c("havok", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "U", "sigs")
+  names(res) <- c("havokSS", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "U", "sigs")
   class(res) <- "havok"
   return(res)
 }
