@@ -46,15 +46,14 @@ plot.havok <- function(x, what = "interactive", ...) {
 
     cat("--- Please select a plot type by number ---\n
         Plot Types:
-        1 - Reconstruction
-        2 - Forcing
-        3 - Both
-        4 - U-modes
-        5 - Embedded Attractor")
+        1 - Reconstruction     4 - U-modes
+        2 - Forcing            5 - Embedded Attractor
+        3 - Both               6 - Nonlinear Region")
+
     repeat {
       whatPlot <- readline("Please select a number (press esc to exit): ")
 
-      if (!whatPlot %in% 1:5){
+      if (!whatPlot %in% 1:6){
         stop("Please pick a number between 1 and 5")
       }
 
@@ -121,6 +120,14 @@ plot.havok <- function(x, what = "interactive", ...) {
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
+      if (whatPlot == 6){
+        havForce <- active_forcing(x)
+        graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
+        graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
+        segments(head(x$Vr[,1], -1), head(x$Vr[,2], -1), x$Vr[,1][-1], x$Vr[,2][-1], ifelse(havForce$active==1,"red","black"))
+        graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
+      }
+
     }
   }
 
@@ -179,11 +186,16 @@ plot.havok <- function(x, what = "interactive", ...) {
 
   if (what == "embedded"){
 
-    graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
     graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
-    graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
 
-    }
+  }
+
+  if (what == "nonlinear"){
+    havForce <- active_forcing(x)
+    graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
+    segments(head(x$Vr[,1], -1), head(x$Vr[,2], -1), x$Vr[,1][-1], x$Vr[,2][-1], ifelse(havForce$active==1,"red","black"))
+
+  }
 
 
 }
