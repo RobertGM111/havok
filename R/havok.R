@@ -84,6 +84,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
   r <- length(sigs[which(sigs > thresh)])
   r <- min(rmax, r)
 
+  if (discrete == FALSE){
   # COMPUTE DERIVATIVES
   dV <- compute_derivative(x = V, dt = dt, r = r)
 
@@ -115,20 +116,44 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
 
   for (k in 1:max(dim(Xi))) {
     Xi[k, ] <- Xi[k, ] / normTheta[k]
+
+    A <- t(Xi[2:(r + 1), 1:(r - 1)])
+    B <- A[, r]
+    A <- A[ , 1:(r - 1)]
+    L <- 1:nrow(x)
+
+    sys <- control::ss(A, B, pracma::eye(r - 1), 0 * B)
+    HAVOK <- control::lsim(sys, x[L, r], dt * (L - 1), x[1, 1:(r - 1)])
+
+    res <- list(HAVOK, dx, r, x, sys, Theta, Xi, U, sigs)
+    names(res) <- c("havokSS", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "U", "sigs")
+    class(res) <- "havok"
+    return(res)
+
   }
 
-  A <- t(Xi[2:(r + 1), 1:(r - 1)])
-  B <- A[, r]
-  A <- A[ , 1:(r - 1)]
-  L <- 1:nrow(x)
+  } else if (discrete == TRUE) {
+    # concatenate
+    x <- V[1:(nrow(V) - 1), 1:r]
+    dx <- V[2:nrow(V), 1:r]
 
-  sys <- control::ss(A, B, pracma::eye(r - 1), 0 * B)
-  HAVOK <- control::lsim(sys, x[L, r], dt * (L - 1), x[1, 1:(r - 1)])
+    Xi <- pracma::mldivide(dx, x)
+    B <- Xi[1:(r-1), r]
+    A <- Xi[1:(r-1), 1:(r-1)]
+    L <- 1:nrow(x)
 
-  res <- list(HAVOK, dx, r, x, sys, Theta, Xi, U, sigs)
-  names(res) <- c("havokSS", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "U", "sigs")
-  class(res) <- "havok"
-  return(res)
+    sys <- control::ss(A, B, pracma::eye(r-1), 0*B, dt)
+    HAVOK <- control::lsim(sys, x[L,r], dt*(L-1), x[1, 1:r-1])
+
+    res <- list(HAVOK, dx, r, x, sys, Xi, U, sigs)
+    names(res) <- c("havokSS", "dVrdt", "r", "Vr", "sys", "Xi", "U", "sigs")
+    class(res) <- "havok"
+    return(res)
+  }
+
+
+
+
 }
 
 # Copyright 2020 Robert Glenn Moulder Jr. & Elena Martynova
