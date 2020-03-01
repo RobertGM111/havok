@@ -77,7 +77,7 @@ hav <- havok(xdat = xdat, dt = dt)
 To plot the resulting time series and forcing term use `plot(hav)`
 
 ```{r plotting, eval=TRUE}
-plot(hav)
+plot(hav, what = "both")
 ```
 
 
