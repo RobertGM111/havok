@@ -36,7 +36,7 @@
 
 
 <meta property="og:title" content="Determine when forcing is active for an object of class "havok" — active_forcing" />
-<meta property="og:description" content="This function uses a minimum value to determin when forcing
+<meta property="og:description" content="This function uses threshold to determine when forcing
 is active in a fitted &quot;havok&quot; object." />
 <meta name="twitter:card" content="summary" />
 
@@ -107,21 +107,21 @@ is active in a fitted &quot;havok&quot; object." />
     </div>
 
     <div class="ref-description">
-    <p>This function uses a minimum value to determin when forcing
+    <p>This function uses threshold to determine when forcing
 is active in a fitted "havok" object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>active_forcing</span>(<span class='no'>x</span>, <span class='kw'>minVal</span> <span class='kw'>=</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span>(<span class='no'>x</span>$<span class='no'>x</span>[, <span class='no'>x</span>$<span class='no'>r</span>]))</pre>
+    <pre class="usage"><span class='fu'>active_forcing</span>(<span class='no'>x</span>, <span class='kw'>thresh</span> <span class='kw'>=</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span>(<span class='no'>x</span>$<span class='no'>Vr</span>[, <span class='no'>x</span>$<span class='no'>r</span>]))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>An object of class "havok"</p></td>
+      <td><p>An object of class "havok".</p></td>
     </tr>
     <tr>
-      <th>minVal</th>
+      <th>thresh</th>
       <td><p>A cutoff value for determining when forcing is active. Defualts
 to one standard deviation of the forcing term.</p></td>
     </tr>
@@ -129,11 +129,11 @@ to one standard deviation of the forcing term.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A matrix of sparse coefficients.</p>
+    <p>A list of forcing values with their corresponding activity status.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='havok.html'>havok</a></span>(<span class='kw'>xdat</span> <span class='kw'>=</span> <span class='no'>xdat</span>, <span class='kw'>dt</span> <span class='kw'>=</span> <span class='no'>dt</span>)</div><div class='output co'>#&gt; <span class='error'>Error in havok(xdat = xdat, dt = dt): object 'xdat' not found</span></div><div class='input'><span class='fu'>active_forcing</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>hav</span>)</div><div class='output co'>#&gt; <span class='error'>Error in active_forcing(x = hav): object 'hav' not found</span></div><div class='input'># }
+<span class='no'>hav</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='havok.html'>havok</a></span>(<span class='kw'>xdat</span> <span class='kw'>=</span> <span class='no'>xdat</span>, <span class='kw'>dt</span> <span class='kw'>=</span> <span class='no'>dt</span>)</div><div class='output co'>#&gt; <span class='error'>Error in havok(xdat = xdat, dt = dt): object 'xdat' not found</span></div><div class='input'><span class='fu'>active_forcing</span>(<span class='no'>hav</span>)</div><div class='output co'>#&gt; <span class='error'>Error in active_forcing(hav): object 'hav' not found</span></div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

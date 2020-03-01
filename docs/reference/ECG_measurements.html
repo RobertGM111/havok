@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Data Pooling into the Matrix of Candidate Functions for SINDy Algorithm — pool_data • havok</title>
+<title>Two channels of ECG measurments obtained from the QT database — ECG_measurements • havok</title>
 
 
 <!-- jquery -->
@@ -35,11 +35,8 @@
 
 
 
-<meta property="og:title" content="Data Pooling into the Matrix of Candidate Functions for SINDy Algorithm — pool_data" />
-<meta property="og:description" content="Pooling function for construction of the library of potential right
-hand-side candidate functions as shown in the SINDy algorithm in &quot;Discovering
-governing equations from data: Sparse identification of nonlinear dynamical
-systems&quot; (Brunton, Proctor, &amp;amp; Kutz, 2016)." />
+<meta property="og:title" content="Two channels of ECG measurments obtained from the QT database — ECG_measurements" />
+<meta property="og:description" content="Data from record sel102. 45,000 measurments of 2 ECG channels over 180 seconds." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,64 +100,46 @@ systems&quot; (Brunton, Proctor, &amp;amp; Kutz, 2016)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Data Pooling into the Matrix of Candidate Functions for SINDy Algorithm</h1>
+    <h1>Two channels of ECG measurments obtained from the QT database</h1>
     
-    <div class="hidden name"><code>pool_data.Rd</code></div>
+    <div class="hidden name"><code>ECG_measurements.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Pooling function for construction of the library of potential right
-hand-side candidate functions as shown in the SINDy algorithm in "Discovering
-governing equations from data: Sparse identification of nonlinear dynamical
-systems" (Brunton, Proctor, &amp; Kutz, 2016).</p>
+    <p>Data from record sel102. 45,000 measurments of 2 ECG channels over 180 seconds.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pool_data</span>(<span class='no'>yIn</span>, <span class='no'>nVars</span>, <span class='no'>polyOrder</span>, <span class='no'>useSine</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ECG_measurements</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>yIn</th>
-      <td><p>A matrix/data frame of time-dependent variables.</p></td>
-    </tr>
-    <tr>
-      <th>nVars</th>
-      <td><p>An integer that indicates the number of variables.</p></td>
-    </tr>
-    <tr>
-      <th>polyOrder</th>
-      <td><p>An integer from 0 to 5 indicating the highest degree of polynomials
-included in the matrix of candidate functions.</p></td>
-    </tr>
-    <tr>
-      <th>useSine</th>
-      <td><p>A logical value indicating whether sine and cosine functions
-of variables should be added to the library of potential candidate functions.
-If TRUE, candidate function matrix is augmented with sine and cosine functions
-of integer multiples 1 through 10 of all the variables in <code>yIn</code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A matrix of candidate functions.</p>
+    <p>A data frame with 45000 rows and 3 variables:</p><dl class='dl-horizontal'>
+  <dt>time</dt><dd><p>Time of measurment in seconds</p></dd>
+  <dt>channel1</dt><dd><p>ECG reading of first channel</p></dd>
+  <dt>channel2</dt><dd><p>ECG reading of second channel</p></dd>
+  
+</dl>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><a href='https://physionet.org/content/qtdb/1.0.0/'>QT database</a></p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Brunton, S. L., Proctor, J. L., &amp; Kutz, J. N. (2016). Discovering
-governing equations from data by sparse identification of nonlinear dynamical
-systems. Proceedings of the National Academy of Sciences, 113(15), 3932-3937.</p>
+    <p>Laguna, P., Mark, R. G., Goldberg, A., &amp; Moody, G. B.
+ (1997, September). A database for evaluation of algorithms for measurement
+  of QT and other waveform intervals in the ECG. In Computers in cardiology
+   1997 (pp. 673-676). IEEE.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'>pool_data</span>(<span class='no'>yIn</span>, <span class='no'>nVars</span>, <span class='no'>polyOrder</span>, <span class='no'>useSine</span>)</div><div class='output co'>#&gt; <span class='error'>Error in pool_data(yIn, nVars, polyOrder, useSine): object 'polyOrder' not found</span></div><div class='input'><span class='fu'>pool_data</span>(<span class='no'>yIn</span>, <span class='fl'>15</span>, <span class='fl'>5</span>, <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in as.matrix(yIn): object 'yIn' not found</span></div><div class='input'><span class='fu'>pool_data</span>(<span class='no'>yIn</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>0</span>)</div><div class='output co'>#&gt; <span class='error'>Error in as.matrix(yIn): object 'yIn' not found</span></div><div class='input'># }
-</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ECG_measurements</span>)
+<span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
+      <li><a href="#format">Format</a></li>
+      <li><a href="#source">Source</a></li>
       <li><a href="#references">References</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
