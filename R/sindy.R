@@ -6,7 +6,7 @@
 #' @param x A vector or matrix of measurments over time.
 #' @param dt A numeric value indicating the time-lag between two subsequent time series measures.
 #' @param lambda A numeric value; sparsification threshold.
-#' @return  A matrix of sparse coefficients.
+#' @return  A matrix of candidate functions and a matrix of sparse coefficients.
 #' @references Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2016). Discovering
 #' governing equations from data by sparse identification of nonlinear dynamical
 #' systems. Proceedings of the National Academy of Sciences, 113(15), 3932-3937.

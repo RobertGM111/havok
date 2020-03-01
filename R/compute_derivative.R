@@ -1,10 +1,10 @@
 #' Compute derivative using fourth order central difference
 #'
 #' @description Estimates the derivative of a time series using fourth order central difference.
-#' @param x A vector or matrix of measurements over time.
-#' @param dt A number representing the time between successive measurements.
+#' @param x A vector of measurements over time.
+#' @param dt A number representing the change in time between successive measurements.
 #' @param r A number representing the number of time series in x used to calculate dXdt.
-#' @return A vector or matrix of first order derivatives of the variables of interest with respect to time.
+#' @return \code{dXdt - } A vector or matrix of first order derivatives of the variables of interest with respect to time.
 #' @examples
 #' \donttest{
 #'#Generate Data
