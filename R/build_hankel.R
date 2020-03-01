@@ -1,9 +1,9 @@
 #' Build a Hankel matrix from a time series.
 #'
-#' @description Create a Hankel matrix from a vector of of measurements over time.
-#' @param x A vector or matrix of measurements over time.
+#' @description Create a Hankel matrix from a vector of measurements over time.
+#' @param x A vector of measurements over time.
 #' @param stackmax An integer; the number of shift-stacked rows.
-#' @return A time-lagged matrix of stacked measurements over time.
+#' @return A Hankel matrix of \code{x}.
 #' @examples
 #' \donttest{
 #' build_hankel(x = xdat, stackmax = 15)
