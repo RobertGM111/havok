@@ -7,15 +7,15 @@
 build_hankel(x, stackmax)
 }
 \arguments{
-\item{x}{A vector or matrix of measurements over time.}
+\item{x}{A vector of measurements over time.}
 
 \item{stackmax}{An integer; the number of shift-stacked rows.}
 }
 \value{
-A time-lagged matrix of stacked measurements over time.
+A Hankel matrix of \code{x}.
 }
 \description{
-Create a Hankel matrix from a vector of of measurements over time.
+Create a Hankel matrix from a vector of measurements over time.
 }
 \examples{
 \donttest{
