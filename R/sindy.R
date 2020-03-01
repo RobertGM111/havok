@@ -29,6 +29,15 @@ sindy <- function(x, dt, lambda, polyOrder = 5, useSine = FALSE,
 
   Theta <- pool_data(x, nVars = nVars, polyOrder = polyOrder, useSine = useSine)
 
+  if (normalize == TRUE){
+    normTheta <- rep(NA, dim(Theta)[2])
+
+    for (k in 1:dim(Theta)[2]) {
+      normTheta[k] <- sqrt(sum(Theta[ , k]^2))
+      Theta[ , k] <- Theta[ , k]/normTheta[k]
+    }
+  }
+
   Xi <- sparsify_dynamics(Theta, dXdt = dXdt, lambda = lambda)
 
   res <- list("candidateFunctions" = Theta,
