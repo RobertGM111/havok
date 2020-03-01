@@ -131,7 +131,7 @@ plot.havok <- function(x, what = "interactive", ...) {
         havForce <- active_forcing(x)
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
-        segments(head(x$Vr[,1], -1), head(x$Vr[,2], -1), x$Vr[,1][-1], x$Vr[,2][-1], ifelse(havForce$active==1,"red","black"))
+        graphics::segments(utils::head(x$Vr[,1], -1), utils::head(x$Vr[,2], -1), x$Vr[,1][-1], x$Vr[,2][-1], ifelse(havForce$active==1,"red","black"))
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
@@ -200,7 +200,7 @@ plot.havok <- function(x, what = "interactive", ...) {
   if (what == "nonlinear"){
     havForce <- active_forcing(x)
     graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
-    segments(head(x$Vr[,1], -1), head(x$Vr[,2], -1), x$Vr[,1][-1], x$Vr[,2][-1], ifelse(havForce$active==1,"red","black"))
+    graphics::segments(utils::head(x$Vr[,1], -1), utils::head(x$Vr[,2], -1), x$Vr[,1][-1], x$Vr[,2][-1], ifelse(havForce$active==1,"red","black"))
 
   }
 
