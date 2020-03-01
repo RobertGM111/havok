@@ -66,7 +66,7 @@ plot.havok <- function(x, what = "interactive", ...) {
 
       if (whatPlot == 1){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
-        graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = "Time", ylab = "Value", ...)
+        graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = "Time", ylab = "V1", ...)
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
@@ -79,7 +79,7 @@ plot.havok <- function(x, what = "interactive", ...) {
       if (whatPlot == 3){
         graphics::par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
 
-        graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = NA, ylab = "Value", ...)
+        graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = NA, ylab = "V1", ...)
 
         graphics::par(mai = c(1, 1.0, 0.1, 0.1))
 
@@ -140,7 +140,7 @@ plot.havok <- function(x, what = "interactive", ...) {
 
 
   if (what == "reconstruction"){
-    graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = NA, ylab = "Value", ...)
+    graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = NA, ylab = "V1", ...)
   }
 
   if (what == "forcing"){
@@ -150,7 +150,7 @@ plot.havok <- function(x, what = "interactive", ...) {
   if (what == "both") {
      graphics::par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
 
-     graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = NA, ylab = "Value", ...)
+     graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = NA, ylab = "V1", ...)
 
      graphics::par(mai = c(1, 1.0, 0.1, 0.1))
 
