@@ -22,7 +22,7 @@ sindy(
 \item{lambda}{A numeric value; sparsification threshold.}
 }
 \value{
-A matrix of sparse coefficients.
+A matrix of candidate functions and a matrix of sparse coefficients.
 }
 \description{
 Sparsification function based on sequential thresholded least-squares

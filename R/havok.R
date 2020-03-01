@@ -17,7 +17,17 @@
 #' of variables should be added to the library of potential candidate functions.
 #' If TRUE, candidate function matrix is augmented with sine and cosine functions
 #' of integer multiples 1 through 10 of all the variables in \code{yIn}.
-#' @return  A matrix of sparse coefficients
+#' @param discrete Logical; Is the underlying system discrete?
+#' @return An object of class 'havok' with the following components: \itemize{
+#' \item{havokSS - }{A HAVOK analysis generated state space model with its time history.}
+#' \item{dVrdt - }{A matrix of first order derivatives of the first r columns of the V matrix with respect to time.}
+#' \item{r - }{Estimated optimal number singular vectors to include into analysis up to \code{rmax}.}
+#' \item{Vr - }{The first r columns of the V matrix of the SVD of the Hankel matrix of \code{xdat}.}
+#' \item{sys - }{HAVOK model represented in state-space form.}
+#' \item{normTheta - }{Normalized matrix of candidate functions obtained from \code{\link{pool_data}}.}
+#' \item{Xi - }{A matrix of sparse coefficients obtained from \code{\link{sparsify_dynamics}}.}
+#' \item{U - }{The U matrix of the SVD of the Hankel matrix of the time series.}
+#' \item{sigs - }{Values of the diagonal of the \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}}
 #' @references S. L. Brunton, B. W. Brunton, J. L. Proctor, E. Kaiser, and J. N. Kutz,
 #' "Chaos as an intermittently forced linear system," Nature Communications, 8(19):1-9, 2017.
 #' @examples
@@ -126,7 +136,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
   HAVOK <- control::lsim(sys, x[L, r], dt * (L - 1), x[1, 1:(r - 1)])
 
   res <- list(HAVOK, dx, r, x, sys, Theta, Xi, U, sigs)
-  names(res) <- c("havok", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "U", "sigs")
+  names(res) <- c("havokSS", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "U", "sigs")
   class(res) <- "havok"
   return(res)
 }
