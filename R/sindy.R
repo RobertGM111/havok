@@ -6,6 +6,14 @@
 #' @param x A vector or matrix of measurments over time.
 #' @param dt A numeric value indicating the time-lag between two subsequent time series measures.
 #' @param lambda A numeric value; sparsification threshold.
+#' @param polyOrder An integer from 0 to 5 indicating the highest degree of polynomials
+#' included in the matrix of candidate functions.
+#' @param useSine A logical value indicating whether sine and cosine functions
+#' of variables should be added to the library of potential candidate functions.
+#' If TRUE, candidate function matrix is augmented with sine and cosine functions
+#' of integer multiples 1 through 10 of all the variables in \code{yIn}.
+#' @param normalize Logical; Should the columns of the matrix of candidate functions be normalized?
+#' @param nVars An integer that indicates the number of variables.
 #' @return  A matrix of candidate functions and a matrix of sparse coefficients.
 #' @references Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2016). Discovering
 #' governing equations from data by sparse identification of nonlinear dynamical
