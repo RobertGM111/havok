@@ -17,6 +17,7 @@
 Generic plotting function for object of class ("havok")
 }
 \examples{
+
 \donttest{
 #Generate Data
 library(deSolve)
