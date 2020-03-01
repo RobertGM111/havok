@@ -9,6 +9,15 @@
 \arguments{
 \item{x}{A "havok" object.}
 
+\item{what}{\itemize {
+\item{interactive - }{An interactive plotting function.}
+\item{reconstruction - }{Reconstruction of the major component of a time-series.}
+\item{forcing - }{Forcing vector derived from HAVOK.}
+\item{both - }{A combination of 'reconstruction' and 'forcing'.}
+\item{U-modes - }{U modes of the reconstructed time series.}
+\item{embedded - }{A 2D reconstruction of the attractor.}
+\item{nonlinear - }{A 2D reconstruction of the attractor with nonlinear regions colored red.}}}
+
 \item{...}{Other calls to plot}
 }
 \description{
