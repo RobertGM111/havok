@@ -7,14 +7,14 @@
 compute_derivative(x, dt, r = min(dim(as.matrix(x))))
 }
 \arguments{
-\item{x}{A vector or matrix of measurements over time.}
+\item{x}{A vector of measurements over time.}
 
-\item{dt}{A number representing the time between successive measurements.}
+\item{dt}{A number representing the change in time between successive measurements.}
 
 \item{r}{A number representing the number of time series in x used to calculate dXdt.}
 }
 \value{
-A vector or matrix of first order derivatives of the variables of interest with respect to time.
+\code{dXdt - } A vector or matrix of first order derivatives of the variables of interest with respect to time.
 }
 \description{
 Estimates the derivative of a time series using fourth order central difference.

@@ -4,19 +4,19 @@
 \alias{active_forcing}
 \title{Determine when forcing is active for an object of class "havok"}
 \usage{
-active_forcing(x, minVal = stats::sd(x$Vr[, x$r]))
+active_forcing(x, thresh = stats::sd(x$Vr[, x$r]))
 }
 \arguments{
-\item{x}{An object of class "havok"}
+\item{x}{An object of class "havok".}
 
-\item{minVal}{A cutoff value for determining when forcing is active. Defualts
+\item{thresh}{A cutoff value for determining when forcing is active. Defualts
 to one standard deviation of the forcing term.}
 }
 \value{
-A matrix of sparse coefficients.
+A list of forcing values with their corresponding activity status.
 }
 \description{
-This function uses a minimum value to determin when forcing
+This function uses threshold to determine when forcing
 is active in a fitted "havok" object.
 }
 \examples{
