@@ -2,7 +2,8 @@
 #'
 #' @description Generic plotting function for object of class ("havok")
 #' @param x A "havok" object.
-#' @param what Plot type
+#' @param what \itemize {
+#' \item{havokSS - }{
 #' @param ... Other calls to plot
 #' @examples
 #'
