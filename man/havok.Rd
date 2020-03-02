@@ -62,7 +62,6 @@ where the dynamics are approximately linear from those that are strongly nonline
 \donttest{
 #Lorenz Attractor
 #Generate Data
-library(deSolve)
 ##Set Lorenz Parameters
 parameters <- c(s = 10, r = 28, b = 8/3)
 n <- 3
