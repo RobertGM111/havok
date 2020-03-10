@@ -94,16 +94,13 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
   r <- min(rmax, r)
 
   if (discrete == FALSE){
-  # COMPUTE DERIVATIVES
   dV <- compute_derivative(x = V, dt = dt, r = r)
 
-  # concatenate
   x <- V[3:(nrow(V) - 3), 1:r]
   dx <- dV
 
   Theta <- pool_data(x, r, polyOrder = polyOrder, useSine)
 
-  # normalize columns of Theta (required in new time-delay coords)
   normTheta <- rep(NA, dim(Theta)[2])
 
   for (k in 1:dim(Theta)[2]) {
@@ -113,8 +110,6 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
 
   m <- dim(Theta)[2]
 
-  #compute Sparse regression: sequential least squares
-  #requires different lambda parameters for each column
   Xi <- matrix(NA,
              nrow = nrow(sparsify_dynamics(Theta,dx[ , 1], lambda * 1)),
              ncol = r - 1)
