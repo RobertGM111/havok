@@ -2,7 +2,7 @@
 % Please edit documentation in R/sparsify_dynamics.R
 \name{sparsify_dynamics}
 \alias{sparsify_dynamics}
-\title{Matrix Sparsifcation for SINDy Algorithm}
+\title{Matrix Sparsification for SINDy Algorithm}
 \usage{
 sparsify_dynamics(Theta, dXdt, lambda)
 }

@@ -3,7 +3,7 @@
 \docType{data}
 \name{ECG_measurements}
 \alias{ECG_measurements}
-\title{Two channels of ECG measurments obtained from the QT database}
+\title{Two channels of ECG measurements obtained from the QT database}
 \format{A data frame with 45000 rows and 3 variables:
 \describe{
   \item{time}{Time of measurment in seconds}
@@ -17,7 +17,7 @@
 data(ECG_measurements)
 }
 \description{
-Data from record sel102. 45,000 measurments of 2 ECG channels over 180 seconds.
+Data from record sel102. 45,000 measurements of 2 ECG channels over 180 seconds.
 }
 \examples{
 \donttest{

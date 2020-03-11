@@ -1,4 +1,4 @@
-#' Matrix Sparsifcation for SINDy Algorithm
+#' Matrix Sparsification for SINDy Algorithm
 #'
 #' @description Sparsification function based on sequential thresholded least-squares
 #' as shown in the SINDy algorithm in "Discovering governing equations from data:

@@ -3,7 +3,7 @@
 #' @description Sparsification function based on sequential thresholded least-squares
 #' as shown in the SINDy algorithm in "Discovering governing equations from data:
 #' Sparse identification of nonlinear dynamical systems" (Brunton, Proctor, & Kutz, 2016).
-#' @param x A vector or matrix of measurments over time.
+#' @param x A vector or matrix of measurements over time.
 #' @param dt A numeric value indicating the time-lag between two subsequent time series measures.
 #' @param lambda A numeric value; sparsification threshold.
 #' @param polyOrder An integer from 0 to 5 indicating the highest degree of polynomials

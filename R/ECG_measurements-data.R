@@ -1,7 +1,7 @@
-#' Two channels of ECG measurments obtained from the QT database
+#' Two channels of ECG measurements obtained from the QT database
 #'
 #'
-#' Data from record sel102. 45,000 measurments of 2 ECG channels over 180 seconds.
+#' Data from record sel102. 45,000 measurements of 2 ECG channels over 180 seconds.
 #'
 #' @name ECG_measurements
 #'

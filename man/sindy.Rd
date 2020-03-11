@@ -15,7 +15,7 @@ sindy(
 )
 }
 \arguments{
-\item{x}{A vector or matrix of measurments over time.}
+\item{x}{A vector or matrix of measurements over time.}
 
 \item{dt}{A numeric value indicating the time-lag between two subsequent time series measures.}
 
