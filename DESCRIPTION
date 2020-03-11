@@ -2,15 +2,12 @@ Package: havok
 Type: Package
 Title: Hankel Alternative View of Koopman (HAVOK) Analysis
 Version: 0.1.0
-Authors@R: c(person("Moulder", "Robert", email = "rgm4fd@virginia.edu",
+Authors@R: c(person("Robert", "Moulder", email = "rgm4fd@virginia.edu",
   role = c("aut", "cre"), comment = c(ORCID = "0000-0001-7504-9560")),
-  person("Martynova", "Elena", email = "em6gg@virginia.edu",
+  person("Elena", "Martynova", email = "em6gg@virginia.edu",
   role = "aut"),
-  person("Boker", "Steven", email = "smb3u@virginia.edu",
+  person("Steven", "Boker", email = "smb3u@virginia.edu",
   role = "ctb"))
-Authors: Robert Moulder [aut, cre] ,
-  Elena Martynova [aut] ,
-  Steven Boker [ctb]
 Maintainer: Robert Moulder <rgm4fd@virginia.edu>
 Description: A set of functions for modeling of chaotic systems as intermittently forced linear systems through the use of Hankel Alternative View of Koopman (HAVOK) analysis (Brunton, Brunton, Proctor, Kaiser, & Kutz, 2017). This package has additional functionality for the SINDy algoirthm (Brunton, Proctor, & Kutz, 2016).
 License: Apache License (>= 2.0)
