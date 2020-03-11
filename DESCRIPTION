@@ -9,7 +9,7 @@ Authors@R: c(person("Robert", "Moulder", email = "rgm4fd@virginia.edu",
   person("Steven", "Boker", email = "smb3u@virginia.edu",
   role = "ctb"))
 Maintainer: Robert Moulder <rgm4fd@virginia.edu>
-Description: A set of functions for modeling of chaotic systems as intermittently forced linear systems through the use of Hankel Alternative View of Koopman (HAVOK) analysis (Brunton, Brunton, Proctor, Kaiser, & Kutz, 2017). This package has additional functionality for the SINDy algoirthm (Brunton, Proctor, & Kutz, 2016).
+Description: A set of functions for modeling of chaotic systems as intermittently forced linear systems through the use of Hankel Alternative View of Koopman (HAVOK) analysis (Brunton, Brunton, Proctor, Kaiser, & Kutz, 2017). This package has additional functionality for the SINDy algorithm (Brunton, Proctor, & Kutz, 2016).
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
