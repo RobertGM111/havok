@@ -11,7 +11,7 @@ compute_derivative(x, dt, r = min(dim(as.matrix(x))))
 
 \item{dt}{A number representing the change in time between successive measurements.}
 
-\item{r}{A number representing the number of time series in x used to calculate dXdt.}
+\item{r}{A number representing the number of time series in x used to calculate \code{dXdt}.}
 }
 \value{
 \code{dXdt - } A vector or matrix of first order derivatives of the variables of interest with respect to time.

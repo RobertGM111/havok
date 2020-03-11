@@ -3,7 +3,7 @@
 #' @description This function uses threshold to determine when forcing
 #' is active in a fitted "havok" object.
 #' @param x An object of class "havok".
-#' @param thresh A cutoff value for determining when forcing is active. Defualts
+#' @param thresh A cutoff value for determining when forcing is active. Defaults
 #' to one standard deviation of the forcing term.
 #' @return  A list of forcing values with their corresponding activity status.
 #' @examples
