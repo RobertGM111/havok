@@ -11,7 +11,7 @@
 #' @param lambda A numeric value; sparsification threshold.
 #' @param center Logical; Should \code{xdat} be centered around 0?
 #' @param rmax An integer; maximum number of singular vectors to include.
-#' @param rset An integer; maximum number of singular vectors to include.
+#' @param rset An integer; specific number of singular vectors to include.
 #' @param polyOrder An integer from 0 to 5 indicating the highest degree of polynomials
 #' included in the matrix of candidate functions.
 #' @param useSine A logical value indicating whether sine and cosine functions
