@@ -11,6 +11,7 @@
 #' @param lambda A numeric value; sparsification threshold.
 #' @param center Logical; Should \code{xdat} be centered around 0?
 #' @param rmax An integer; maximum number of singular vectors to include.
+#' @param rset An integer; maximum number of singular vectors to include.
 #' @param polyOrder An integer from 0 to 5 indicating the highest degree of polynomials
 #' included in the matrix of candidate functions.
 #' @param useSine A logical value indicating whether sine and cosine functions
@@ -59,7 +60,7 @@
 #'hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0,
 #'             rmax = 15, polyOrder = 1, useSine = FALSE)
 #'
-#'# EEG Example
+#'# ECG Example
 #'
 #'data(ECG_measurements)
 #'
@@ -76,7 +77,7 @@
 
 #' @export
 havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
-                  rmax = 15, polyOrder = 1, useSine = FALSE, discrete = FALSE) {
+                  rmax = 15, rset = NA, polyOrder = 1, useSine = FALSE, discrete = FALSE) {
 
   if (center == TRUE){
     xdat <- xdat - mean(xdat)
@@ -88,53 +89,68 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
   U <- USV$u
   sigs <- USV$d
   V <- USV$v
-  beta <- nrow(H) / ncol(H)
-  thresh <- optimal_SVHT_coef(beta, FALSE) * stats::median(sigs)
-  r <- length(sigs[which(sigs > thresh)])
-  r <- min(rmax, r)
+
+  if (is.na(rmax) & is.na(rset)) {
+    stop("Either 'rmax' or 'rset' must be a positive integer")
+  }
+
+  if (!is.na(rmax) & !is.na(rset)) {
+    stop("Please only give values for 'rmax' or 'rset', not both")
+  }
+
+  if (!is.na(rmax)) {
+    beta <- nrow(H) / ncol(H)
+    thresh <- optimal_SVHT_coef(beta, FALSE) * stats::median(sigs)
+    r <- length(sigs[which(sigs > thresh)])
+    r <- min(rmax, r)
+  }
+
+  if (!is.na(rset)) {
+    r <- rset
+  }
 
   if (discrete == FALSE){
-  dV <- compute_derivative(x = V, dt = dt, r = r)
+    dV <- compute_derivative(x = V, dt = dt, r = r)
 
-  x <- V[3:(nrow(V) - 3), 1:r]
-  dx <- dV
+    x <- V[3:(nrow(V) - 3), 1:r]
+    dx <- dV
 
-  Theta <- pool_data(x, r, polyOrder = polyOrder, useSine)
+    Theta <- pool_data(x, r, polyOrder = polyOrder, useSine)
 
-  normTheta <- rep(NA, dim(Theta)[2])
+    normTheta <- rep(NA, dim(Theta)[2])
 
-  for (k in 1:dim(Theta)[2]) {
-    normTheta[k] <- sqrt(sum(Theta[ , k]^2))
-    Theta[ , k] <- Theta[ , k]/normTheta[k]
-  }
+    for (k in 1:dim(Theta)[2]) {
+      normTheta[k] <- sqrt(sum(Theta[ , k]^2))
+      Theta[ , k] <- Theta[ , k]/normTheta[k]
+    }
 
-  m <- dim(Theta)[2]
+    m <- dim(Theta)[2]
 
-  Xi <- matrix(NA,
-             nrow = nrow(sparsify_dynamics(Theta,dx[ , 1], lambda * 1)),
-             ncol = r - 1)
+    Xi <- matrix(NA,
+                 nrow = nrow(sparsify_dynamics(Theta,dx[ , 1], lambda * 1)),
+                 ncol = r - 1)
 
-  for (k in 1:(r - 1)) {
-    Xi[ , k] <- sparsify_dynamics(Theta, dx[ , k], lambda * k)
-  }
+    for (k in 1:(r - 1)) {
+      Xi[ , k] <- sparsify_dynamics(Theta, dx[ , k], lambda * k)
+    }
 
-  for (k in 1:max(dim(Xi))) {
-    Xi[k, ] <- Xi[k, ] / normTheta[k]
+    for (k in 1:max(dim(Xi))) {
+      Xi[k, ] <- Xi[k, ] / normTheta[k]
 
-    A <- t(Xi[2:(r + 1), 1:(r - 1)])
-    B <- A[, r]
-    A <- A[ , 1:(r - 1)]
-    L <- 1:nrow(x)
+      A <- t(Xi[2:(r + 1), 1:(r - 1)])
+      B <- A[, r]
+      A <- A[ , 1:(r - 1)]
+      L <- 1:nrow(x)
 
-    sys <- control::ss(A, B, pracma::eye(r - 1), 0 * B)
-    HAVOK <- control::lsim(sys, x[L, r], dt * (L - 1), x[1, 1:(r - 1)])
+      sys <- control::ss(A, B, pracma::eye(r - 1), 0 * B)
+      HAVOK <- control::lsim(sys, x[L, r], dt * (L - 1), x[1, 1:(r - 1)])
 
-    res <- list(HAVOK, dx, r, x, sys, Theta, Xi, U, sigs)
-    names(res) <- c("havokSS", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "U", "sigs")
-    class(res) <- "havok"
-    return(res)
+      res <- list(HAVOK, dx, r, x, sys, Theta, Xi, U, sigs)
+      names(res) <- c("havokSS", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "U", "sigs")
+      class(res) <- "havok"
+      return(res)
 
-  }
+    }
 
   } else if (discrete == TRUE) {
     # concatenate
