@@ -84,7 +84,7 @@ plot.havok <- function(x, what = "interactive", ...) {
 
         graphics::par(mai = c(1, 1.0, 0.1, 0.1))
 
-        graphics::plot(x$havokSS$t, x$Vr[,x$r] * x$dt, type = "l", xlab = "Time", ylab = "Forcing", ...)
+        graphics::plot(x$havokSS$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
 
         graphics::par(mfrow=c(1,1), mai = c(1.02, 0.82, 0.82, 0.42))
       }
@@ -98,7 +98,7 @@ plot.havok <- function(x, what = "interactive", ...) {
                        col = grDevices::rainbow(x$r)[1],
                        ylim = c(min(x$U[,1:x$r]) - (.1*plotBuff), max(x$U[,1:x$r]) + (.1*plotBuff)))
         graphics::axis(1, at = seq(1, ncol(x$U), length.out = 10),
-             labels = round(seq(1, max(x$havokSS$t), length.out = 10)))
+             labels = round(seq(1, max(x$havokSS$t)*dt, length.out = 10)))
 
         for (i in 1:x$r){
           graphics::lines(x$U[,i], col = grDevices::rainbow(x$r, alpha = 1/sqrt(i))[i])
