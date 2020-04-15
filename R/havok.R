@@ -6,7 +6,7 @@
 #' low-energy delay coordinates. Forcing activity demarcates coherent phase space regions
 #' where the dynamics are approximately linear from those that are strongly nonlinear.
 #' @param xdat A vector of equally spaced measurements over time.
-#' @param dt A numeric value indicating the time-lag between two subsequent time series measures.
+#' @param dt A numeric value indicating the time-lag between two subsequent time series measurements.
 #' @param stackmax An integer; number of shift-stacked rows.
 #' @param lambda A numeric value; sparsification threshold.
 #' @param center Logical; Should \code{xdat} be centered around 0?
@@ -29,6 +29,8 @@
 #' \item{\code{Xi} - }{A matrix of sparse coefficients obtained from \code{\link{sparsify_dynamics}}.}
 #' \item{\code{U} - }{The U matrix of the SVD of the Hankel matrix of the time series.}
 #' \item{\code{sigs} - }{Values of the diagonal of the \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}}
+#' \item{\code{V} - }{The V matrix of the SVD of the Hankel matrix of the time series.}
+#' \item{\code{dt} - }{ime-lag between two subsequent time series measurements.}
 #' @references S. L. Brunton, B. W. Brunton, J. L. Proctor, E. Kaiser, and J. N. Kutz,
 #' "Chaos as an intermittently forced linear system," Nature Communications, 8(19):1-9, 2017.
 #' @examples
@@ -165,8 +167,8 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
     sys <- control::ss(A, B, pracma::eye(r-1), 0*B, dt)
     HAVOK <- control::lsim(sys, x[L,r], dt*(L-1), x[1, 1:r-1])
 
-    res <- list(HAVOK, dx, r, x, sys, Xi, U, sigs)
-    names(res) <- c("havokSS", "dVrdt", "r", "Vr", "sys", "Xi", "U", "sigs")
+    res <- list(HAVOK, dx, r, x, sys, Xi, U, sigs, V, dt)
+    names(res) <- c("havokSS", "dVrdt", "r", "Vr", "sys", "Xi", "U", "sigs", "V", "dt")
     class(res) <- "havok"
     return(res)
   }
