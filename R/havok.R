@@ -115,6 +115,11 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
     r <- ncol(V)
   }
 
+  if (!is.na(rout)) {
+    V <- V[,-rout]
+    r <- r - length(rout)
+  }
+
   if (discrete == FALSE){
     dV <- compute_derivative(x = V, dt = dt, r = r)
 
