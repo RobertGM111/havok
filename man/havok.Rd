@@ -11,6 +11,7 @@ havok(
   lambda = 0,
   center = TRUE,
   rmax = 15,
+  rset = NA,
   polyOrder = 1,
   useSine = FALSE,
   discrete = FALSE
@@ -19,7 +20,7 @@ havok(
 \arguments{
 \item{xdat}{A vector of equally spaced measurements over time.}
 
-\item{dt}{A numeric value indicating the time-lag between two subsequent time series measures.}
+\item{dt}{A numeric value indicating the time-lag between two subsequent time series measurements.}
 
 \item{stackmax}{An integer; number of shift-stacked rows.}
 
@@ -28,6 +29,8 @@ havok(
 \item{center}{Logical; Should \code{xdat} be centered around 0?}
 
 \item{rmax}{An integer; maximum number of singular vectors to include.}
+
+\item{rset}{An integer; specific number of singular vectors to include.}
 
 \item{polyOrder}{An integer from 0 to 5 indicating the highest degree of polynomials
 included in the matrix of candidate functions.}
@@ -50,6 +53,8 @@ An object of class 'havok' with the following components: \itemize{
 \item{\code{Xi} - }{A matrix of sparse coefficients obtained from \code{\link{sparsify_dynamics}}.}
 \item{\code{U} - }{The U matrix of the SVD of the Hankel matrix of the time series.}
 \item{\code{sigs} - }{Values of the diagonal of the \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}}
+\item{\code{V} - }{The V matrix of the SVD of the Hankel matrix of the time series.}
+\item{\code{dt} - }{ime-lag between two subsequent time series measurements.}
 }
 \description{
 Data-driven decomposition of chaotic time series into an intermittently
@@ -87,7 +92,7 @@ xdat <- out[, "X"]
 hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0,
             rmax = 15, polyOrder = 1, useSine = FALSE)
 
-# EEG Example
+# ECG Example
 
 data(ECG_measurements)
 

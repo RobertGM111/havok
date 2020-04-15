@@ -4,12 +4,14 @@
 \name{ECG_measurements}
 \alias{ECG_measurements}
 \title{Two channels of ECG measurements obtained from the QT database}
-\format{A data frame with 45000 rows and 3 variables:
+\format{
+A data frame with 45000 rows and 3 variables:
 \describe{
   \item{time}{Time of measurement in seconds}
   \item{channel1}{ECG reading of first channel}
   \item{channel2}{ECG reading of second channel}
-  }}
+  }
+}
 \source{
 \href{https://physionet.org/content/qtdb/1.0.0/}{QT database}
 }
