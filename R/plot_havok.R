@@ -84,7 +84,7 @@ plot.havok <- function(x, what = "interactive", ...) {
 
         graphics::par(mai = c(1, 1.0, 0.1, 0.1))
 
-        graphics::plot(x$havokSS$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
+        graphics::plot(x$havokSS$t, x$Vr[,x$r] * x$dt, type = "l", xlab = "Time", ylab = "Forcing", ...)
 
         graphics::par(mfrow=c(1,1), mai = c(1.02, 0.82, 0.82, 0.42))
       }
