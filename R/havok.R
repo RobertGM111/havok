@@ -110,10 +110,6 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
     r <- rset
   }
 
-  if (!is.na(rout)) {
-    V <- V[,-rout]
-    r <- ncol(V)
-  }
 
   if (!is.na(rout)) {
     V <- V[,-rout]
