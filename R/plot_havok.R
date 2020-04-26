@@ -54,15 +54,16 @@ plot.havok <- function(x, what = "interactive", ...) {
 
     cat("--- Please select a plot type by number ---\n
         Plot Types:
-        1 - Reconstruction     4 - U-modes
-        2 - Forcing            5 - Embedded Attractor
-        3 - Both               6 - Nonlinear Region")
+        1 - V1 Reconstruction  5 - V Embedded Attractor
+        2 - Forcing            6 - Strongly Nonlinear Region
+        3 - Both               7 - SS Model Output
+        4 - U-modes            8 - SS Embedded Attractor")
 
     repeat {
       whatPlot <- readline("Please select a number (press esc to exit): ")
 
-      if (!whatPlot %in% 1:6){
-        stop("Please pick a number between 1 and 5")
+      if (!whatPlot %in% 1:8){
+        stop("Please pick a number between 1 and 8")
       }
 
       if (whatPlot == 1){
@@ -98,29 +99,30 @@ plot.havok <- function(x, what = "interactive", ...) {
                        col = grDevices::rainbow(x$r)[1],
                        ylim = c(min(x$U[,1:x$r]) - (.1*plotBuff), max(x$U[,1:x$r]) + (.1*plotBuff)))
         graphics::axis(1, at = seq(0, ncol(x$U)-1, length.out = 10),
-             labels = round(seq(0, x$params["stackmax",], length.out = 10)))
+                       labels = round(seq(0, x$params["stackmax",], length.out = 10)))
 
         for (i in 1:x$r){
           graphics::lines(x$U[,i], col = grDevices::rainbow(x$r, alpha = 1/sqrt(i))[i])
         }
 
-        if (x$r < 6){
+        if (x$r <= 6){
           graphics::legend("topleft",
-                 fill = grDevices::rainbow(x$r, alpha = 1/sqrt(1:x$r)),
-                 legend = paste("r = ", 1:x$r, sep = ""))
+                           fill = grDevices::rainbow(x$r, alpha = 1/sqrt(1:x$r)),
+                           legend = paste("r = ", 1:x$r, sep = ""))
         }
 
-        if (x$r >= 6){
+        if (x$r > 6){
           graphics::legend("topleft",
-                 fill = grDevices::rainbow(x$r, alpha = 1/sqrt(1:x$r))[c(1:6,x$r)],
-                 legend = c(paste("r = ", 1:5, sep = ""),
-                            "...",
-                            paste("r = ", x$r, sep = ""))
-                 )
+                           fill = grDevices::rainbow(x$r, alpha = 1/sqrt(1:x$r))[c(1:6,x$r)],
+                           legend = c(paste("r = ", 1:5, sep = ""),
+                                      "...",
+                                      paste("r = ", x$r, sep = ""))
+          )
         }
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
 
       }
+
 
       if (whatPlot == 5){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
@@ -135,6 +137,19 @@ plot.havok <- function(x, what = "interactive", ...) {
         graphics::segments(utils::head(x$Vr[,1], -1), utils::head(x$Vr[,2], -1), x$Vr[,1][-1], x$Vr[,2][-1], ifelse(havForce$active==1,"red","black"))
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
+
+      if (whatPlot == 7){
+        graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
+        graphics::plot(x$havokSS$t, x$havokSS$y[1,], type = "l", xlab = "Time", ylab = "y", ...)
+        graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
+      }
+
+      if (whatPlot == 8){
+        graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
+        graphics::plot(x$havokSS$y[1,], x$havokSS$y[2,], type = "l", xlab = "y1", ylab = "y2", ...)
+        graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
+      }
+
 
     }
   }
@@ -192,7 +207,7 @@ plot.havok <- function(x, what = "interactive", ...) {
 
   }
 
-  if (what == "embedded"){
+  if (what == "Vembedded"){
 
     graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
 
@@ -203,6 +218,18 @@ plot.havok <- function(x, what = "interactive", ...) {
     graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
     graphics::segments(utils::head(x$Vr[,1], -1), utils::head(x$Vr[,2], -1), x$Vr[,1][-1], x$Vr[,2][-1], ifelse(havForce$active==1,"red","black"))
 
+  }
+
+  if (what == "SSmod"){
+    graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
+    graphics::plot(x$havokSS$t, x$havokSS$y[1,], type = "l", xlab = "Time", ylab = "y", ...)
+    graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
+  }
+
+  if (what == "SSembedded"){
+    graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
+    graphics::plot(x$havokSS$y[1,], x$havokSS$y[2,], type = "l", xlab = "y1", ylab = "y2", ...)
+    graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
   }
 
 
