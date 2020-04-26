@@ -33,6 +33,8 @@ havok(
 
 \item{rset}{An integer; specific number of singular vectors to include.}
 
+\item{rout}{An integer or vector of integers; excludes coulmns of singular values from analysis.}
+
 \item{polyOrder}{An integer from 0 to 5 indicating the highest degree of polynomials
 included in the matrix of candidate functions.}
 
