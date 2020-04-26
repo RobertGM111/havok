@@ -12,6 +12,7 @@ havok(
   center = TRUE,
   rmax = 15,
   rset = NA,
+  rout = NA,
   polyOrder = 1,
   useSine = FALSE,
   discrete = FALSE
@@ -54,7 +55,6 @@ An object of class 'havok' with the following components: \itemize{
 \item{\code{U} - }{The U matrix of the SVD of the Hankel matrix of the time series.}
 \item{\code{sigs} - }{Values of the diagonal of the \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}}
 \item{\code{V} - }{The V matrix of the SVD of the Hankel matrix of the time series.}
-\item{\code{dt} - }{ime-lag between two subsequent time series measurements.}
 }
 \description{
 Data-driven decomposition of chaotic time series into an intermittently
