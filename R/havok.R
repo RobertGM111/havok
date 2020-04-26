@@ -12,6 +12,7 @@
 #' @param center Logical; Should \code{xdat} be centered around 0?
 #' @param rmax An integer; maximum number of singular vectors to include.
 #' @param rset An integer; specific number of singular vectors to include.
+#' @param rout An integer or vector of integers; excludes coulmns of singular values from analysis.
 #' @param polyOrder An integer from 0 to 5 indicating the highest degree of polynomials
 #' included in the matrix of candidate functions.
 #' @param useSine A logical value indicating whether sine and cosine functions
@@ -216,7 +217,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
                           "stackmax",
                           "lambda",
                           "center",
-                         "rmax",
+                          "rmax",
                           "rset",
                           "rout",
                           "polyOrder",
