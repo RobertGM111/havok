@@ -22,6 +22,7 @@
 #' @param discrete Logical; Is the underlying system discrete?
 #' @return An object of class 'havok' with the following components: \itemize{
 #' \item{\code{havokSS} - }{A HAVOK analysis generated state space model with its time history.}
+#' \item{\code{params} - }{A matrix of parameter values used for this function.}
 #' \item{\code{dVrdt} - }{A matrix of first order derivatives of the first r columns of the V matrix with respect to time.}
 #' \item{\code{r} - }{Estimated optimal number singular vectors to include into analysis up to \code{rmax}.}
 #' \item{\code{Vr} - }{The first r columns of the V matrix of the SVD of the Hankel matrix of \code{xdat}.}
