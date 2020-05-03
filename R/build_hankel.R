@@ -15,7 +15,7 @@ build_hankel <- function(x, stackmax){
   H <- matrix(NA, nrow = stackmax, ncol = length(x) - stackmax)
 
   for (k in 1:stackmax) {
-    H[k,] <- x[k:(length(x) - stackmax - 1 + k)]
+    H[k,] <- x[k:(length(x) - stackmax + k)]
   }
 
   return(H)
