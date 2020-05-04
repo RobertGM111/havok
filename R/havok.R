@@ -128,7 +128,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
 
     if (devMethod == "GLLA"){
 
-      dV <- matrix(NA, nrow = nrow(V) - (gllaEmbed - 1), ncol = ncol(V))
+      dV <- matrix(NA, nrow = nrow(V) - (gllaEmbed - 1), ncol = r)
       devList <- compute_derivative(V, dt, devMethod = "GLLA",
                                     gllaEmbed = gllaEmbed,
                                     gllaTau = 1,
@@ -136,7 +136,6 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
       for (i in 1:r){
         dV[,i] <- devList[[i]][,2]
       }
-      dV <- dV[,1:r]
 
       x <- V[ceiling(gllaEmbed/2):(nrow(V) - floor(gllaEmbed/2)), 1:r]
       dx <- dV
