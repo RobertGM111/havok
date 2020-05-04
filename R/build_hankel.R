@@ -12,7 +12,7 @@
 #' @export
 build_hankel <- function(x, stackmax){
 
-  H <- matrix(NA, nrow = stackmax, ncol = length(x) - stackmax)
+  H <- matrix(NA, nrow = stackmax, ncol = length(x) - stackmax + 1)
 
   for (k in 1:stackmax) {
     H[k,] <- x[k:(length(x) - stackmax + k)]
