@@ -20,6 +20,10 @@
 #' If TRUE, candidate function matrix is augmented with sine and cosine functions
 #' of integer multiples 1 through 10 of all the variables in \code{yIn}.
 #' @param discrete Logical; Is the underlying system discrete?
+#' @param devMethod A character string; Type of derivative estimation method to be used. Must be one of: \itemize{
+#' \item{\code{"FOCD"} - Fourth order cental difference.}}
+#' \item{\code{"GLLA"} - Generalized local linear approximation.}}
+#' @param gllaEmbed NEED DESCRIPTION, LOSE gllaEmbed - 1 POINTS
 #' @return An object of class 'havok' with the following components: \itemize{
 #' \item{\code{havokSS} - }{A HAVOK analysis generated state space model with its time history.}
 #' \item{\code{params} - }{A matrix of parameter values used for this function.}
@@ -80,7 +84,9 @@
 
 #' @export
 havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
-                  rmax = 15, rset = NA, rout = NA, polyOrder = 1, useSine = FALSE, discrete = FALSE) {
+                  rmax = 15, rset = NA, rout = NA, polyOrder = 1, useSine = FALSE,
+                  discrete = FALSE, devMethod = "FOCD",
+                  gllaEmbed = NA) {
 
   if (center == TRUE){
     xdat <- xdat - mean(xdat)
@@ -119,10 +125,33 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
   }
 
   if (discrete == FALSE){
-    dV <- compute_derivative(x = V, dt = dt, r = r)
 
-    x <- V[3:(nrow(V) - 3), 1:r]
-    dx <- dV
+    if (devMethod == "GLLA"){
+
+      dV <- matrix(NA, nrow = nrow(V) - (gllaEmbed - 1), ncol = ncol(V))
+      devList <- compute_derivative(V, dt, devMethod = "GLLA",
+                                    gllaEmbed = gllaEmbed,
+                                    gllaTau = 1,
+                                    gllaOrder = 1)
+      for (i in 1:r){
+        dV[,i] <- devList[[i]][,2]
+      }
+      dV <- dV[,1:r]
+
+      x <- V[ceiling(gllaEmbed/2):(nrow(V) - floor(gllaEmbed/2)), 1:r]
+      dx <- dV
+
+    }
+
+    if (devMethod == "FOCD"){
+      dV <- compute_derivative(x = V, dt = dt, r = r, devMethod = "FOCD")
+      x <- V[3:(nrow(V) - 3), 1:r]
+      dx <- dV
+    }
+
+
+
+
 
     Theta <- pool_data(x, r, polyOrder = polyOrder, useSine)
 
