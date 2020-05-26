@@ -149,9 +149,6 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
     }
 
 
-
-
-
     Theta <- pool_data(x, r, polyOrder = polyOrder, useSine)
 
     normTheta <- rep(NA, dim(Theta)[2])
@@ -227,7 +224,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
     L <- 1:nrow(x)
 
     sys <- control::ss(A, B, pracma::eye(r-1), 0*B, dt)
-    HAVOK <- control::lsim(sys, x[L,r], dt*(L-1), x[1, 1:r-1])
+    HAVOK <- control::lsim(sys, x[L,r], dt*(L-1), x[1, 1:(r-1)])
 
     params <- matrix(c(dt,
                        stackmax,
