@@ -23,7 +23,7 @@
 #' @param devMethod A character string; Type of derivative estimation method to be used. Must be one of: \itemize{
 #' \item{\code{"FOCD"} - Fourth order cental difference.}}
 #' \item{\code{"GLLA"} - Generalized local linear approximation.}}
-#' @param gllaEmbed NEED DESC LOSE gllaEmbed - 1 POINTS
+#' @param gllaEmbed NEED DESCRIPTION, LOSE gllaEmbed - 1 POINTS
 #' @return An object of class 'havok' with the following components: \itemize{
 #' \item{\code{havokSS} - }{A HAVOK analysis generated state space model with its time history.}
 #' \item{\code{params} - }{A matrix of parameter values used for this function.}
