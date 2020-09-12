@@ -12,7 +12,7 @@
 #' @param center Logical; Should \code{xdat} be centered around 0?
 #' @param rmax An integer; maximum number of singular vectors to include.
 #' @param rset An integer; specific number of singular vectors to include.
-#' @param rout An integer or vector of integers; excludes coulmns of singular values from analysis.
+#' @param rout An integer or vector of integers; excludes columns of singular values from analysis.
 #' @param polyOrder An integer from 0 to 5 indicating the highest degree of polynomials
 #' included in the matrix of candidate functions.
 #' @param useSine A logical value indicating whether sine and cosine functions
@@ -21,7 +21,7 @@
 #' of integer multiples 1 through 10 of all the variables in \code{yIn}.
 #' @param discrete Logical; Is the underlying system discrete?
 #' @param devMethod A character string; Type of derivative estimation method to be used. Must be one of: \itemize{
-#' \item{\code{"FOCD"} - Fourth order cental difference.}}
+#' \item{\code{"FOCD"} - Fourth order central difference.}}
 #' \item{\code{"GLLA"} - Generalized local linear approximation.}}
 #' @param gllaEmbed NEED DESC LOSE gllaEmbed - 1 POINTS
 #' @return An object of class 'havok' with the following components: \itemize{
@@ -34,12 +34,12 @@
 #' \item{\code{normTheta} - }{Normalized matrix of candidate functions obtained from \code{\link{pool_data}}.}
 #' \item{\code{Xi} - }{A matrix of sparse coefficients obtained from \code{\link{sparsify_dynamics}}.}
 #' \item{\code{U} - }{The U matrix of the SVD of the Hankel matrix of the time series.}
-#' \item{\code{sigs} - }{Values of the diagonal of the \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}}
-#' \item{\code{V} - }{The V matrix of the SVD of the Hankel matrix of the time series.}
+#' \item{\code{sigs} - }{Values of the diagonal of the \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}
+#' \item{\code{V} - }{The V matrix of the SVD of the Hankel matrix of the time series.}}
 #' @references S. L. Brunton, B. W. Brunton, J. L. Proctor, E. Kaiser, and J. N. Kutz,
 #' "Chaos as an intermittently forced linear system," Nature Communications, 8(19):1-9, 2017.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'#Lorenz Attractor
 #'#Generate Data
 #'##Set Lorenz Parameters
