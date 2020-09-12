@@ -13,7 +13,7 @@
 #' @references Gavish, M., & Donoho, D. L. (2014). The optimal hard threshold for singular
 #' values is 4/sqrt(3). IEEE Transactions on Information Theory, 60(8), 5040-5053.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Usage in known noise level:
 #' # Given an m-by-n matrix \code{Y} known to be low rank and observed in white noise
 #' # with mean zero and known variance \code{sigma^2}, form a denoised matrix \code{Xhat} by:

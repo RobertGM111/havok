@@ -7,7 +7,7 @@
 #' to one standard deviation of the forcing term.
 #' @return  A list of forcing values with their corresponding activity status.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' hav <- havok(xdat = xdat, dt = dt)
 #' active_forcing(hav)
 #' }

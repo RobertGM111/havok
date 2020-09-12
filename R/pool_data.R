@@ -17,7 +17,7 @@
 #' governing equations from data by sparse identification of nonlinear dynamical
 #' systems. Proceedings of the National Academy of Sciences, 113(15), 3932-3937.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' pool_data(yIn, nVars, polyOrder, useSine)
 #' pool_data(yIn, 15, 5, TRUE)
 #' pool_data(yIn, 3, 1, 0)

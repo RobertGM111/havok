@@ -5,7 +5,7 @@
 #' @param stackmax An integer; the number of shift-stacked rows.
 #' @return A Hankel matrix of \code{x}.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' build_hankel(x = xdat, stackmax = 15)
 #' }
 ###################################

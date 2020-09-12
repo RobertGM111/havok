@@ -17,18 +17,11 @@
 Generic plotting function for object of class ("havok")
 }
 \details{
-Arguments for \code{what} parameter:\itemize{
-\item{\code{"interactive"} - }{An interactive plotting function.}
-\item{\code{"reconstruction"} - }{Reconstruction of the major component of a time-series.}
-\item{\code{"forcing"} - }{Forcing vector derived from HAVOK.}
-\item{\code{"both"} - }{A combination of 'reconstruction' and 'forcing'.}
-\item{\code{"U-modes"} - }{U modes of the reconstructed time series.}
-\item{\code{"embedded"} - }{A 2D reconstruction of the attractor.}
-\item{\code{"nonlinear"} - }{A 2D reconstruction of the attractor with nonlinear regions colored red.}}
+
 }
 \examples{
 
-\donttest{
+\dontrun{
 #Generate Data
 ##Set Lorenz Parameters
 parameters <- c(s = 10, r = 28, b = 8/3)

@@ -15,7 +15,10 @@ havok(
   rout = NA,
   polyOrder = 1,
   useSine = FALSE,
-  discrete = FALSE
+  discrete = FALSE,
+  devMethod = "FOCD",
+  gllaEmbed = NA,
+  flipV = TRUE
 )
 }
 \arguments{
@@ -33,7 +36,7 @@ havok(
 
 \item{rset}{An integer; specific number of singular vectors to include.}
 
-\item{rout}{An integer or vector of integers; excludes coulmns of singular values from analysis.}
+\item{rout}{An integer or vector of integers; excludes columns of singular values from analysis.}
 
 \item{polyOrder}{An integer from 0 to 5 indicating the highest degree of polynomials
 included in the matrix of candidate functions.}
@@ -44,10 +47,13 @@ If TRUE, candidate function matrix is augmented with sine and cosine functions
 of integer multiples 1 through 10 of all the variables in \code{yIn}.}
 
 \item{discrete}{Logical; Is the underlying system discrete?}
+
+\item{gllaEmbed}{NEED DESC LOSE gllaEmbed - 1 POINTS}
 }
 \value{
 An object of class 'havok' with the following components: \itemize{
 \item{\code{havokSS} - }{A HAVOK analysis generated state space model with its time history.}
+\item{\code{params} - }{A matrix of parameter values used for this function.}
 \item{\code{dVrdt} - }{A matrix of first order derivatives of the first r columns of the V matrix with respect to time.}
 \item{\code{r} - }{Estimated optimal number singular vectors to include into analysis up to \code{rmax}.}
 \item{\code{Vr} - }{The first r columns of the V matrix of the SVD of the Hankel matrix of \code{xdat}.}
@@ -66,7 +72,7 @@ low-energy delay coordinates. Forcing activity demarcates coherent phase space r
 where the dynamics are approximately linear from those that are strongly nonlinear.
 }
 \examples{
-\donttest{
+\dontrun{
 #Lorenz Attractor
 #Generate Data
 ##Set Lorenz Parameters

@@ -20,7 +20,7 @@ This function uses threshold to determine when forcing
 is active in a fitted "havok" object.
 }
 \examples{
-\donttest{
+\dontrun{
 hav <- havok(xdat = xdat, dt = dt)
 active_forcing(hav)
 }

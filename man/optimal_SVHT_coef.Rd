@@ -24,7 +24,7 @@ when noise level is known or unknown. Recreation of MATLAB code by Matan Gavish 
 David Donoho.
 }
 \examples{
-\donttest{
+\dontrun{
 # Usage in known noise level:
 # Given an m-by-n matrix \code{Y} known to be low rank and observed in white noise
 # with mean zero and known variance \code{sigma^2}, form a denoised matrix \code{Xhat} by:

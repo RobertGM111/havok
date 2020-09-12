@@ -29,7 +29,7 @@ governing equations from data: Sparse identification of nonlinear dynamical
 systems" (Brunton, Proctor, & Kutz, 2016).
 }
 \examples{
-\donttest{
+\dontrun{
 pool_data(yIn, nVars, polyOrder, useSine)
 pool_data(yIn, 15, 5, TRUE)
 pool_data(yIn, 3, 1, 0)

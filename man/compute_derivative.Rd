@@ -4,7 +4,15 @@
 \alias{compute_derivative}
 \title{Compute derivative using fourth order central difference}
 \usage{
-compute_derivative(x, dt, r = min(dim(as.matrix(x))))
+compute_derivative(
+  x,
+  dt,
+  r = min(dim(as.matrix(x))),
+  gllaEmbed = 3,
+  gllaTau = 1,
+  gllaOrder = 1,
+  devMethod = "FOCD"
+)
 }
 \arguments{
 \item{x}{A vector of measurements over time.}
@@ -12,6 +20,14 @@ compute_derivative(x, dt, r = min(dim(as.matrix(x))))
 \item{dt}{A number representing the change in time between successive measurements.}
 
 \item{r}{A number representing the number of time series in x used to calculate \code{dXdt}.}
+
+\item{gllaEmbed}{NEED DESCRIPTION}
+
+\item{gllaTau}{NEED DESCRIPTION}
+
+\item{gllaOrder}{NEED DESCRIPTION}
+
+\item{devMethod}{NEED DESCRIPTION - either "FOCD" or "GLLA"}
 }
 \value{
 \code{dXdt - } A vector or matrix of first order derivatives of the variables of interest with respect to time.
@@ -20,7 +36,7 @@ compute_derivative(x, dt, r = min(dim(as.matrix(x))))
 Estimates the derivative of a time series using fourth order central difference.
 }
 \examples{
-\donttest{
+\dontrun{
 #Generate Data
 ##Set Lorenz Parameters
 parameters <- c(s = 10, r = 28, b = 8/3)

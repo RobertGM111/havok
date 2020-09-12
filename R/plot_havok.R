@@ -17,7 +17,7 @@
 #' \item{\code{"SSembedded"} - }{A 2D reconstruction of the attractor based a HAVOK state space model.}}
 #' @examples
 #'
-#' \donttest{
+#' \dontrun{
 #'#Generate Data
 #'##Set Lorenz Parameters
 #'parameters <- c(s = 10, r = 28, b = 8/3)

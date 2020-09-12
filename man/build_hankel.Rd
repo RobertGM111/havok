@@ -18,7 +18,7 @@ A Hankel matrix of \code{x}.
 Create a Hankel matrix from a vector of measurements over time.
 }
 \examples{
-\donttest{
+\dontrun{
 build_hankel(x = xdat, stackmax = 15)
 }
 }

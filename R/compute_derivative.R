@@ -10,7 +10,7 @@
 #' @param devMethod NEED DESCRIPTION - either "FOCD" or "GLLA"
 #' @return \code{dXdt - } A vector or matrix of first order derivatives of the variables of interest with respect to time.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'#Generate Data
 #'##Set Lorenz Parameters
 #'parameters <- c(s = 10, r = 28, b = 8/3)

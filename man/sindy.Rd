@@ -42,7 +42,7 @@ as shown in the SINDy algorithm in "Discovering governing equations from data:
 Sparse identification of nonlinear dynamical systems" (Brunton, Proctor, & Kutz, 2016).
 }
 \examples{
-\donttest{
+\dontrun{
 sparsify_dynamics(Theta, dXdt, lambda, n)
 sparsify_dynamics(Theta, dXdt, 0.1, 10)
 sparsify_dynamics(pool_data(yIn, 15, 5, TRUE), dXdt, 0, 15)
