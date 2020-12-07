@@ -21,7 +21,16 @@ is active in a fitted "havok" object.
 }
 \examples{
 \dontrun{
-hav <- havok(xdat = xdat, dt = dt)
+data(ECG_measurements)
+
+xdat <- ECG_measurements[,"channel1"]
+dt <- ECG_measurements[2,"time"] - ECG_measurements[1,"time"]
+
+stackmax <- 25
+rmax <- 5
+lambda <- .001
+
+hav <- havok(xdat = xdat, dt = dt, stackmax = stackmax, lambda = lambda, rmax = rmax)
 active_forcing(hav)
 }
 }
