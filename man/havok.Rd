@@ -61,8 +61,8 @@ An object of class 'havok' with the following components: \itemize{
 \item{\code{normTheta} - }{Normalized matrix of candidate functions obtained from \code{\link{pool_data}}.}
 \item{\code{Xi} - }{A matrix of sparse coefficients obtained from \code{\link{sparsify_dynamics}}.}
 \item{\code{U} - }{The U matrix of the SVD of the Hankel matrix of the time series.}
-\item{\code{sigs} - }{Values of the diagonal of the \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}}
-\item{\code{V} - }{The V matrix of the SVD of the Hankel matrix of the time series.}
+\item{\code{sigs} - }{Values of the diagonal of the \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}
+\item{\code{V} - }{The V matrix of the SVD of the Hankel matrix of the time series.}}
 }
 \description{
 Data-driven decomposition of chaotic time series into an intermittently
