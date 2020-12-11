@@ -8,7 +8,6 @@
 #' to one standard deviation of the forcing term.
 #' @return  A list of forcing values with their corresponding activity status.
 #' @examples
-#' \dontrun{
 #'data(ECG_measurements)
 #'
 #'xdat <- ECG_measurements[,"channel1"]
@@ -19,11 +18,9 @@
 #'lambda <- .001
 #'
 #'hav <- havok(xdat = xdat, dt = dt, stackmax = stackmax, lambda = lambda, rmax = rmax)
-#'active_forcing(hav)
-#' }
+#'active_forcing(x = hav)
 ###################################
 #' @export
-
 
 active_forcing <- function(x, thresh = stats::sd(x$Vr[,x$r])){
   if (class(x) != "havok"){
@@ -39,8 +36,6 @@ active_forcing <- function(x, thresh = stats::sd(x$Vr[,x$r])){
   return(res)
 }
 
-
-
 # Copyright 2020 Robert Glenn Moulder Jr. & Elena Martynova
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -54,4 +49,3 @@ active_forcing <- function(x, thresh = stats::sd(x$Vr[,x$r])){
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
