@@ -20,7 +20,6 @@ This function uses threshold to determine when forcing
 is active in a fitted "havok" object.
 }
 \examples{
-\dontrun{
 data(ECG_measurements)
 
 xdat <- ECG_measurements[,"channel1"]
@@ -31,6 +30,5 @@ rmax <- 5
 lambda <- .001
 
 hav <- havok(xdat = xdat, dt = dt, stackmax = stackmax, lambda = lambda, rmax = rmax)
-active_forcing(hav)
-}
+active_forcing(x = hav)
 }

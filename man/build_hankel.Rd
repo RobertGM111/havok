@@ -12,13 +12,13 @@ build_hankel(x, stackmax)
 \item{stackmax}{An integer; the number of shift-stacked rows.}
 }
 \value{
-A Hankel matrix of \code{x}.
+A Hankel matrix of \code{x} with \code{stackmax} rows.
 }
 \description{
 Create a Hankel matrix from a vector of measurements over time.
 }
 \examples{
-\dontrun{
-build_hankel(x = xdat, stackmax = 15)
-}
+data(ECG_measurements)
+xdat <- ECG_measurements[,"channel1"]
+build_hankel(x = xdat, stackmax = 25)
 }
