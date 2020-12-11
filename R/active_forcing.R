@@ -1,9 +1,9 @@
-#' Determine when forcing is active for an object of class "havok"
+#' Determine when forcing is active for an object of class \code{havok}.
 #'
-#' @description This function uses threshold to determine when forcing
-#' is active in a fitted "havok" object.
+#' @description This function uses a threshold to determine when forcing
+#' is active in a fitted \code{havok} object.
 #' @usage active_forcing(x, thresh = stats::sd(x$Vr[, x$r]))
-#' @param x An object of class "havok".
+#' @param x An object of class \code{havok}.
 #' @param thresh A cutoff value for determining when forcing is active. Defaults
 #' to one standard deviation of the forcing term.
 #' @return  A list of forcing values with their corresponding activity status.
