@@ -3,13 +3,14 @@
 #' @description Create a Hankel matrix from a vector of measurements over time.
 #' @param x A vector of measurements over time.
 #' @param stackmax An integer; the number of shift-stacked rows.
-#' @return A Hankel matrix of \code{x}.
+#' @return A Hankel matrix of \code{x} with \code{stackmax} rows.
 #' @examples
-#' \dontrun{
-#' build_hankel(x = xdat, stackmax = 15)
-#' }
+#' data(ECG_measurements)
+#' xdat <- ECG_measurements[,"channel1"]
+#' build_hankel(x = xdat, stackmax = 25)
 ###################################
 #' @export
+
 build_hankel <- function(x, stackmax){
 
   H <- matrix(NA, nrow = stackmax, ncol = length(x) - stackmax + 1)
