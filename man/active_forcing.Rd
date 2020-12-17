@@ -2,12 +2,12 @@
 % Please edit documentation in R/active_forcing.R
 \name{active_forcing}
 \alias{active_forcing}
-\title{Determine when forcing is active for an object of class "havok"}
+\title{Determine when forcing is active for an object of class \code{havok}.}
 \usage{
 active_forcing(x, thresh = stats::sd(x$Vr[, x$r]))
 }
 \arguments{
-\item{x}{An object of class "havok".}
+\item{x}{An object of class \code{havok}.}
 
 \item{thresh}{A cutoff value for determining when forcing is active. Defaults
 to one standard deviation of the forcing term.}
@@ -16,8 +16,8 @@ to one standard deviation of the forcing term.}
 A list of forcing values with their corresponding activity status.
 }
 \description{
-This function uses threshold to determine when forcing
-is active in a fitted "havok" object.
+This function uses a threshold to determine when forcing
+is active in a fitted \code{havok} object.
 }
 \examples{
 data(ECG_measurements)
