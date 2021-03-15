@@ -1,65 +1,45 @@
-#' Dynamic Mode Decomposition (DMD)
+#' Perform Dynamic Mode Decomposition (DMD) on a matrix of snapshots of a system.
 #'
-#' @description DMD Description
-#' @param x A matrix of snapshots
-#' @param y A matrix of snapshot paired to \code{x}
-#' @param r An integer; specific number of singular vectors to include.
-#' @param dt A numeric value indicating the time-lag between two subsequent time series measurements.
+#' @description Dynamic mode composition (DMD) is a method for approximating the eigenvalue and eigenvectors of
+#'  the Koopman operator of a system. That is, DMD yields the eigendecomposition of the linear map of a system
+#'  from time \eqn{t} to time \eqn{t+1}.
+#' @param x A matrix of snapshots of a system.
+#' @param y A matrix of snapshot paired to \code{x}.
+#' @param r An integer; the specific number of singular vectors to include.
+#' @param dt Numeric; the time-lag between two subsequent time series measurements.
 #' @return An object of class 'dmd' with the following components: \itemize{
-#' \item{\code{dmdResult} - }{A matrix representing the DMD recreation of \code{x} or \code{xy} if paired.}
-#' \item{\code{timeDynamics} - }{A matrix of parameter values used for this function.}
-#' \item{\code{dmdModes} - }{A matrix of first order derivatives of the first r columns of the V matrix with respect to time.}
-#' \item{\code{dmdAmplitudes} - }{Estimated optimal number singular vectors to include into analysis up to \code{rmax}.}
-#' \item{\code{dtEigen} - }{The first r columns of the V matrix of the SVD of the Hankel matrix of \code{xdat}.}
-#' \item{\code{ctEigen} - }{HAVOK model represented in state-space form.}
-#' @references Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2016). Discovering
-#' governing equations from data by sparse identification of nonlinear dynamical
-#' systems. Proceedings of the National Academy of Sciences, 113(15), 3932-3937.
+#' \item{\code{dmdResult} - }{TBD}
+#' \item{\code{timeDynamics} - }{TBD}
+#' \item{\code{dmdModes} - }{TBD}
+#' \item{\code{dmdAmplitudes} - }{TBD}
+#' \item{\code{dtEigen} - }{TBD}
+#' \item{\code{ctEigen} - }{TBD}}
+#' @references Kutz, J. N., Brunton, S. L., Brunton, B. W., & Proctor, J. L. (2016).
+#' Dynamic mode decomposition: data-driven modeling of complex systems.
+#' Society for Industrial and Applied Mathematics.
 #' @examples
-#' \dontrun{
-#' sparsify_dynamics(Theta, dXdt, lambda, n)
-#' sparsify_dynamics(Theta, dXdt, 0.1, 10)
-#' sparsify_dynamics(pool_data(yIn, 15, 5, TRUE), dXdt, 0, 15)
-#' }
+#'library(pracma)
+#'
+#'# Generate data
+#'x <- seq(-5, 5, length.out = 128)
+#'t <- seq(0, 4*pi, length.out = 256)
+#'
+#' grids <- meshgrid(x, t)
+#'
+#' # First periodic function
+#' f1xt <- t(sech(grids$X + 3)*exp(2.3i*grids$Y))
+#'
+#' # Second periodic function
+#' f2xt <- t(2*sech(grids$X)*tanh(grids$X)*exp(2.8i*grids$Y))
+#'
+#' # Observed values
+#' fxt <- f1xt + f2xt
+#'
+#' dmd(fxt, r = 2, dt = 1)
 ###################################
 
 ## S3 method for class "dmd"
 #' @export
-mldivide <- function (A, B, pinv = TRUE) {
-  stopifnot(is.numeric(A) || is.complex(A), is.numeric(B) ||
-              is.complex(B))
-  if (is.vector(A))
-    A <- as.matrix(A)
-  if (is.vector(B))
-    B <- as.matrix(B)
-  if (nrow(A) != nrow(B))
-    stop("Matrices 'A' and 'B' must have the same number of rows.")
-  if (pinv) {
-    pinv(t(A) %*% A) %*% t(A) %*% B
-  }
-  else {
-    qr.solve(A, B)
-  }
-}
-
-pinv <- function (A, tol = .Machine$double.eps^(2/3)) {
-  stopifnot(is.numeric(A) || is.complex(A), length(dim(A)) == 2, is.matrix(A))
-
-  s <- svd(A)
-
-  p <- ( s$d > max(tol * s$d[1], 0) )
-  if (all(p)) {
-    mp <- s$v %*% (1/s$d * t(s$u))
-  } else if (any(p)) {
-    mp <- s$v[, p, drop=FALSE] %*% (1/s$d[p] * t(s$u[, p, drop=FALSE]))
-  } else {
-    mp <- matrix(0, nrow=ncol(A), ncol=nrow(A))
-  }
-
-  return(mp)
-}
-
-
 
 dmd <- function(x, y = NULL, r, dt) {
 
@@ -94,7 +74,24 @@ dmd <- function(x, y = NULL, r, dt) {
 
   Phi <- Y %*% Vr %*% sigrInv %*% eigenAtilde$vectors
 
-  b <- mldivide(Phi, X[ ,1], pinv = TRUE)
+  svdPhi <- svd(t(Phi) %*% Phi)
+
+  isTol <- svdPhi$d > max(.Machine$double.eps^(2/3) * svdPhi$d[1], 0)
+
+  if (all(isTol)) {
+
+    invRes <- svdPhi$v %*% (1/svdPhi$d * t(svdPhi$u))
+
+  } else if (any(isTol)) {
+
+    invRes  <- svdPhi$v[, isTol, drop=FALSE] %*% (1/svdPhi$d[isTol] * t(svdPhi$u[, isTol, drop=FALSE]))
+
+  } else {
+
+    invRes  <- matrix(0, nrow=ncol(t(Phi) %*% Phi), ncol=nrow(t(Phi) %*% Phi))
+  }
+
+  b <- invRes %*% t(Phi) %*% as.matrix(X[ ,1])
 
   xCols <- dim(X)[2]
   timeDynamics <- matrix(rep(1:xCols, r), nrow = r, ncol = xCols, byrow = TRUE) * dt
