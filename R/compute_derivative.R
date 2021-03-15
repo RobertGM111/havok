@@ -1,23 +1,25 @@
 #' Compute derivatives of a time series.
 #'
-#' @description Estimates the derivative of a time series using fourth order central difference or
-#' generalized local linear approximation.
+#' @description Estimates the derivative of a time series using numeric methods.
 #' @usage compute_derivative(x, dt, r = min(dim(as.matrix(x))),
 #'                           devMethod = c("FOCD", "GLLA"),
 #'                           gllaEmbed = NA, gllaTau = NA, gllaOrder = NA)
 #' @param x A vector or matrix of measurements over time.
-#' @param dt A number representing the change in time between successive measurements.
-#' @param r An integer representing the number of time series in \code{x} used to calculate \code{dXdt}.
+#' @param dt Numeric; the change in time between successive measurements.
+#' @param r An integer; the number of time series in \code{x} used to calculate \code{dXdt}.
 #' @param devMethod A character string. One of either \code{"FOCD"} for fourth order central difference or \code{"GLLA"} for generalized local linear approximation.
-#' @param gllaEmbed An integer representing the embedding dimension used for \code{devMethod = "GLLA"}.
-#' @param gllaTau An integer representing the time delay used for \code{devMethod = "GLLA"}.
-#' @param gllaOrder An integer representing the embedding dimension used for \code{devMethod = "GLLA"}.
+#' @param gllaEmbed An integer; t embedding dimension used for \code{devMethod = "GLLA"}.
+#' @param gllaTau An integer; the time delay used for \code{devMethod = "GLLA"}.
+#' @param gllaOrder An integer; the embedding dimension used for \code{devMethod = "GLLA"}.
 #' @return
 #' \itemize{
 #' \item If \code{devMethod = "FOCD"} - returns a vector or matrix of first order derivatives the first \code{r} columns of \code{x} with respect to time.
 #' \item If \code{devMethod = "GLLA"} - returns a matrix or list of matrices of derivatives of the first \code{r} columns of \code{x} with respect to time.
 #' Derivatives returned by \code{devMethod = "GLLA"} are up to order \code{"gllaOrder"} and include the "\eqn{0^{th}}" derivative.
 #' }
+#' @references Boker, S. M., Deboeck, P. R., Edler, C., & Keel, P. K. (2010). Generalized local linear approximation of derivatives
+#'  from time series.
+#'  In Chow S, Ferrer E, and Hsieh F, editors, Statistical methods for modeling human dynamics: An interdisciplinary dialogue.
 #' @examples
 #'data(ECG_measurements)
 #'
