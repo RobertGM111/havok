@@ -4,16 +4,19 @@
 \alias{svd_align}
 \title{Align singular vectors with majority of data vectors}
 \usage{
-svd_align(x, align = TRUE)
+svd_align(x, r = NA)
 }
 \arguments{
-\item{x}{A matrix of measurements.}
+\item{x}{A data matrix.}
+
+\item{r}{An integer; number of columns to include as a reduced rank SVD solution. Defaults to full rank.}
 }
 \value{
 \code{svd_flip} Aligned svd
 }
 \description{
-The svd algorithm is specified up to sign (+/-). This algorithm aligns the sign of the singular vectors with the data.
+Singular value decomposition is specified up to the sign (+/-) of the singular vectors.
+This algorithm attempts to align the singular vectors with the majority of vectors of the input matrix.
 }
 \examples{
 # Generate data

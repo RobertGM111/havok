@@ -1,7 +1,7 @@
 #' Align singular vectors with majority of data vectors
 #' @description Singular value decomposition is specified up to the sign (+/-) of the singular vectors.
 #' This algorithm attempts to align the singular vectors with the majority of vectors of the input matrix.
-#' @usage svd_align(x)
+#' @usage svd_align(x, r = NA)
 #' @param x A data matrix.
 #' @param r An integer; number of columns to include as a reduced rank SVD solution. Defaults to full rank.
 #' @return \code{svd_flip} Aligned svd
