@@ -9,7 +9,7 @@ active_forcing(x, thresh = stats::sd(x$Vr[, x$r]))
 \arguments{
 \item{x}{An object of class \code{havok}.}
 
-\item{thresh}{A cutoff value for determining when forcing is active. Defaults
+\item{thresh}{Numeric; A cutoff value for determining when forcing is active. Defaults
 to one standard deviation of the forcing term.}
 }
 \value{

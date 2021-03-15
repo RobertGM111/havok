@@ -4,22 +4,10 @@
 \alias{havok}
 \title{Hankel Alternative View of Koopman (HAVOK) Analysis}
 \usage{
-havok(
-  xdat,
-  dt = 1,
-  stackmax = 100,
-  lambda = 0,
-  center = TRUE,
-  rmax = 15,
-  rset = NA,
-  rout = NA,
-  polyOrder = 1,
-  useSine = FALSE,
-  discrete = FALSE,
-  devMethod = "FOCD",
-  gllaEmbed = NA,
-  flipV = TRUE
-)
+havok(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
+             rmax = 15, rset = NA, rout = NA, polyOrder = 1,
+             useSine = FALSE, discrete = FALSE, devMethod = c("FOCD", "GLLA"),
+             gllaEmbed = NA, alignSVD = TRUE)
 }
 \arguments{
 \item{xdat}{A vector of equally spaced measurements over time.}
@@ -41,14 +29,18 @@ havok(
 \item{polyOrder}{An integer from 0 to 5 indicating the highest degree of polynomials
 included in the matrix of candidate functions.}
 
-\item{useSine}{A logical value indicating whether sine and cosine functions
-of variables should be added to the library of potential candidate functions.
+\item{useSine}{Logical; Should sine and cosine functions
+of variables should be added to the library of potential candidate functions?
 If TRUE, candidate function matrix is augmented with sine and cosine functions
-of integer multiples 1 through 10 of all the variables in \code{yIn}.}
+of integer multiples 1 through 10.}
 
 \item{discrete}{Logical; Is the underlying system discrete?}
 
-\item{gllaEmbed}{NEED DESC LOSE gllaEmbed - 1 POINTS}
+\item{devMethod}{A character string. One of either \code{"FOCD"} for fourth order central difference or \code{"GLLA"} for generalized local linear approximation.}
+
+\item{gllaEmbed}{An integer representing the embedding dimension used for \code{devMethod = "GLLA"}.}
+
+\item{alignSVD}{Logical. Whether the singular vectors should be aligned with the data.}
 }
 \value{
 An object of class 'havok' with the following components: \itemize{
