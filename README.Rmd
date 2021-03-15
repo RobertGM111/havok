@@ -15,8 +15,7 @@ knitr::opts_chunk$set(
 
 # havok
 
-<!-- badges: start -->
-<!-- badges: end -->
+**NOTE: This package is in active development (beta), updates regularly, and may have bugs. Please report any bugs to the package maintainer.**
 
 This package allows for modeling of chaotic systems as intermittently forced linear systems through the use of Hankel Alternative View of Koopman (HAVOK) analysis (Brunton, Brunton, Proctor, Kaiser, & Kutz, 2017). This package has additional functionality for the SINDy algorithm (Brunton, Proctor, & Kutz, 2016).
 
@@ -44,7 +43,6 @@ Simulate data from a Lorenz attractor.
 ```{r example, eval=TRUE}
 library(havok)
 library(deSolve)
-library(plot3D)
 
 
 #Generate Data
