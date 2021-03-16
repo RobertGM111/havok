@@ -17,15 +17,15 @@
 #' @param rmax An integer; maximum number of singular vectors to include.
 #' @param rset An integer; specific number of singular vectors to include.
 #' @param rout An integer or vector of integers; excludes columns of singular values from analysis.
-#' @param polyOrder An integer from 0 to 5 indicating the highest degree of polynomials
+#' @param polyOrder An integer from 0 to 5; the highest degree of polynomials
 #' included in the matrix of candidate functions.
 #' @param useSine Logical; Should sine and cosine functions
 #' of variables should be added to the library of potential candidate functions?
 #' If TRUE, candidate function matrix is augmented with sine and cosine functions
 #' of integer multiples 1 through 10.
 #' @param discrete Logical; Is the underlying system discrete?
-#' @param devMethod A character string. One of either \code{"FOCD"} for fourth order central difference or \code{"GLLA"} for generalized local linear approximation.
-#' @param gllaEmbed An integer representing the embedding dimension used for \code{devMethod = "GLLA"}.
+#' @param devMethod A character string; One of either \code{"FOCD"} for fourth order central difference or \code{"GLLA"} for generalized local linear approximation.
+#' @param gllaEmbed An integer; the embedding dimension used for \code{devMethod = "GLLA"}.
 #' @param alignSVD Logical; Whether the singular vectors should be aligned with the data.
 #' @return An object of class 'havok' with the following components: \itemize{
 #' \item{\code{havokSS} - }{A HAVOK analysis generated state space model with its time history.}
