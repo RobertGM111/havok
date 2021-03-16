@@ -26,7 +26,7 @@ havok(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
 
 \item{rout}{An integer or vector of integers; excludes columns of singular values from analysis.}
 
-\item{polyOrder}{An integer from 0 to 5 indicating the highest degree of polynomials
+\item{polyOrder}{An integer from 0 to 5; the highest degree of polynomials
 included in the matrix of candidate functions.}
 
 \item{useSine}{Logical; Should sine and cosine functions
@@ -36,9 +36,9 @@ of integer multiples 1 through 10.}
 
 \item{discrete}{Logical; Is the underlying system discrete?}
 
-\item{devMethod}{A character string. One of either \code{"FOCD"} for fourth order central difference or \code{"GLLA"} for generalized local linear approximation.}
+\item{devMethod}{A character string; One of either \code{"FOCD"} for fourth order central difference or \code{"GLLA"} for generalized local linear approximation.}
 
-\item{gllaEmbed}{An integer representing the embedding dimension used for \code{devMethod = "GLLA"}.}
+\item{gllaEmbed}{An integer; the embedding dimension used for \code{devMethod = "GLLA"}.}
 
 \item{alignSVD}{Logical; Whether the singular vectors should be aligned with the data.}
 }
