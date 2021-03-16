@@ -238,7 +238,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
 
 
       res <- list(HAVOK, params, dx, r, x, sys, Theta, Xi, U, sigs, V)
-      names(res) <- c("havokSS", "params", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "U", "sigs", "V")
+      names(res) <- c("havokSS", "params", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "Ur", "sigsr", "Vr")
       class(res) <- "havok"
       return(res)
 
@@ -282,7 +282,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
                           "discrete")
 
     res <- list(HAVOK, params, dx, r, x, sys, Xi, U, sigs, V)
-    names(res) <- c("havokSS", "params", "dVrdt", "r", "Vr", "sys", "Xi", "U", "sigs", "V")
+    names(res) <- c("havokSS", "params", "dVrdt", "r", "Vr", "sys", "Xi", "Ur", "sigsr", "Vr")
     class(res) <- "havok"
     return(res)
   }
