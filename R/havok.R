@@ -178,6 +178,12 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
       dx <- dV
     }
 
+    if (devMethod == "FINITE"){
+      dV <- compute_derivative(x = V, dt = dt, r = r, devMethod = "FINITE")
+      x <- V[2:nrow(V),]
+      dx <- dV
+    }
+
     # SINDy application and vector normalization
     Theta <- pool_data(x, nVars = r, polyOrder = polyOrder, useSine)
 
