@@ -201,6 +201,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
     # State-space model reconstruction
     for (k in 1:max(dim(Xi))) {
       Xi[k, ] <- Xi[k, ] / normTheta[k]
+    }
 
       A <- t(Xi[2:(r + 1), 1:(r - 1)])
       B <- A[, r]
@@ -242,7 +243,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
       class(res) <- "havok"
       return(res)
 
-    }
+
 
   } else if (discrete == TRUE) {
     # concatenate
