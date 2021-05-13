@@ -5,7 +5,7 @@
 \title{Compute derivatives of a time series.}
 \usage{
 compute_derivative(x, dt, r = min(dim(as.matrix(x))),
-                          devMethod = c("FOCD", "GLLA"),
+                          devMethod = c("FOCD", "GLLA", "FINITE"),
                           gllaEmbed = NA, gllaTau = NA, gllaOrder = NA)
 }
 \arguments{
@@ -15,7 +15,8 @@ compute_derivative(x, dt, r = min(dim(as.matrix(x))),
 
 \item{r}{An integer; the number of time series in \code{x} used to calculate \code{dXdt}.}
 
-\item{devMethod}{A character string. One of either \code{"FOCD"} for fourth order central difference or \code{"GLLA"} for generalized local linear approximation.}
+\item{devMethod}{A character string. One of either \code{"FOCD"} for fourth order central difference, \code{"GLLA"} for generalized local linear approximation,
+or \code{"FINITE"} for simple finite difference.}
 
 \item{gllaEmbed}{An integer; t embedding dimension used for \code{devMethod = "GLLA"}.}
 
@@ -28,6 +29,7 @@ compute_derivative(x, dt, r = min(dim(as.matrix(x))),
 \item If \code{devMethod = "FOCD"} - returns a vector or matrix of first order derivatives the first \code{r} columns of \code{x} with respect to time.
 \item If \code{devMethod = "GLLA"} - returns a matrix or list of matrices of derivatives of the first \code{r} columns of \code{x} with respect to time.
 Derivatives returned by \code{devMethod = "GLLA"} are up to order \code{"gllaOrder"} and include the "\eqn{0^{th}}" derivative.
+\item If \code{devMethod = "FINITE"} - returns a vector or matrix of first order derivatives the first \code{r} columns of \code{x} with respect to time.
 }
 }
 \description{
