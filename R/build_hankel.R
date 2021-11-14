@@ -2,21 +2,22 @@
 #'
 #' @description Create a Hankel matrix from a vector of measurements over time.
 #' @param x A vector of measurements over time.
-#' @param stackmax An integer; the number of shift-stacked rows.
-#' @return A Hankel matrix of \code{x} with \code{stackmax} rows.
+#' @param nrows An integer; the number of shift-stacked rows.
+#' @return A Hankel matrix of \code{x} with \code{nrows} rows.
 #' @examples
 #' data(ECG_measurements)
 #' xdat <- ECG_measurements[,"channel1"]
-#' build_hankel(x = xdat, stackmax = 25)
+#' build_hankel(x = xdat, nrows = 25)
 ###################################
 #' @export
 
-build_hankel <- function(x, stackmax){
+build_hankel <- function(x, nrows  = round(length(x)/2)){
 
-  H <- matrix(NA, nrow = stackmax, ncol = length(x) - stackmax + 1)
 
-  for (k in 1:stackmax) {
-    H[k,] <- x[k:(length(x) - stackmax + k)]
+  H <- matrix(NA, nrow = nrows, ncol = length(x) - nrows + 1)
+
+  for (k in 1:nrows) {
+    H[k,] <- x[k:(length(x) - nrows + k)]
   }
 
   return(H)
