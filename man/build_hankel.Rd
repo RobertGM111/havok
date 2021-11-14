@@ -9,7 +9,7 @@ build_hankel(x, nrows = round(length(x)/2))
 \arguments{
 \item{x}{A vector of measurements over time.}
 
-\item{nrows}{An integer; the number of shift-stacked rows. If NA, defaults to \code{round(length(x)/2)}.}
+\item{nrows}{An integer; the number of shift-stacked rows.}
 }
 \value{
 A Hankel matrix of \code{x} with \code{nrows} rows.

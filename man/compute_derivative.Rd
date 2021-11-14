@@ -2,7 +2,7 @@
 % Please edit documentation in R/compute_derivative.R
 \name{compute_derivative}
 \alias{compute_derivative}
-\title{Compute derivatives of a time series.}
+\title{Compute numeric derivatives of a time series.}
 \usage{
 compute_derivative(x, dt, r = min(dim(as.matrix(x))),
                           devMethod = c("FOCD", "GLLA", "FINITE"),

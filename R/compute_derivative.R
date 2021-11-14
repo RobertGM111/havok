@@ -1,4 +1,4 @@
-#' Compute derivatives of a time series.
+#' Compute numeric derivatives of a time series.
 #'
 #' @description Estimates the derivative of a time series using numeric methods.
 #' @usage compute_derivative(x, dt, r = min(dim(as.matrix(x))),
