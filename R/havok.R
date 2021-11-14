@@ -108,6 +108,12 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
   # Create Hankel matrix
   H <- build_hankel(x = xdat, stackmax = stackmax)
 
+  # Perform SVD of Hankel matrix
+  USV <- svd(H)
+  U <- USV$u
+  sigs <- USV$d
+  V <- USV$v
+
   # Determine number of retained singular vectors
   if (!is.na(rmax)) {
     beta <- nrow(H) / ncol(H)
@@ -127,10 +133,9 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
     sigs <- USV$d
     V <- USV$v
   } else {
-    USV <- svd(H)
-    U <- USV$u[,1:r]
-    sigs <- USV$d[1:r]
-    V <- USV$v[,1:r]
+    U <- U[,1:r]
+    sigs <- sigs [1:r]
+    V <- V[,1:r]
   }
 
   if (!is.na(rout)) {
@@ -196,9 +201,9 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
                  ncol = r - 1)
 
     if(useSINDy == TRUE){
-    for (k in 1:(r - 1)) {
-      Xi[ , k] <- sparsify_dynamics(Theta, dx[ , k], lambda * k)
-    }
+      for (k in 1:(r - 1)) {
+        Xi[ , k] <- sparsify_dynamics(Theta, dx[ , k], lambda * k)
+      }
     } else {
       Xi <- pracma::mldivide(Theta, dx)
     }
@@ -208,45 +213,45 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
       Xi[k, ] <- Xi[k, ] / normTheta[k]
     }
 
-      A <- t(Xi[2:(r + 1), 1:(r - 1)])
-      B <- A[, r]
-      A <- A[ , 1:(r - 1)]
-      L <- 1:nrow(x)
+    A <- t(Xi[2:(r + 1), 1:(r - 1)])
+    B <- A[, r]
+    A <- A[ , 1:(r - 1)]
+    L <- 1:nrow(x)
 
-      sys <- control::ss(A, B, pracma::eye(r - 1), 0 * B)
-      HAVOK <- control::lsim(sys, x[L, r], dt * (L - 1), x[1, 1:(r - 1)])
+    sys <- control::ss(A, B, pracma::eye(r - 1), 0 * B)
+    HAVOK <- control::lsim(sys, x[L, r], dt * (L - 1), x[1, 1:(r - 1)])
 
-      params <- matrix(c(dt,
-                         stackmax,
-                         lambda,
-                         center,
-                         rmax,
-                         rset,
-                         rout,
-                         polyOrder,
-                         useSine,
-                         discrete),
-                       nrow = 10,
-                       ncol = 1)
+    params <- matrix(c(dt,
+                       stackmax,
+                       lambda,
+                       center,
+                       rmax,
+                       rset,
+                       rout,
+                       polyOrder,
+                       useSine,
+                       discrete),
+                     nrow = 10,
+                     ncol = 1)
 
-      colnames(params) <- "Values"
+    colnames(params) <- "Values"
 
-      rownames(params) <- c("dt",
-                            "stackmax",
-                            "lambda",
-                            "center",
-                            "rmax",
-                            "rset",
-                            "rout",
-                            "polyOrder",
-                            "useSine",
-                            "discrete")
+    rownames(params) <- c("dt",
+                          "stackmax",
+                          "lambda",
+                          "center",
+                          "rmax",
+                          "rset",
+                          "rout",
+                          "polyOrder",
+                          "useSine",
+                          "discrete")
 
 
-      res <- list(HAVOK, params, dx, r, x, sys, Theta, Xi, U, sigs, V)
-      names(res) <- c("havokSS", "params", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "Ur", "sigsr", "Vr")
-      class(res) <- "havok"
-      return(res)
+    res <- list(HAVOK, params, dx, r, x, sys, Theta, Xi, U, sigs, V)
+    names(res) <- c("havokSS", "params", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "Ur", "sigsr", "Vr")
+    class(res) <- "havok"
+    return(res)
 
 
 
