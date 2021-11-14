@@ -94,18 +94,11 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
 
   H <- build_hankel(x = xdat, stackmax = stackmax)
 
-  # Align and reduce rank of SVD
-  if (alignSVD == TRUE){
-    USV <- svd_align(H, r = r)
-    U <- USV$u
-    sigs <- USV$d
-    V <- USV$v
-  } else {
-    USV <- svd(H)
-    U <- USV$u[,1:r]
-    sigs <- USV$d[1:r]
-    V <- USV$v[,1:r]
-  }
+  USV <- svd(H)
+  U <- USV$u
+  sigs <- USV$d
+  V <- USV$v
+
 
   if (is.na(rmax) & is.na(rset)) {
     stop("Either 'rmax' or 'rset' must be a positive integer")
@@ -130,6 +123,19 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
   if (!is.na(rout)) {
     V <- V[,-rout]
     r <- r - length(rout)
+  }
+
+  # Align and reduce rank of SVD
+  if (alignSVD == TRUE){
+    USV <- svd_align(H, r = r)
+    U <- USV$u
+    sigs <- USV$d
+    V <- USV$v
+  } else {
+    USV <- svd(H)
+    U <-U[,1:r]
+    sigs <- sigs[1:r]
+    V <- V[,1:r]
   }
 
   if (discrete == FALSE){
