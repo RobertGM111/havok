@@ -5,8 +5,9 @@
 \title{Hankel Alternative View of Koopman (HAVOK) Analysis}
 \usage{
 havok(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
-             rmax = 15, rset = NA, rout = NA, polyOrder = 1,
-             useSine = FALSE, discrete = FALSE, devMethod = c("FOCD", "GLLA"),
+             rmax = 15, rset = NA, rout = NA,
+             useSINDy = TRUE, polyOrder = 1, useSine = FALSE,
+             discrete = FALSE, devMethod = c("FOCD", "GLLA"),
              gllaEmbed = NA, alignSVD = TRUE)
 }
 \arguments{
@@ -18,7 +19,7 @@ havok(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
 
 \item{lambda}{A numeric value; sparsification threshold.}
 
-\item{center}{Logical; Should \code{xdat} be centered around 0?}
+\item{center}{Logical; should \code{xdat} be centered around 0?}
 
 \item{rmax}{An integer; maximum number of singular vectors to include.}
 
@@ -26,15 +27,17 @@ havok(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
 
 \item{rout}{An integer or vector of integers; excludes columns of singular values from analysis.}
 
-\item{polyOrder}{An integer from 0 to 5; the highest degree of polynomials
+\item{useSINDy}{Logical; should the SINDy algorithm be used during model creation?}
+
+\item{polyOrder}{An integer from 0 to 5; if useSINDy = TRUE, the highest degree of polynomials
 included in the matrix of candidate functions.}
 
-\item{useSine}{Logical; Should sine and cosine functions
+\item{useSine}{Logical; if useSINDy = TRUE, should sine and cosine functions
 of variables should be added to the library of potential candidate functions?
 If TRUE, candidate function matrix is augmented with sine and cosine functions
 of integer multiples 1 through 10.}
 
-\item{discrete}{Logical; Is the underlying system discrete?}
+\item{discrete}{Logical; is the underlying system discrete?}
 
 \item{devMethod}{A character string; One of either \code{"FOCD"} for fourth order central difference or \code{"GLLA"} for generalized local linear approximation.}
 

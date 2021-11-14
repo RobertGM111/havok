@@ -6,24 +6,26 @@
 #' low-energy delay coordinates. Forcing activity demarcates coherent phase space regions
 #' where the dynamics are approximately linear from those that are strongly nonlinear.
 #' @usage havok(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
-#'              rmax = 15, rset = NA, rout = NA, polyOrder = 1,
-#'              useSine = FALSE, discrete = FALSE, devMethod = c("FOCD", "GLLA"),
+#'              rmax = 15, rset = NA, rout = NA,
+#'              useSINDy = TRUE, polyOrder = 1, useSine = FALSE,
+#'              discrete = FALSE, devMethod = c("FOCD", "GLLA"),
 #'              gllaEmbed = NA, alignSVD = TRUE)
 #' @param xdat A vector of equally spaced measurements over time.
 #' @param dt A numeric value indicating the time-lag between two subsequent time series measurements.
 #' @param stackmax An integer; number of shift-stacked rows.
 #' @param lambda A numeric value; sparsification threshold.
-#' @param center Logical; Should \code{xdat} be centered around 0?
+#' @param center Logical; should \code{xdat} be centered around 0?
 #' @param rmax An integer; maximum number of singular vectors to include.
 #' @param rset An integer; specific number of singular vectors to include.
 #' @param rout An integer or vector of integers; excludes columns of singular values from analysis.
-#' @param polyOrder An integer from 0 to 5; the highest degree of polynomials
+#' @param useSINDy Logical; should the SINDy algorithm be used during model creation?
+#' @param polyOrder An integer from 0 to 5; if useSINDy = TRUE, the highest degree of polynomials
 #' included in the matrix of candidate functions.
-#' @param useSine Logical; Should sine and cosine functions
+#' @param useSine Logical; if useSINDy = TRUE, should sine and cosine functions
 #' of variables should be added to the library of potential candidate functions?
 #' If TRUE, candidate function matrix is augmented with sine and cosine functions
 #' of integer multiples 1 through 10.
-#' @param discrete Logical; Is the underlying system discrete?
+#' @param discrete Logical; is the underlying system discrete?
 #' @param devMethod A character string; One of either \code{"FOCD"} for fourth order central difference or \code{"GLLA"} for generalized local linear approximation.
 #' @param gllaEmbed An integer; the embedding dimension used for \code{devMethod = "GLLA"}.
 #' @param alignSVD Logical; Whether the singular vectors should be aligned with the data.
@@ -87,7 +89,7 @@
 #' @export
 havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
                   center = TRUE, rmax = 15, rset = NA, rout = NA,
-                  polyOrder = 1, useSine = FALSE, useSINDy = TRUE,
+                  useSINDy = TRUE, polyOrder = 1, useSine = FALSE,
                   discrete = FALSE, devMethod = c("FOCD", "GLLA"),
                   gllaEmbed = NA, alignSVD = TRUE) {
 
@@ -106,7 +108,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
   }
 
   # Create Hankel matrix
-  H <- build_hankel(x = xdat, stackmax = stackmax)
+  H <- build_hankel(x = xdat, nrows = stackmax)
 
   # Perform SVD of Hankel matrix
   USV <- svd(H)
