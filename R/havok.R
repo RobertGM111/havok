@@ -86,7 +86,7 @@
 havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
                   rmax = 15, rset = NA, rout = NA, polyOrder = 1, useSine = FALSE,
                   discrete = FALSE, devMethod = "FOCD",
-                  gllaEmbed = NA, flipV = TRUE) {
+                  gllaEmbed = NA, alignSVD = TRUE) {
 
   if (center == TRUE){
     xdat <- xdat - mean(xdat)
@@ -94,13 +94,17 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
 
   H <- build_hankel(x = xdat, stackmax = stackmax)
 
-  USV <- svd(H)
-  U <- USV$u
-  sigs <- USV$d
-  V <- USV$v
-
-  if(flipV == TRUE) {
-    V <- V*-1
+  # Align and reduce rank of SVD
+  if (alignSVD == TRUE){
+    USV <- svd_align(H, r = r)
+    U <- USV$u
+    sigs <- USV$d
+    V <- USV$v
+  } else {
+    USV <- svd(H)
+    U <- USV$u[,1:r]
+    sigs <- USV$d[1:r]
+    V <- USV$v[,1:r]
   }
 
   if (is.na(rmax) & is.na(rset)) {
