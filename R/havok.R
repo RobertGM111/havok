@@ -87,7 +87,7 @@
 #' @export
 havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
                   center = TRUE, rmax = 15, rset = NA, rout = NA,
-                  polyOrder = 1, useSine = FALSE,
+                  polyOrder = 1, useSine = FALSE, useSINDy = TRUE,
                   discrete = FALSE, devMethod = c("FOCD", "GLLA"),
                   gllaEmbed = NA, alignSVD = TRUE) {
 
@@ -108,12 +108,6 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
   # Create Hankel matrix
   H <- build_hankel(x = xdat, stackmax = stackmax)
 
-  # Perform SVD of Hankel matrix
-  USV <- svd(H)
-  U <- USV$u
-  sigs <- USV$d
-  V <- USV$v
-
   # Determine number of retained singular vectors
   if (!is.na(rmax)) {
     beta <- nrow(H) / ncol(H)
@@ -133,9 +127,10 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
     sigs <- USV$d
     V <- USV$v
   } else {
-    U <- U[,1:r]
-    sigs <- sigs [1:r]
-    V <- V[,1:r]
+    USV <- svd(H)
+    U <- USV$u[,1:r]
+    sigs <- USV$d[1:r]
+    V <- USV$v[,1:r]
   }
 
   if (!is.na(rout)) {
@@ -200,8 +195,12 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
                  nrow = nrow(sparsify_dynamics(Theta,dx[ , 1], lambda * 1)),
                  ncol = r - 1)
 
+    if(useSINDy == TRUE){
     for (k in 1:(r - 1)) {
       Xi[ , k] <- sparsify_dynamics(Theta, dx[ , k], lambda * k)
+    }
+    } else {
+      Xi <- pracma::mldivide(Theta, dx)
     }
 
     # State-space model reconstruction
