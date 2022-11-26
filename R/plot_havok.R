@@ -167,15 +167,15 @@ plot.havok <- function(x, what = "interactive", ...) {
   }
 
   if (what == "both") {
-     graphics::par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
+    graphics::par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
 
-     graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = NA, ylab = "V1", ...)
+    graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = NA, ylab = "V1", ...)
 
-     graphics::par(mai = c(1, 1.0, 0.1, 0.1))
+    graphics::par(mai = c(1, 1.0, 0.1, 0.1))
 
-     graphics::plot(x$havokSS$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
+    graphics::plot(x$havokSS$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
 
-     graphics::par(mfrow=c(1,1), mai = c(1.02, 0.82, 0.82, 0.42))
+    graphics::par(mfrow=c(1,1), mai = c(1.02, 0.82, 0.82, 0.42))
 
   }
 
@@ -185,15 +185,9 @@ plot.havok <- function(x, what = "interactive", ...) {
                    type = "l",
                    xaxt = "n",
                    col = grDevices::rainbow(x$r)[1],
-<<<<<<< HEAD
-                   ylim = c(min(x$U[,1:x$r]) - (.1*plotBuff), max(x$U[,1:x$r]) + (.1*plotBuff)))
-    graphics::axis(1, at = seq(0, ncol(x$U)-1, length.out = min(10, x$params["stackmax",])),
-                   labels = round(seq(0, x$params["stackmax",], length.out = min(10, x$params["stackmax",]))))
-=======
                    ylim = c(min(x$Ur[,1:x$r]) - (.1*plotBuff), max(x$Ur[,1:x$r]) + (.1*plotBuff)))
     graphics::axis(1, at = seq(1, ncol(x$Ur), length.out = 10),
                    labels = round(seq(1, max(x$havokSS$t), length.out = 10)))
->>>>>>> Development
 
     for (i in 1:x$r){
       graphics::lines(x$Ur[,i], col = grDevices::rainbow(x$r, alpha = 1/sqrt(i))[i])
@@ -201,16 +195,16 @@ plot.havok <- function(x, what = "interactive", ...) {
 
     if (x$r < 6){
       graphics::legend("topleft",
-             fill = grDevices::rainbow(x$r, alpha = 1/sqrt(1:x$r)),
-             legend = paste("r = ", 1:x$r, sep = ""))
+                       fill = grDevices::rainbow(x$r, alpha = 1/sqrt(1:x$r)),
+                       legend = paste("r = ", 1:x$r, sep = ""))
     }
 
     if (x$r >= 6){
       graphics::legend("topleft",
-             fill = grDevices::rainbow(x$r, alpha = 1/sqrt(1:x$r))[c(1:6, x$r)],
-             legend = c(paste("r = ", 1:5, sep = ""),
-                        "...",
-                        paste("r = ", x$r, sep = ""))
+                       fill = grDevices::rainbow(x$r, alpha = 1/sqrt(1:x$r))[c(1:6, x$r)],
+                       legend = c(paste("r = ", 1:5, sep = ""),
+                                  "...",
+                                  paste("r = ", x$r, sep = ""))
       )
     }
 
