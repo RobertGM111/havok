@@ -63,8 +63,8 @@ plot.havok <- function(x, what = "interactive", ...) {
     repeat {
       what <- readline("Please select a number (press esc to exit): ")
 
-      if (!what %in% 1:8){
-        stop("Please pick a number between 1 and 8")
+      if (!what %in% 1:9){
+        stop("Please pick a number between 1 and 9")
       }
 
       if (what == 1 | what == "reconstruction"){
@@ -160,6 +160,7 @@ plot.havok <- function(x, what = "interactive", ...) {
         graphics::legend("topleft", legend = c("V1", "V1_hat"), lwd = c(1,1), col = c("black", "red"))
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
+
 
     }
   }
