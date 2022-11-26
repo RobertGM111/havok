@@ -126,9 +126,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
     stop("Please only give values for 'rmax' or 'rset', not both")
   }
 
-=======
   # Determine number of retained singular vectors
->>>>>>> Development
   if (!is.na(rmax)) {
     beta <- nrow(H) / ncol(H)
     thresh <- optimal_SVHT_coef(beta, FALSE) * stats::median(sigs)
@@ -157,20 +155,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
     r <- r - length(rout)
   }
 
-<<<<<<< HEAD
-  # Align and reduce rank of SVD
-  if (alignSVD == TRUE){
-    USV <- svd_align(H, r = r)
-    U <- USV$u
-    sigs <- USV$d
-    V <- USV$v
-  } else {
-    USV <- svd(H)
-    U <-U[,1:r]
-    sigs <- sigs[1:r]
-    V <- V[,1:r]
 
-  }
 
   if (discrete == FALSE){
 
