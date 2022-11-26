@@ -100,14 +100,9 @@ plot.havok <- function(x, what = "interactive", ...) {
                        xaxt = "n",
                        col = grDevices::rainbow(x$r)[1],
                        ylim = c(min(x$U[,1:x$r]) - (.1*plotBuff), max(x$U[,1:x$r]) + (.1*plotBuff)))
-<<<<<<< HEAD
-        graphics::axis(1, at = seq(0, ncol(x$U)-1, length.out = min(10, x$params["stackmax",])),
-                       labels = round(seq(0, x$params["stackmax",], length.out = min(10, x$params["stackmax",]))))
-=======
 
         graphics::axis(1, at = seq(0, length(x$U[,1]), length.out = 10),
                        labels = round(seq(0, x$params["stackmax",], length.out = 10)*x$params["dt",], 2))
->>>>>>> Development
 
         for (i in 1:x$r){
           graphics::lines(x$U[,i], col = grDevices::rainbow(x$r, alpha = 1/sqrt(i))[i])
