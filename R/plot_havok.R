@@ -95,7 +95,7 @@ plot.havok <- function(x, what = "interactive", ...) {
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         plotBuff <- (.1 * (max(x$U[, 1:x$r]) - min(x$U[, 1:x$r])))
 
-        graphics::plot(x$U[,1], ylab = "Ur", xlab = "Time",
+        graphics::plot(x$U[,1], ylab = "U", xlab = "Time",
                        type = "l",
                        xaxt = "n",
                        col = grDevices::rainbow(x$r)[1],
@@ -180,17 +180,17 @@ plot.havok <- function(x, what = "interactive", ...) {
   }
 
   if (what == "U-modes") {
-    plotBuff <- (.1 * (max(x$Ur[, 1:x$r]) - min(x$Ur[, 1:x$r])))
-    graphics::plot(x$Ur[,1], ylab = "Ur", xlab = "Time",
+    plotBuff <- (.1 * (max(x$U[, 1:x$r]) - min(x$U[, 1:x$r])))
+    graphics::plot(x$U[,1], ylab = "U", xlab = "Time",
                    type = "l",
                    xaxt = "n",
                    col = grDevices::rainbow(x$r)[1],
-                   ylim = c(min(x$Ur[,1:x$r]) - (.1*plotBuff), max(x$Ur[,1:x$r]) + (.1*plotBuff)))
-    graphics::axis(1, at = seq(1, ncol(x$Ur), length.out = 10),
+                   ylim = c(min(x$U[,1:x$r]) - (.1*plotBuff), max(x$U[,1:x$r]) + (.1*plotBuff)))
+    graphics::axis(1, at = seq(1, ncol(x$U), length.out = 10),
                    labels = round(seq(1, max(x$havokSS$t), length.out = 10)))
 
     for (i in 1:x$r){
-      graphics::lines(x$Ur[,i], col = grDevices::rainbow(x$r, alpha = 1/sqrt(i))[i])
+      graphics::lines(x$U[,i], col = grDevices::rainbow(x$r, alpha = 1/sqrt(i))[i])
     }
 
     if (x$r < 6){
