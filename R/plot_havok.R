@@ -6,7 +6,7 @@
 #' @param ... Other calls to plot.
 #' @details Arguments for \code{what} parameter: \itemize{
 #' \item{\code{"interactive"} - }{An interactive plotting function.}
-#' \item{\code{"reconstruction"} - }{Reconstruction of the major component of a time-series.}
+#' \item{\code{"reconstruction"} - }{Scaled reconstruction of the major component of a time-series.}
 #' \item{\code{"forcing"} - }{Forcing vector derived from HAVOK.}
 #' \item{\code{"both"} - }{A combination of 'reconstruction' and 'forcing'.}
 #' \item{\code{"U-modes"} - }{U modes of the reconstructed time series.}
@@ -55,7 +55,7 @@ plot.havok <- function(x, what = "interactive", ...) {
 
     cat("--- Please select a plot type by number ---\n
         Plot Types:
-        1 - V1 Reconstruction  5 - V Embedded Attractor       9 - V1 vs. V1_hat
+        1 - V1 Reconstruction  5 - V Embedded Attractor
         2 - Forcing            6 - Strongly Nonlinear Region
         3 - Both               7 - SS Model Output
         4 - U-modes            8 - SS Embedded Attractor")
@@ -63,13 +63,15 @@ plot.havok <- function(x, what = "interactive", ...) {
     repeat {
       what <- readline("Please select a number (press esc to exit): ")
 
-      if (!what %in% 1:9){
-        stop("Please pick a number between 1 and 9")
+      if (!what %in% 1:8){
+        stop("Please pick a number between 1 and 8")
       }
 
       if (what == 1 | what == "reconstruction"){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
-        graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = "Time", ylab = "V1", ...)
+        graphics::plot(x$havokSS$t, scale(x$Vr[,1]), type = "l", xlab = "Time", ylab = "V1 vs. V1_hat", ...)
+        graphics::lines(x$havokSS$t, scale(x$havokSS$y[1,]), col = "red")
+        graphics::legend("topleft", legend = c("V1", "Predicted V1"), lwd = c(1,1), col = c("black", "red"))
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
@@ -82,7 +84,9 @@ plot.havok <- function(x, what = "interactive", ...) {
       if (what == 3 | what == "both"){
         graphics::par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
 
-        graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = NA, ylab = "V1", ...)
+        graphics::plot(x$havokSS$t, scale(x$Vr[,1]), type = "l", xlab = "Time", ylab = "V1 vs. V1_hat", ...)
+        graphics::lines(x$havokSS$t, scale(x$havokSS$y[1,]), col = "red")
+        graphics::legend("topleft", legend = c("V1", "Predicted V1"), lwd = c(1,1), col = c("black", "red"))
 
         graphics::par(mai = c(1, 1.0, 0.1, 0.1))
 
