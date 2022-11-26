@@ -116,16 +116,6 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
   sigs <- USV$d
   V <- USV$v
 
-<<<<<<< HEAD
-
-  if (is.na(rmax) & is.na(rset)) {
-    stop("Either 'rmax' or 'rset' must be a positive integer")
-  }
-
-  if (!is.na(rmax) & !is.na(rset)) {
-    stop("Please only give values for 'rmax' or 'rset', not both")
-  }
-
   # Determine number of retained singular vectors
   if (!is.na(rmax)) {
     beta <- nrow(H) / ncol(H)
@@ -155,7 +145,17 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
     r <- r - length(rout)
   }
 
+  # Numerical calculation of derivatives
+  devMethod <- toupper(devMethod)
 
+  if (all(devMethod == c("FOCD", "GLLA"))){
+    warning('Agument "devMethod" not selected. Defaulting to devMethod = "FOCD"')
+    devMethod <- "FOCD"
+  }
+
+  if (!devMethod %in% c("FOCD", "GLLA") | length(devMethod) > 1){
+    stop('devMethod must be one of either "FOCD" or "GLLA"')
+  }
 
   if (discrete == FALSE){
 
