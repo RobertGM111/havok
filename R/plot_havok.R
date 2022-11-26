@@ -61,25 +61,28 @@ plot.havok <- function(x, what = "interactive", ...) {
         4 - U-modes            8 - SS Embedded Attractor")
 
     repeat {
-      whatPlot <- readline("Please select a number (press esc to exit): ")
+      what <- readline("Please select a number (press esc to exit): ")
 
-      if (!whatPlot %in% 1:8){
+      if (!what %in% 1:8){
         stop("Please pick a number between 1 and 8")
       }
 
-      if (whatPlot == 1 | what == "reconstruction"){
+
+      if (what == 1 | what == "reconstruction"){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = "Time", ylab = "V1", ...)
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
-      if (whatPlot == 2 | what == "forcing"){
+
+      if (what == 2 | what == "forcing"){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         graphics::plot(x$havokSS$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
-      if (whatPlot == 3 | what == "both"){
+
+      if (what == 3 | what == "both"){
         graphics::par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
 
         graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = NA, ylab = "V1", ...)
@@ -91,7 +94,8 @@ plot.havok <- function(x, what = "interactive", ...) {
         graphics::par(mfrow=c(1,1), mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
-      if (whatPlot == 4 | what == "U-modes"){
+
+      if (what == 4 | what == "U-modes"){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         plotBuff <- (.1 * (max(x$U[, 1:x$r]) - min(x$U[, 1:x$r])))
 
@@ -127,13 +131,15 @@ plot.havok <- function(x, what = "interactive", ...) {
       }
 
 
-      if (whatPlot == 5 | what == "Vembedded"){
+
+      if (what == 5 | what == "Vembedded"){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
-      if (whatPlot == 6 | what == "nonlinear"){
+
+      if (what == 6 | what == "nonlinear"){
         havForce <- active_forcing(x)
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
@@ -141,13 +147,15 @@ plot.havok <- function(x, what = "interactive", ...) {
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
-      if (whatPlot == 7 | what == "SSmod"){
+
+      if (what == 7 | what == "SSmod"){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         graphics::plot(x$havokSS$t, x$havokSS$y[1,], type = "l", xlab = "Time", ylab = "y", ...)
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
-      if (whatPlot == 8 | what == "SSembedded"){
+
+      if (what == 8 | what == "SSembedded"){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         graphics::plot(x$havokSS$y[1,], x$havokSS$y[2,], type = "l", xlab = "y1", ylab = "y2", ...)
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
