@@ -2,63 +2,53 @@
 % Please edit documentation in R/compute_derivative.R
 \name{compute_derivative}
 \alias{compute_derivative}
-\title{Compute derivative using fourth order central difference}
+\title{Compute numeric derivatives of a time series.}
 \usage{
-compute_derivative(
-  x,
-  dt,
-  r = min(dim(as.matrix(x))),
-  gllaEmbed = 3,
-  gllaTau = 1,
-  gllaOrder = 1,
-  devMethod = "FOCD"
-)
+compute_derivative(x, dt, r = min(dim(as.matrix(x))),
+                          devMethod = c("FOCD", "GLLA", "FINITE"),
+                          gllaEmbed = NA, gllaTau = NA, gllaOrder = NA)
 }
 \arguments{
-\item{x}{A vector of measurements over time.}
+\item{x}{A vector or matrix of measurements over time.}
 
-\item{dt}{A number representing the change in time between successive measurements.}
+\item{dt}{Numeric; the change in time between successive measurements.}
 
-\item{r}{A number representing the number of time series in x used to calculate \code{dXdt}.}
+\item{r}{An integer; the number of time series in \code{x} used to calculate \code{dXdt}.}
 
-\item{gllaEmbed}{NEED DESCRIPTION}
+\item{devMethod}{A character string. One of either \code{"FOCD"} for fourth order central difference, \code{"GLLA"} for generalized local linear approximation,
+or \code{"FINITE"} for simple finite difference.}
 
-\item{gllaTau}{NEED DESCRIPTION}
+\item{gllaEmbed}{An integer; t embedding dimension used for \code{devMethod = "GLLA"}.}
 
-\item{gllaOrder}{NEED DESCRIPTION}
+\item{gllaTau}{An integer; the time delay used for \code{devMethod = "GLLA"}.}
 
-\item{devMethod}{NEED DESCRIPTION - either "FOCD" or "GLLA"}
+\item{gllaOrder}{An integer; the embedding dimension used for \code{devMethod = "GLLA"}.}
 }
 \value{
-\code{dXdt - } A vector or matrix of first order derivatives of the variables of interest with respect to time.
+\itemize{
+\item If \code{devMethod = "FOCD"} - returns a vector or matrix of first order derivatives the first \code{r} columns of \code{x} with respect to time.
+\item If \code{devMethod = "GLLA"} - returns a matrix or list of matrices of derivatives of the first \code{r} columns of \code{x} with respect to time.
+Derivatives returned by \code{devMethod = "GLLA"} are up to order \code{"gllaOrder"} and include the "\eqn{0^{th}}" derivative.
+\item If \code{devMethod = "FINITE"} - returns a vector or matrix of first order derivatives the first \code{r} columns of \code{x} with respect to time.
+}
 }
 \description{
-Estimates the derivative of a time series using fourth order central difference.
+Estimates the derivative of a time series using numeric methods.
 }
 \examples{
+data(ECG_measurements)
+
+xdat <- ECG_measurements[,"channel1"]
+dt <- ECG_measurements[2,"time"] - ECG_measurements[1,"time"]
+
+compute_derivative(x = xdat, dt = dt, devMethod = "FOCD")
+
 \dontrun{
-#Generate Data
-##Set Lorenz Parameters
-parameters <- c(s = 10, r = 28, b = 8/3)
-n <- 3
-state <- c(X = -8, Y = 8, Z =27) ##Inital Values
-
-#Intergrate
-dt <- 0.001
-tspan <- seq(dt, 200, dt)
-N <- length(tspan)
-
-Lorenz <- function(t, state, parameters) {
- with(as.list(c(state, parameters)), {
-   dX <- s * (Y - X)
-   dY <- X * (r - Z) - Y
-   dZ <- X * Y - b * Z
-   list(c(dX, dY, dZ))
- })
+compute_derivative(x = xdat, dt = dt, devMethod = "GLLA", gllaEmbed = 5, gllaTau = 1, gllaOrder = 1)
 }
-
-out <- ode(y = state, times = tspan, func = Lorenz, parms = parameters, rtol = 1e-12, atol = 1e-12)
-xdat <- out[, "X"]
-dXdt <- compute_derivative(x = xdat, dt = dt)
 }
+\references{
+Boker, S. M., Deboeck, P. R., Edler, C., & Keel, P. K. (2010). Generalized local linear approximation of derivatives
+ from time series.
+ In Chow S, Ferrer E, and Hsieh F, editors, Statistical methods for modeling human dynamics: An interdisciplinary dialogue.
 }

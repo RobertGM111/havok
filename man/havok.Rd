@@ -4,6 +4,7 @@
 \alias{havok}
 \title{Hankel Alternative View of Koopman (HAVOK) Analysis}
 \usage{
+<<<<<<< HEAD
 havok(
   xdat,
   dt = 1,
@@ -20,6 +21,13 @@ havok(
   gllaEmbed = NA,
   alignSVD = TRUE
 )
+=======
+havok(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
+             rmax = 15, rset = NA, rout = NA,
+             useSINDy = TRUE, polyOrder = 1, useSine = FALSE,
+             discrete = FALSE, devMethod = c("FOCD", "GLLA"),
+             gllaEmbed = NA, alignSVD = TRUE)
+>>>>>>> Development
 }
 \arguments{
 \item{xdat}{A vector of equally spaced measurements over time.}
@@ -30,7 +38,7 @@ havok(
 
 \item{lambda}{A numeric value; sparsification threshold.}
 
-\item{center}{Logical; Should \code{xdat} be centered around 0?}
+\item{center}{Logical; should \code{xdat} be centered around 0?}
 
 \item{rmax}{An integer; maximum number of singular vectors to include.}
 
@@ -38,31 +46,42 @@ havok(
 
 \item{rout}{An integer or vector of integers; excludes columns of singular values from analysis.}
 
-\item{polyOrder}{An integer from 0 to 5 indicating the highest degree of polynomials
+\item{useSINDy}{Logical; should the SINDy algorithm be used during model creation?}
+
+\item{polyOrder}{An integer from 0 to 5; if useSINDy = TRUE, the highest degree of polynomials
 included in the matrix of candidate functions.}
 
-\item{useSine}{A logical value indicating whether sine and cosine functions
-of variables should be added to the library of potential candidate functions.
+\item{useSine}{Logical; if useSINDy = TRUE, should sine and cosine functions
+of variables should be added to the library of potential candidate functions?
 If TRUE, candidate function matrix is augmented with sine and cosine functions
-of integer multiples 1 through 10 of all the variables in \code{yIn}.}
+of integer multiples 1 through 10.}
 
-\item{discrete}{Logical; Is the underlying system discrete?}
+\item{discrete}{Logical; is the underlying system discrete?}
 
-\item{gllaEmbed}{NEED DESC LOSE gllaEmbed - 1 POINTS}
+\item{devMethod}{A character string; One of either \code{"FOCD"} for fourth order central difference or \code{"GLLA"} for generalized local linear approximation.}
+
+\item{gllaEmbed}{An integer; the embedding dimension used for \code{devMethod = "GLLA"}.}
+
+\item{alignSVD}{Logical; Whether the singular vectors should be aligned with the data.}
 }
 \value{
 An object of class 'havok' with the following components: \itemize{
 \item{\code{havokSS} - }{A HAVOK analysis generated state space model with its time history.}
 \item{\code{params} - }{A matrix of parameter values used for this function.}
-\item{\code{dVrdt} - }{A matrix of first order derivatives of the first r columns of the V matrix with respect to time.}
-\item{\code{r} - }{Estimated optimal number singular vectors to include into analysis up to \code{rmax}.}
-\item{\code{Vr} - }{The first r columns of the V matrix of the SVD of the Hankel matrix of \code{xdat}.}
+\item{\code{dVrdt} - }{A matrix of first order derivatives of the reduced rank V matrix with respect to time.}
+\item{\code{r} - }{Estimated optimal number singular vectors to include in analysis.}
 \item{\code{sys} - }{HAVOK model represented in state-space form.}
 \item{\code{normTheta} - }{Normalized matrix of candidate functions obtained from \code{\link{pool_data}}.}
 \item{\code{Xi} - }{A matrix of sparse coefficients obtained from \code{\link{sparsify_dynamics}}.}
+<<<<<<< HEAD
 \item{\code{U} - }{The U matrix of the SVD of the Hankel matrix of the time series.}
 \item{\code{sigs} - }{Values of the diagonal of the \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}
 \item{\code{V} - }{The V matrix of the SVD of the Hankel matrix of the time series.}}
+=======
+\item{\code{Ur} - }{The reduced rank U matrix of the SVD of the Hankel matrix of the time series.}
+\item{\code{sigsr} - }{Values of the diagonal of the reduced rank \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}
+\item{\code{Vr} - }{The reduced rank V matrix of the SVD of the Hankel matrix of the time series.}}
+>>>>>>> Development
 }
 \description{
 Data-driven decomposition of chaotic time series into an intermittently

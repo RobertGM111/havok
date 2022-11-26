@@ -5,37 +5,41 @@
 #' chaotic dynamics into a linear model in the leading delay coordinates with forcing by
 #' low-energy delay coordinates. Forcing activity demarcates coherent phase space regions
 #' where the dynamics are approximately linear from those that are strongly nonlinear.
+#' @usage havok(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
+#'              rmax = 15, rset = NA, rout = NA,
+#'              useSINDy = TRUE, polyOrder = 1, useSine = FALSE,
+#'              discrete = FALSE, devMethod = c("FOCD", "GLLA"),
+#'              gllaEmbed = NA, alignSVD = TRUE)
 #' @param xdat A vector of equally spaced measurements over time.
 #' @param dt A numeric value indicating the time-lag between two subsequent time series measurements.
 #' @param stackmax An integer; number of shift-stacked rows.
 #' @param lambda A numeric value; sparsification threshold.
-#' @param center Logical; Should \code{xdat} be centered around 0?
+#' @param center Logical; should \code{xdat} be centered around 0?
 #' @param rmax An integer; maximum number of singular vectors to include.
 #' @param rset An integer; specific number of singular vectors to include.
 #' @param rout An integer or vector of integers; excludes columns of singular values from analysis.
-#' @param polyOrder An integer from 0 to 5 indicating the highest degree of polynomials
+#' @param useSINDy Logical; should the SINDy algorithm be used during model creation?
+#' @param polyOrder An integer from 0 to 5; if useSINDy = TRUE, the highest degree of polynomials
 #' included in the matrix of candidate functions.
-#' @param useSine A logical value indicating whether sine and cosine functions
-#' of variables should be added to the library of potential candidate functions.
+#' @param useSine Logical; if useSINDy = TRUE, should sine and cosine functions
+#' of variables should be added to the library of potential candidate functions?
 #' If TRUE, candidate function matrix is augmented with sine and cosine functions
-#' of integer multiples 1 through 10 of all the variables in \code{yIn}.
-#' @param discrete Logical; Is the underlying system discrete?
-#' @param devMethod A character string; Type of derivative estimation method to be used. Must be one of: \itemize{
-#' \item{\code{"FOCD"} - Fourth order central difference.}}
-#' \item{\code{"GLLA"} - Generalized local linear approximation.}}
-#' @param gllaEmbed NEED DESC LOSE gllaEmbed - 1 POINTS
+#' of integer multiples 1 through 10.
+#' @param discrete Logical; is the underlying system discrete?
+#' @param devMethod A character string; One of either \code{"FOCD"} for fourth order central difference or \code{"GLLA"} for generalized local linear approximation.
+#' @param gllaEmbed An integer; the embedding dimension used for \code{devMethod = "GLLA"}.
+#' @param alignSVD Logical; Whether the singular vectors should be aligned with the data.
 #' @return An object of class 'havok' with the following components: \itemize{
 #' \item{\code{havokSS} - }{A HAVOK analysis generated state space model with its time history.}
 #' \item{\code{params} - }{A matrix of parameter values used for this function.}
-#' \item{\code{dVrdt} - }{A matrix of first order derivatives of the first r columns of the V matrix with respect to time.}
-#' \item{\code{r} - }{Estimated optimal number singular vectors to include into analysis up to \code{rmax}.}
-#' \item{\code{Vr} - }{The first r columns of the V matrix of the SVD of the Hankel matrix of \code{xdat}.}
+#' \item{\code{dVrdt} - }{A matrix of first order derivatives of the reduced rank V matrix with respect to time.}
+#' \item{\code{r} - }{Estimated optimal number singular vectors to include in analysis.}
 #' \item{\code{sys} - }{HAVOK model represented in state-space form.}
 #' \item{\code{normTheta} - }{Normalized matrix of candidate functions obtained from \code{\link{pool_data}}.}
 #' \item{\code{Xi} - }{A matrix of sparse coefficients obtained from \code{\link{sparsify_dynamics}}.}
-#' \item{\code{U} - }{The U matrix of the SVD of the Hankel matrix of the time series.}
-#' \item{\code{sigs} - }{Values of the diagonal of the \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}
-#' \item{\code{V} - }{The V matrix of the SVD of the Hankel matrix of the time series.}}
+#' \item{\code{Ur} - }{The reduced rank U matrix of the SVD of the Hankel matrix of the time series.}
+#' \item{\code{sigsr} - }{Values of the diagonal of the reduced rank \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}
+#' \item{\code{Vr} - }{The reduced rank V matrix of the SVD of the Hankel matrix of the time series.}}
 #' @references S. L. Brunton, B. W. Brunton, J. L. Proctor, E. Kaiser, and J. N. Kutz,
 #' "Chaos as an intermittently forced linear system," Nature Communications, 8(19):1-9, 2017.
 #' @examples
@@ -83,22 +87,42 @@
 ###################################
 
 #' @export
+<<<<<<< HEAD
 havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
                   rmax = 15, rset = NA, rout = NA, polyOrder = 1, useSine = FALSE,
                   discrete = FALSE, devMethod = "FOCD",
+=======
+havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
+                  center = TRUE, rmax = 15, rset = NA, rout = NA,
+                  useSINDy = TRUE, polyOrder = 1, useSine = FALSE,
+                  discrete = FALSE, devMethod = c("FOCD", "GLLA"),
+>>>>>>> Development
                   gllaEmbed = NA, alignSVD = TRUE) {
 
+  # Error catch
+  if (is.na(rmax) & is.na(rset)) {
+    stop("Either 'rmax' or 'rset' must be a positive integer")
+  }
+
+  if (!is.na(rmax) & !is.na(rset)) {
+    stop("Please only give values for 'rmax' or 'rset', not both")
+  }
+
+  # Center time series
   if (center == TRUE){
     xdat <- xdat - mean(xdat)
   }
 
-  H <- build_hankel(x = xdat, stackmax = stackmax)
+  # Create Hankel matrix
+  H <- build_hankel(x = xdat, nrows = stackmax)
 
+  # Perform SVD of Hankel matrix
   USV <- svd(H)
   U <- USV$u
   sigs <- USV$d
   V <- USV$v
 
+<<<<<<< HEAD
 
   if (is.na(rmax) & is.na(rset)) {
     stop("Either 'rmax' or 'rset' must be a positive integer")
@@ -108,6 +132,9 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
     stop("Please only give values for 'rmax' or 'rset', not both")
   }
 
+=======
+  # Determine number of retained singular vectors
+>>>>>>> Development
   if (!is.na(rmax)) {
     beta <- nrow(H) / ncol(H)
     thresh <- optimal_SVHT_coef(beta, FALSE) * stats::median(sigs)
@@ -119,12 +146,24 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
     r <- rset
   }
 
+  # Align and reduce rank of SVD
+  if (alignSVD == TRUE){
+    USV <- svd_align(H, r = r)
+    U <- USV$u
+    sigs <- USV$d
+    V <- USV$v
+  } else {
+    U <- U[,1:r]
+    sigs <- sigs [1:r]
+    V <- V[,1:r]
+  }
 
   if (!is.na(rout)) {
     V <- V[,-rout]
     r <- r - length(rout)
   }
 
+<<<<<<< HEAD
   # Align and reduce rank of SVD
   if (alignSVD == TRUE){
     USV <- svd_align(H, r = r)
@@ -136,6 +175,18 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
     U <-U[,1:r]
     sigs <- sigs[1:r]
     V <- V[,1:r]
+=======
+  # Numerical calculation of derivatives
+  devMethod <- toupper(devMethod)
+
+  if (all(devMethod == c("FOCD", "GLLA"))){
+    warning('Agument "devMethod" not selected. Defaulting to devMethod = "FOCD"')
+    devMethod <- "FOCD"
+  }
+
+  if (!devMethod %in% c("FOCD", "GLLA") | length(devMethod) > 1){
+    stop('devMethod must be one of either "FOCD" or "GLLA"')
+>>>>>>> Development
   }
 
   if (discrete == FALSE){
@@ -151,19 +202,24 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
         dV[,i] <- devList[[i]][,2]
       }
 
-      x <- V[ceiling(gllaEmbed/2):(nrow(V) - floor(gllaEmbed/2)), 1:r]
+      x <- V[ceiling(gllaEmbed/2):(nrow(V) - floor(gllaEmbed/2)),]
       dx <- dV
-
     }
 
     if (devMethod == "FOCD"){
       dV <- compute_derivative(x = V, dt = dt, r = r, devMethod = "FOCD")
-      x <- V[3:(nrow(V) - 3), 1:r]
+      x <- V[3:(nrow(V) - 3),]
       dx <- dV
     }
 
+    if (devMethod == "FINITE"){
+      dV <- compute_derivative(x = V, dt = dt, r = r, devMethod = "FINITE")
+      x <- V[2:nrow(V),]
+      dx <- dV
+    }
 
-    Theta <- pool_data(x, r, polyOrder = polyOrder, useSine)
+    # SINDy application and vector normalization
+    Theta <- pool_data(x, nVars = r, polyOrder = polyOrder, useSine)
 
     normTheta <- rep(NA, dim(Theta)[2])
 
@@ -178,59 +234,65 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
                  nrow = nrow(sparsify_dynamics(Theta,dx[ , 1], lambda * 1)),
                  ncol = r - 1)
 
-    for (k in 1:(r - 1)) {
-      Xi[ , k] <- sparsify_dynamics(Theta, dx[ , k], lambda * k)
+    if(useSINDy == TRUE){
+      for (k in 1:(r - 1)) {
+        Xi[ , k] <- sparsify_dynamics(Theta, dx[ , k], lambda * k)
+      }
+    } else {
+      Xi <- pracma::mldivide(Theta, dx)
     }
 
+    # State-space model reconstruction
     for (k in 1:max(dim(Xi))) {
       Xi[k, ] <- Xi[k, ] / normTheta[k]
-
-      A <- t(Xi[2:(r + 1), 1:(r - 1)])
-      B <- A[, r]
-      A <- A[ , 1:(r - 1)]
-      L <- 1:nrow(x)
-
-      sys <- control::ss(A, B, pracma::eye(r - 1), 0 * B)
-      HAVOK <- control::lsim(sys, x[L, r], dt * (L - 1), x[1, 1:(r - 1)])
-
-      params <- matrix(c(dt,
-                         stackmax,
-                         lambda,
-                         center,
-                         rmax,
-                         rset,
-                         rout,
-                         polyOrder,
-                         useSine,
-                         discrete),
-                       nrow = 10,
-                       ncol = 1)
-
-      colnames(params) <- "Values"
-
-      rownames(params) <- c("dt",
-                            "stackmax",
-                            "lambda",
-                            "center",
-                            "rmax",
-                            "rset",
-                            "rout",
-                            "polyOrder",
-                            "useSine",
-                            "discrete")
-
-
-      res <- list(HAVOK, params, dx, r, x, sys, Theta, Xi, U, sigs, V)
-      names(res) <- c("havokSS", "params", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "U", "sigs", "V")
-      class(res) <- "havok"
-      return(res)
-
     }
+
+    A <- t(Xi[2:(r + 1), 1:(r - 1)])
+    B <- A[, r]
+    A <- A[ , 1:(r - 1)]
+    L <- 1:nrow(x)
+
+    sys <- control::ss(A, B, pracma::eye(r - 1), 0 * B)
+    HAVOK <- control::lsim(sys, x[L, r], dt * (L - 1), x[1, 1:(r - 1)])
+
+    params <- matrix(c(dt,
+                       stackmax,
+                       lambda,
+                       center,
+                       rmax,
+                       rset,
+                       rout,
+                       polyOrder,
+                       useSine,
+                       discrete),
+                     nrow = 10,
+                     ncol = 1)
+
+    colnames(params) <- "Values"
+
+    rownames(params) <- c("dt",
+                          "stackmax",
+                          "lambda",
+                          "center",
+                          "rmax",
+                          "rset",
+                          "rout",
+                          "polyOrder",
+                          "useSine",
+                          "discrete")
+
+
+    res <- list(HAVOK, params, dx, r, x, sys, Theta, Xi, U, sigs, V)
+    names(res) <- c("havokSS", "params", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "Ur", "sigsr", "Vr")
+    class(res) <- "havok"
+    return(res)
+
+
 
   } else if (discrete == TRUE) {
     # concatenate
-    x <- V[1:(nrow(V) - 1), 1:r]
-    dx <- V[2:nrow(V), 1:r]
+    x <- V[1:(nrow(V) - 1),]
+    dx <- V[2:nrow(V),]
 
     Xi <- pracma::mldivide(dx, x)
     B <- Xi[1:(r-1), r]
@@ -265,7 +327,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
                           "discrete")
 
     res <- list(HAVOK, params, dx, r, x, sys, Xi, U, sigs, V)
-    names(res) <- c("havokSS", "params", "dVrdt", "r", "Vr", "sys", "Xi", "U", "sigs", "V")
+    names(res) <- c("havokSS", "params", "dVrdt", "r", "Vr", "sys", "Xi", "Ur", "sigsr", "Vr")
     class(res) <- "havok"
     return(res)
   }

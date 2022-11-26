@@ -1,19 +1,26 @@
-#' Determine when forcing is active for an object of class "havok"
+#' Determine when forcing is active for an object of class \code{havok}.
 #'
-#' @description This function uses threshold to determine when forcing
-#' is active in a fitted "havok" object.
-#' @param x An object of class "havok".
-#' @param thresh A cutoff value for determining when forcing is active. Defaults
+#' @description This function uses a threshold to determine when forcing
+#' is active in a fitted \code{havok} object.
+#' @usage active_forcing(x, thresh = stats::sd(x$Vr[, x$r]))
+#' @param x An object of class \code{havok}.
+#' @param thresh Numeric; A cutoff value for determining when forcing is active. Defaults
 #' to one standard deviation of the forcing term.
 #' @return  A list of forcing values with their corresponding activity status.
 #' @examples
-#' \dontrun{
-#' hav <- havok(xdat = xdat, dt = dt)
-#' active_forcing(hav)
-#' }
+#'data(ECG_measurements)
+#'
+#'xdat <- ECG_measurements[,"channel1"]
+#'dt <- ECG_measurements[2,"time"] - ECG_measurements[1,"time"]
+#'
+#'stackmax <- 25
+#'rmax <- 5
+#'lambda <- .001
+#'
+#'hav <- havok(xdat = xdat, dt = dt, stackmax = stackmax, lambda = lambda, rmax = rmax)
+#'active_forcing(x = hav)
 ###################################
 #' @export
-
 
 active_forcing <- function(x, thresh = stats::sd(x$Vr[,x$r])){
   if (class(x) != "havok"){
@@ -29,8 +36,6 @@ active_forcing <- function(x, thresh = stats::sd(x$Vr[,x$r])){
   return(res)
 }
 
-
-
 # Copyright 2020 Robert Glenn Moulder Jr. & Elena Martynova
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,4 +49,3 @@ active_forcing <- function(x, thresh = stats::sd(x$Vr[,x$r])){
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-

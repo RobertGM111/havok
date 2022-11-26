@@ -113,7 +113,7 @@ marcenko_pastur_integral <- function(x, beta) {
 
 
 # -----------------------------------------------------------------------------
-  # Authors: Matan Gavish and David Donoho <lastname>@stanford.edu, 2013
+# Authors: Matan Gavish and David Donoho <lastname>@stanford.edu, 2013
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software

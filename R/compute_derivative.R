@@ -1,56 +1,61 @@
-#' Compute derivative using fourth order central difference
+#' Compute numeric derivatives of a time series.
 #'
-#' @description Estimates the derivative of a time series using fourth order central difference.
-#' @param x A vector of measurements over time.
-#' @param dt A number representing the change in time between successive measurements.
-#' @param r A number representing the number of time series in x used to calculate \code{dXdt}.
-#' @param gllaEmbed NEED DESCRIPTION
-#' @param gllaTau NEED DESCRIPTION
-#' @param gllaOrder NEED DESCRIPTION
-#' @param devMethod NEED DESCRIPTION - either "FOCD" or "GLLA"
-#' @return \code{dXdt - } A vector or matrix of first order derivatives of the variables of interest with respect to time.
+#' @description Estimates the derivative of a time series using numeric methods.
+#' @usage compute_derivative(x, dt, r = min(dim(as.matrix(x))),
+#'                           devMethod = c("FOCD", "GLLA", "FINITE"),
+#'                           gllaEmbed = NA, gllaTau = NA, gllaOrder = NA)
+#' @param x A vector or matrix of measurements over time.
+#' @param dt Numeric; the change in time between successive measurements.
+#' @param r An integer; the number of time series in \code{x} used to calculate \code{dXdt}.
+#' @param devMethod A character string. One of either \code{"FOCD"} for fourth order central difference, \code{"GLLA"} for generalized local linear approximation,
+#' or \code{"FINITE"} for simple finite difference.
+#' @param gllaEmbed An integer; t embedding dimension used for \code{devMethod = "GLLA"}.
+#' @param gllaTau An integer; the time delay used for \code{devMethod = "GLLA"}.
+#' @param gllaOrder An integer; the embedding dimension used for \code{devMethod = "GLLA"}.
+#' @return
+#' \itemize{
+#' \item If \code{devMethod = "FOCD"} - returns a vector or matrix of first order derivatives the first \code{r} columns of \code{x} with respect to time.
+#' \item If \code{devMethod = "GLLA"} - returns a matrix or list of matrices of derivatives of the first \code{r} columns of \code{x} with respect to time.
+#' Derivatives returned by \code{devMethod = "GLLA"} are up to order \code{"gllaOrder"} and include the "\eqn{0^{th}}" derivative.
+#' \item If \code{devMethod = "FINITE"} - returns a vector or matrix of first order derivatives the first \code{r} columns of \code{x} with respect to time.
+#' }
+#' @references Boker, S. M., Deboeck, P. R., Edler, C., & Keel, P. K. (2010). Generalized local linear approximation of derivatives
+#'  from time series.
+#'  In Chow S, Ferrer E, and Hsieh F, editors, Statistical methods for modeling human dynamics: An interdisciplinary dialogue.
 #' @examples
-#' \dontrun{
-#'#Generate Data
-#'##Set Lorenz Parameters
-#'parameters <- c(s = 10, r = 28, b = 8/3)
-#'n <- 3
-#'state <- c(X = -8, Y = 8, Z =27) ##Inital Values
+#'data(ECG_measurements)
 #'
-#'#Intergrate
-#'dt <- 0.001
-#'tspan <- seq(dt, 200, dt)
-#'N <- length(tspan)
+#'xdat <- ECG_measurements[,"channel1"]
+#'dt <- ECG_measurements[2,"time"] - ECG_measurements[1,"time"]
 #'
-#'Lorenz <- function(t, state, parameters) {
-#'  with(as.list(c(state, parameters)), {
-#'    dX <- s * (Y - X)
-#'    dY <- X * (r - Z) - Y
-#'    dZ <- X * Y - b * Z
-#'    list(c(dX, dY, dZ))
-#'  })
-#'}
+#'compute_derivative(x = xdat, dt = dt, devMethod = "FOCD")
 #'
-#'out <- ode(y = state, times = tspan, func = Lorenz, parms = parameters, rtol = 1e-12, atol = 1e-12)
-#'xdat <- out[, "X"]
-#'dXdt <- compute_derivative(x = xdat, dt = dt)
+#'\dontrun{
+#'compute_derivative(x = xdat, dt = dt, devMethod = "GLLA", gllaEmbed = 5, gllaTau = 1, gllaOrder = 1)
 #'}
 ###################################
 
 #' @export
 compute_derivative <- function(x, dt, r = min(dim(as.matrix(x))),
-                               gllaEmbed = 3, gllaTau = 1, gllaOrder = 1,
-                               devMethod = "FOCD"){
+                               devMethod = c("FOCD", "GLLA", "FINITE"),
+                               gllaEmbed = NA, gllaTau = NA, gllaOrder = NA){
 
-  if (!devMethod %in% c("FOCD", "GLLA")){
-    stop('devMethod must be either "FOCD" or "GLLA"')
+  devMethod <- toupper(devMethod)
+
+  if (all(devMethod == c("FOCD", "GLLA", "FINITE"))){
+    warning('Agument "devMethod" not selected. Defaulting to devMethod = "FOCD"')
+    devMethod <- "FOCD"
+  }
+
+  if (!devMethod %in% c("FOCD", "GLLA", "FINITE") | length(devMethod) > 1){
+    stop('devMethod must be one of either "FOCD", "GLLA", or "FINITE')
+  }
+
+  if (is.vector(x)){
+    x <- as.matrix(x)
   }
 
   if (devMethod == "FOCD"){
-
-    if (is.vector(x)){
-      x <- as.matrix(x)
-    }
 
     dXdt <- matrix(NA, nrow = max(dim(x)) - 5, ncol = r)
 
@@ -118,10 +123,24 @@ compute_derivative <- function(x, dt, r = min(dim(as.matrix(x))),
 
   }
 
+  if (devMethod == "FINITE"){
+
+    dXdt <- matrix(NA, nrow = max(dim(x)) - 1, ncol = r)
+
+    for (i in 2:nrow(x)) {
+      for (k in 1:r) {
+        dXdt[(i-1),k] <- (x[i, k] - x[(i-1), k]) / dt
+      }
+    }
+
+    if (min(dim(dXdt)) == 1){
+      return(as.vector(dXdt))
+    } else {
+      return(dXdt)
+    }
+  }
+
 }
-
-
-
 
 # Copyright 2020 Robert Glenn Moulder Jr. & Elena Martynova
 #

@@ -4,21 +4,21 @@
 \alias{build_hankel}
 \title{Build a Hankel matrix from a time series.}
 \usage{
-build_hankel(x, stackmax)
+build_hankel(x, nrows = round(length(x)/2))
 }
 \arguments{
 \item{x}{A vector of measurements over time.}
 
-\item{stackmax}{An integer; the number of shift-stacked rows.}
+\item{nrows}{An integer; the number of shift-stacked rows.}
 }
 \value{
-A Hankel matrix of \code{x}.
+A Hankel matrix of \code{x} with \code{nrows} rows.
 }
 \description{
 Create a Hankel matrix from a vector of measurements over time.
 }
 \examples{
-\dontrun{
-build_hankel(x = xdat, stackmax = 15)
-}
+data(ECG_measurements)
+xdat <- ECG_measurements[,"channel1"]
+build_hankel(x = xdat, nrows = 25)
 }

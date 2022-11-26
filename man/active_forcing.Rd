@@ -2,26 +2,33 @@
 % Please edit documentation in R/active_forcing.R
 \name{active_forcing}
 \alias{active_forcing}
-\title{Determine when forcing is active for an object of class "havok"}
+\title{Determine when forcing is active for an object of class \code{havok}.}
 \usage{
 active_forcing(x, thresh = stats::sd(x$Vr[, x$r]))
 }
 \arguments{
-\item{x}{An object of class "havok".}
+\item{x}{An object of class \code{havok}.}
 
-\item{thresh}{A cutoff value for determining when forcing is active. Defaults
+\item{thresh}{Numeric; A cutoff value for determining when forcing is active. Defaults
 to one standard deviation of the forcing term.}
 }
 \value{
 A list of forcing values with their corresponding activity status.
 }
 \description{
-This function uses threshold to determine when forcing
-is active in a fitted "havok" object.
+This function uses a threshold to determine when forcing
+is active in a fitted \code{havok} object.
 }
 \examples{
-\dontrun{
-hav <- havok(xdat = xdat, dt = dt)
-active_forcing(hav)
-}
+data(ECG_measurements)
+
+xdat <- ECG_measurements[,"channel1"]
+dt <- ECG_measurements[2,"time"] - ECG_measurements[1,"time"]
+
+stackmax <- 25
+rmax <- 5
+lambda <- .001
+
+hav <- havok(xdat = xdat, dt = dt, stackmax = stackmax, lambda = lambda, rmax = rmax)
+active_forcing(x = hav)
 }

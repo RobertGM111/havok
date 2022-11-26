@@ -2,17 +2,16 @@
 #'
 #' @description Generic plotting function for object of class ("havok")
 #' @param x A "havok" object.
-#'
 #' @param what See details.
 #' @param ... Other calls to plot.
-#' @details Arguments for \code{what} parameter:\itemize{
+#' @details Arguments for \code{what} parameter: \itemize{
 #' \item{\code{"interactive"} - }{An interactive plotting function.}
 #' \item{\code{"reconstruction"} - }{Reconstruction of the major component of a time-series.}
 #' \item{\code{"forcing"} - }{Forcing vector derived from HAVOK.}
 #' \item{\code{"both"} - }{A combination of 'reconstruction' and 'forcing'.}
 #' \item{\code{"U-modes"} - }{U modes of the reconstructed time series.}
 #' \item{\code{"Vembedded"} - }{A 2D reconstruction of the attractor based on Eigen vectors.}
-#' \item{\code{"nonlinear"} - }{A 2D reconstruction of the attractor with nonlinear regions colored red.}}
+#' \item{\code{"nonlinear"} - }{A 2D reconstruction of the attractor with nonlinear regions colored red.}
 #' \item{\code{"SSmod"} - }{Ouput time series of a HAVOK state space model.}
 #' \item{\code{"SSembedded"} - }{A 2D reconstruction of the attractor based a HAVOK state space model.}}
 #' @examples
@@ -95,13 +94,20 @@ plot.havok <- function(x, what = "interactive", ...) {
       if (whatPlot == 4){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         plotBuff <- (.1 * (max(x$U[, 1:x$r]) - min(x$U[, 1:x$r])))
+
         graphics::plot(x$U[,1], ylab = "Ur", xlab = "Time",
                        type = "l",
                        xaxt = "n",
                        col = grDevices::rainbow(x$r)[1],
                        ylim = c(min(x$U[,1:x$r]) - (.1*plotBuff), max(x$U[,1:x$r]) + (.1*plotBuff)))
+<<<<<<< HEAD
         graphics::axis(1, at = seq(0, ncol(x$U)-1, length.out = min(10, x$params["stackmax",])),
                        labels = round(seq(0, x$params["stackmax",], length.out = min(10, x$params["stackmax",]))))
+=======
+
+        graphics::axis(1, at = seq(0, length(x$U[,1]), length.out = 10),
+                       labels = round(seq(0, x$params["stackmax",], length.out = 10)*x$params["dt",], 2))
+>>>>>>> Development
 
         for (i in 1:x$r){
           graphics::lines(x$U[,i], col = grDevices::rainbow(x$r, alpha = 1/sqrt(i))[i])
@@ -179,17 +185,23 @@ plot.havok <- function(x, what = "interactive", ...) {
   }
 
   if (what == "U-modes") {
-    plotBuff <- (.1 * (max(x$U[, 1:x$r]) - min(x$U[, 1:x$r])))
-    graphics::plot(x$U[,1], ylab = "Ur", xlab = "Time",
+    plotBuff <- (.1 * (max(x$Ur[, 1:x$r]) - min(x$Ur[, 1:x$r])))
+    graphics::plot(x$Ur[,1], ylab = "Ur", xlab = "Time",
                    type = "l",
                    xaxt = "n",
                    col = grDevices::rainbow(x$r)[1],
+<<<<<<< HEAD
                    ylim = c(min(x$U[,1:x$r]) - (.1*plotBuff), max(x$U[,1:x$r]) + (.1*plotBuff)))
     graphics::axis(1, at = seq(0, ncol(x$U)-1, length.out = min(10, x$params["stackmax",])),
                    labels = round(seq(0, x$params["stackmax",], length.out = min(10, x$params["stackmax",]))))
+=======
+                   ylim = c(min(x$Ur[,1:x$r]) - (.1*plotBuff), max(x$Ur[,1:x$r]) + (.1*plotBuff)))
+    graphics::axis(1, at = seq(1, ncol(x$Ur), length.out = 10),
+                   labels = round(seq(1, max(x$havokSS$t), length.out = 10)))
+>>>>>>> Development
 
     for (i in 1:x$r){
-      graphics::lines(x$U[,i], col = grDevices::rainbow(x$r, alpha = 1/sqrt(i))[i])
+      graphics::lines(x$Ur[,i], col = grDevices::rainbow(x$r, alpha = 1/sqrt(i))[i])
     }
 
     if (x$r < 6){
