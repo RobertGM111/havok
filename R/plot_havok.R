@@ -64,7 +64,7 @@ plot.havok <- function(x, what = "interactive", ...) {
       what <- readline("Please select a number (press esc to exit): ")
 
       if (!what %in% 1:9){
-        stop("Please pick a number between 1 and 8")
+        stop("Please pick a number between 1 and 9")
       }
 
       if (what == 1 | what == "reconstruction"){
