@@ -87,16 +87,10 @@
 ###################################
 
 #' @export
-<<<<<<< HEAD
-havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
-                  rmax = 15, rset = NA, rout = NA, polyOrder = 1, useSine = FALSE,
-                  discrete = FALSE, devMethod = "FOCD",
-=======
 havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
                   center = TRUE, rmax = 15, rset = NA, rout = NA,
                   useSINDy = TRUE, polyOrder = 1, useSine = FALSE,
                   discrete = FALSE, devMethod = c("FOCD", "GLLA"),
->>>>>>> Development
                   gllaEmbed = NA, alignSVD = TRUE) {
 
   # Error catch
@@ -175,18 +169,7 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
     U <-U[,1:r]
     sigs <- sigs[1:r]
     V <- V[,1:r]
-=======
-  # Numerical calculation of derivatives
-  devMethod <- toupper(devMethod)
 
-  if (all(devMethod == c("FOCD", "GLLA"))){
-    warning('Agument "devMethod" not selected. Defaulting to devMethod = "FOCD"')
-    devMethod <- "FOCD"
-  }
-
-  if (!devMethod %in% c("FOCD", "GLLA") | length(devMethod) > 1){
-    stop('devMethod must be one of either "FOCD" or "GLLA"')
->>>>>>> Development
   }
 
   if (discrete == FALSE){
