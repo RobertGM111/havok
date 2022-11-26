@@ -65,6 +65,7 @@ plot.havok <- function(x, what = "interactive", ...) {
 
       if (!what %in% 1:8){
         stop("Please pick a number between 1 and 8")
+      }
 
 
       if (what == 1 | what == "reconstruction"){
