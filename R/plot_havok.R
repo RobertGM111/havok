@@ -67,19 +67,19 @@ plot.havok <- function(x, what = "interactive", ...) {
         stop("Please pick a number between 1 and 8")
       }
 
-      if (whatPlot == 1){
+      if (whatPlot == 1 | what == "reconstruction"){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = "Time", ylab = "V1", ...)
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
-      if (whatPlot == 2){
+      if (whatPlot == 2 | what == "forcing"){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         graphics::plot(x$havokSS$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
-      if (whatPlot == 3){
+      if (whatPlot == 3 | what == "both"){
         graphics::par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
 
         graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = NA, ylab = "V1", ...)
@@ -91,7 +91,7 @@ plot.havok <- function(x, what = "interactive", ...) {
         graphics::par(mfrow=c(1,1), mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
-      if (whatPlot == 4){
+      if (whatPlot == 4 | what == "U-modes"){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         plotBuff <- (.1 * (max(x$U[, 1:x$r]) - min(x$U[, 1:x$r])))
 
@@ -127,13 +127,13 @@ plot.havok <- function(x, what = "interactive", ...) {
       }
 
 
-      if (whatPlot == 5){
+      if (whatPlot == 5 | what == "Vembedded"){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
-      if (whatPlot == 6){
+      if (whatPlot == 6 | what == "nonlinear"){
         havForce <- active_forcing(x)
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
@@ -141,13 +141,13 @@ plot.havok <- function(x, what = "interactive", ...) {
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
-      if (whatPlot == 7){
+      if (whatPlot == 7 | what == "SSmod"){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         graphics::plot(x$havokSS$t, x$havokSS$y[1,], type = "l", xlab = "Time", ylab = "y", ...)
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
-      if (whatPlot == 8){
+      if (whatPlot == 8 | what == "SSembedded"){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
         graphics::plot(x$havokSS$y[1,], x$havokSS$y[2,], type = "l", xlab = "y1", ylab = "y2", ...)
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
@@ -155,84 +155,6 @@ plot.havok <- function(x, what = "interactive", ...) {
 
 
     }
-  }
-
-
-  if (what == "reconstruction"){
-    graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = NA, ylab = "V1", ...)
-  }
-
-  if (what == "forcing"){
-    graphics::plot(x$havokSS$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
-  }
-
-  if (what == "both") {
-    graphics::par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
-
-    graphics::plot(x$havokSS$t, x$Vr[,1], type = "l", xlab = NA, ylab = "V1", ...)
-
-    graphics::par(mai = c(1, 1.0, 0.1, 0.1))
-
-    graphics::plot(x$havokSS$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
-
-    graphics::par(mfrow=c(1,1), mai = c(1.02, 0.82, 0.82, 0.42))
-
-  }
-
-  if (what == "U-modes") {
-    plotBuff <- (.1 * (max(x$U[, 1:x$r]) - min(x$U[, 1:x$r])))
-    graphics::plot(x$U[,1], ylab = "U", xlab = "Time",
-                   type = "l",
-                   xaxt = "n",
-                   col = grDevices::rainbow(x$r)[1],
-                   ylim = c(min(x$U[,1:x$r]) - (.1*plotBuff), max(x$U[,1:x$r]) + (.1*plotBuff)))
-    graphics::axis(1, at = seq(1, ncol(x$U), length.out = 10),
-                   labels = round(seq(1, max(x$havokSS$t), length.out = 10)))
-
-    for (i in 1:x$r){
-      graphics::lines(x$U[,i], col = grDevices::rainbow(x$r, alpha = 1/sqrt(i))[i])
-    }
-
-    if (x$r < 6){
-      graphics::legend("topleft",
-                       fill = grDevices::rainbow(x$r, alpha = 1/sqrt(1:x$r)),
-                       legend = paste("r = ", 1:x$r, sep = ""))
-    }
-
-    if (x$r >= 6){
-      graphics::legend("topleft",
-                       fill = grDevices::rainbow(x$r, alpha = 1/sqrt(1:x$r))[c(1:6, x$r)],
-                       legend = c(paste("r = ", 1:5, sep = ""),
-                                  "...",
-                                  paste("r = ", x$r, sep = ""))
-      )
-    }
-
-  }
-
-  if (what == "Vembedded"){
-
-    graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
-
-  }
-
-  if (what == "nonlinear"){
-    havForce <- active_forcing(x)
-    graphics::plot(x$Vr[,1], x$Vr[,2], type = "l", xlab = "V1", ylab = "V2", ...)
-    graphics::segments(utils::head(x$Vr[,1], -1), utils::head(x$Vr[,2], -1), x$Vr[,1][-1], x$Vr[,2][-1], ifelse(havForce$active==1,"red","black"))
-
-  }
-
-  if (what == "SSmod"){
-    graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
-    graphics::plot(x$havokSS$t, x$havokSS$y[1,], type = "l", xlab = "Time", ylab = "y", ...)
-    graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
-  }
-
-  if (what == "SSembedded"){
-    graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
-    graphics::plot(x$havokSS$y[1,], x$havokSS$y[2,], type = "l", xlab = "y1", ylab = "y2", ...)
-    graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
   }
 
 
