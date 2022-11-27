@@ -4,30 +4,11 @@
 \alias{havok}
 \title{Hankel Alternative View of Koopman (HAVOK) Analysis}
 \usage{
-<<<<<<< HEAD
-havok(
-  xdat,
-  dt = 1,
-  stackmax = 100,
-  lambda = 0,
-  center = TRUE,
-  rmax = 15,
-  rset = NA,
-  rout = NA,
-  polyOrder = 1,
-  useSine = FALSE,
-  discrete = FALSE,
-  devMethod = "FOCD",
-  gllaEmbed = NA,
-  alignSVD = TRUE
-)
-=======
 havok(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
              rmax = 15, rset = NA, rout = NA,
              useSINDy = TRUE, polyOrder = 1, useSine = FALSE,
              discrete = FALSE, devMethod = c("FOCD", "GLLA"),
              gllaEmbed = NA, alignSVD = TRUE)
->>>>>>> Development
 }
 \arguments{
 \item{xdat}{A vector of equally spaced measurements over time.}
@@ -71,17 +52,10 @@ An object of class 'havok' with the following components: \itemize{
 \item{\code{dVrdt} - }{A matrix of first order derivatives of the reduced rank V matrix with respect to time.}
 \item{\code{r} - }{Estimated optimal number singular vectors to include in analysis.}
 \item{\code{sys} - }{HAVOK model represented in state-space form.}
-\item{\code{normTheta} - }{Normalized matrix of candidate functions obtained from \code{\link{pool_data}}.}
 \item{\code{Xi} - }{A matrix of sparse coefficients obtained from \code{\link{sparsify_dynamics}}.}
-<<<<<<< HEAD
-\item{\code{U} - }{The U matrix of the SVD of the Hankel matrix of the time series.}
-\item{\code{sigs} - }{Values of the diagonal of the \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}
-\item{\code{V} - }{The V matrix of the SVD of the Hankel matrix of the time series.}}
-=======
+\item{\code{Vr} - }{The reduced rank V matrix of the SVD of the Hankel matrix of the time series.}}
 \item{\code{Ur} - }{The reduced rank U matrix of the SVD of the Hankel matrix of the time series.}
 \item{\code{sigsr} - }{Values of the diagonal of the reduced rank \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}
-\item{\code{Vr} - }{The reduced rank V matrix of the SVD of the Hankel matrix of the time series.}}
->>>>>>> Development
 }
 \description{
 Data-driven decomposition of chaotic time series into an intermittently

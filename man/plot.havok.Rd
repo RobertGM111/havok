@@ -18,13 +18,13 @@ Generic plotting function for object of class ("havok")
 }
 \details{
 Arguments for \code{what} parameter: \itemize{
-\item{\code{"interactive"} - }{An interactive plotting function.}
-\item{\code{"reconstruction"} - }{Reconstruction of the major component of a time-series.}
-\item{\code{"forcing"} - }{Forcing vector derived from HAVOK.}
-\item{\code{"both"} - }{A combination of 'reconstruction' and 'forcing'.}
+\item{\code{"Interactive"} - }{An interactive plotting function.}
+\item{\code{"Reconstruction"} - }{Scaled reconstruction of the major component of a time-series.}
+\item{\code{"Forcing"} - }{Forcing vector derived from HAVOK.}
+\item{\code{"Both"} - }{A combination of 'reconstruction' and 'forcing'.}
 \item{\code{"U-modes"} - }{U modes of the reconstructed time series.}
 \item{\code{"Vembedded"} - }{A 2D reconstruction of the attractor based on Eigen vectors.}
-\item{\code{"nonlinear"} - }{A 2D reconstruction of the attractor with nonlinear regions colored red.}
+\item{\code{"Nonlinear"} - }{A 2D reconstruction of the attractor with nonlinear regions colored red.}
 \item{\code{"SSmod"} - }{Ouput time series of a HAVOK state space model.}
 \item{\code{"SSembedded"} - }{A 2D reconstruction of the attractor based a HAVOK state space model.}}
 }
