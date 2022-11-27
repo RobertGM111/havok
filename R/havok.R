@@ -35,11 +35,10 @@
 #' \item{\code{dVrdt} - }{A matrix of first order derivatives of the reduced rank V matrix with respect to time.}
 #' \item{\code{r} - }{Estimated optimal number singular vectors to include in analysis.}
 #' \item{\code{sys} - }{HAVOK model represented in state-space form.}
-#' \item{\code{normTheta} - }{Normalized matrix of candidate functions obtained from \code{\link{pool_data}}.}
 #' \item{\code{Xi} - }{A matrix of sparse coefficients obtained from \code{\link{sparsify_dynamics}}.}
+#' \item{\code{Vr} - }{The reduced rank V matrix of the SVD of the Hankel matrix of the time series.}}
 #' \item{\code{Ur} - }{The reduced rank U matrix of the SVD of the Hankel matrix of the time series.}
 #' \item{\code{sigsr} - }{Values of the diagonal of the reduced rank \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}
-#' \item{\code{Vr} - }{The reduced rank V matrix of the SVD of the Hankel matrix of the time series.}}
 #' @references S. L. Brunton, B. W. Brunton, J. L. Proctor, E. Kaiser, and J. N. Kutz,
 #' "Chaos as an intermittently forced linear system," Nature Communications, 8(19):1-9, 2017.
 #' @examples
@@ -250,8 +249,8 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
                           "discrete")
 
 
-    res <- list(HAVOK, params, dx, r, x, sys, Theta, Xi, U, sigs, V)
-    names(res) <- c("havokSS", "params", "dVrdt", "r", "Vr", "sys", "normTheta", "Xi", "Ur", "sigsr", "Vr")
+    res <- list(HAVOK, params, dx, r, sys, Xi, V, U, sigs)
+    names(res) <- c("havokSS", "params", "dVrdt", "r", "sys", "Xi", "Vr", "Ur", "sigsr")
     class(res) <- "havok"
     return(res)
 
@@ -294,8 +293,8 @@ havok <- function(xdat, dt = 1, stackmax = 100, lambda = 0,
                           "useSine",
                           "discrete")
 
-    res <- list(HAVOK, params, dx, r, x, sys, Xi, U, sigs, V)
-    names(res) <- c("havokSS", "params", "dVrdt", "r", "Vr", "sys", "Xi", "Ur", "sigsr", "Vr")
+    res <- list(HAVOK, params, dx, r, sys, Xi, V, U, sigs)
+    names(res) <- c("havokSS", "params", "dVrdt", "r", "sys", "Xi", "Vr", "Ur", "sigsr")
     class(res) <- "havok"
     return(res)
   }
