@@ -2,7 +2,7 @@ Package: havok
 Type: Package
 Title: Procedures for the Analysis of Nonlinear Dynamical Systems
 Version: 0.1.0
-Authors@R: c(person("Robert", "Moulder", email = "rgm4fd@virginia.edu",
+Authors@R: c(person("Robert", "Moulder", email = "robert.moulder@colorado.edu",
   role = c("aut", "cre"), comment = c(ORCID = "0000-0001-7504-9560")),
   person("Elena", "Martynova", email = "em6gg@virginia.edu",
   role = "aut"),
