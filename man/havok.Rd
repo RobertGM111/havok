@@ -46,16 +46,7 @@ of integer multiples 1 through 10.}
 \item{alignSVD}{Logical; Whether the singular vectors should be aligned with the data.}
 }
 \value{
-An object of class 'havok' with the following components: \itemize{
-\item{\code{havokSS} - }{A HAVOK analysis generated state space model with its time history.}
-\item{\code{params} - }{A matrix of parameter values used for this function.}
-\item{\code{dVrdt} - }{A matrix of first order derivatives of the reduced rank V matrix with respect to time.}
-\item{\code{r} - }{Estimated optimal number singular vectors to include in analysis.}
-\item{\code{sys} - }{HAVOK model represented in state-space form.}
-\item{\code{Xi} - }{A matrix of sparse coefficients obtained from \code{\link{sparsify_dynamics}}.}
-\item{\code{Vr} - }{The reduced rank V matrix of the SVD of the Hankel matrix of the time series.}}
-\item{\code{Ur} - }{The reduced rank U matrix of the SVD of the Hankel matrix of the time series.}
-\item{\code{sigsr} - }{Values of the diagonal of the reduced rank \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}
+
 }
 \description{
 Data-driven decomposition of chaotic time series into an intermittently
