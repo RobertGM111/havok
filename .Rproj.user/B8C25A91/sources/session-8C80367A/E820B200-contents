@@ -1,0 +1,14 @@
+xdat <- results.elena$Topic9
+dt <- 1
+
+
+stackmax <- 8
+rset <- 4
+lambda <- 0.050040851
+hav <- havok(xdat = xdat, dt = dt, stackmax = stackmax, lambda = lambda,rmax=NA,rset=rset,
+             polyOrder = 1, useSine = FALSE,devMethod = "GLLA",
+             gllaEmbed = 3, alignSVD = TRUE)
+
+plot(hav$havokSS$t,hav$Vr[,1], type = "l")
+lines(hav$havokSS$t,hav$havokSS$y[1,], col = rgb(1,0,0,1))
+plot(hav, what= "U-modes")

@@ -1,0 +1,200 @@
+options(width=120)
+Sys.setenv(OMP_NUM_THREADS=parallel::detectCores())
+
+library(lessR)
+library(psych)
+library(OpenMx)
+library(tidyr)
+library(dplyr)
+mxOption(NULL, 'Number of Threads', parallel::detectCores())
+options(max.print=10000)
+# ----------------------------------
+# Reading in the data, reorganizing columns, renaming variables
+
+alida <- read.csv("SEMdataset420.csv")
+colnames(alida)
+names(alida)<-c("SX", "c1alc", "totinc", "X1" ,  "GRD"   ,"c2alc",   "X2"  ,
+                "c3alc" ,  "X3"   ,"c4alc"  , "X4"  , "c5alc" ,  "X5"  ,
+                "c6alc" ,  "X6" ,  "prob6",  "c7alc" ,  "X7",   "X8",  
+                "c8alc" ,  "prob10" ,"prob11", "prob12", "prob13" ,"prob14",
+                "prob15", "prob16" ,"prob17","RA","GRD99")
+col_order<-c("X1", "X2", "X3", "X4","X5","X6","X7","X8",
+             "RA", "SX" , "GRD99", "GRD", "totinc", "c1alc" ,"c2alc", "c3alc","c4alc",
+             "c5alc","c6alc", "c7alc" , "c8alc" ,"prob6",  
+             "prob10" ,"prob11", "prob12", "prob13" ,"prob14",
+             "prob15", "prob16" ,"prob17")
+alida2<-alida[,col_order]
+alida2<- alida2 %>% drop_na(RA) #there is one person with NAs and cant have NAs in definition variable
+alida2<- alida2 %>% drop_na(GRD99) #can't use people for whom I don't have grade info
+alida2$X8<-NULL #problem w this variable (& not using it now anyway)
+alida2$c5alc <- NULL #problem w this variable (& not using it now anyway)
+alida2$c6alc <- NULL #problem w this variable (& not using it now anyway)
+describe(alida2)
+cor(x = as.matrix(alida2), method = "pearson", use = "pairwise.complete.obs")
+alida2$RA<-alida2$RA-mean(alida2$RA) # RA = relative age this is what i will use as moderator
+alida2$SX<-alida2$SX-mean(alida2$SX)
+alida2$totinc<-alida2$totinc-(mean(alida2$totinc,na.rm=TRUE))
+
+# ----------------------------------
+# creating new time variables so that intercept = grade 6 rather than wave 1 (i.e. aligning kids by when they were in each grade)
+# only n=40 6th graders so actually will use grade 7 as time 1 (columns 29-34)
+
+G6<-(alida2 %>%
+       select(alida2$GRD99) %>%
+       mutate(G6 = case_when(
+         alida2$GRD99 == 8 ~ as.numeric(NA),
+         alida2$GRD99 == 7 ~ as.numeric(NA),
+         alida2$GRD99 == 6 ~ as.numeric(alida2$X1))))$G6
+
+G7<-(alida2 %>%
+       select(alida2$GRD99) %>%
+       mutate(G7 = case_when(
+         alida2$GRD99 == 8 ~ as.numeric(NA),
+         alida2$GRD99 == 7 ~ as.numeric(alida2$X1),
+         alida2$GRD99 == 6 ~ as.numeric(alida2$X2))))$G7
+
+G8<-(alida2 %>%
+       select(alida2$GRD99) %>%
+       mutate(G8 = case_when(
+         alida2$GRD99 == 8 ~ as.numeric(alida2$X1),
+         alida2$GRD99 == 7 ~ as.numeric(alida2$X2),
+         alida2$GRD99 == 6 ~ as.numeric(alida2$X3))))$G8
+
+
+G9<-(alida2 %>%
+       select(alida2$GRD99) %>%
+       mutate(G9 = case_when(
+         alida2$GRD99 == 8 ~ as.numeric(alida2$X2),
+         alida2$GRD99 == 7 ~ as.numeric(alida2$X3),
+         alida2$GRD99 == 6 ~ as.numeric(alida2$X4))))$G9
+
+G10<-(alida2 %>%
+        select(alida2$GRD99) %>%
+        mutate(G10 = case_when(
+          alida2$GRD99 == 8 ~ as.numeric(alida2$X3),
+          alida2$GRD99 == 7 ~ as.numeric(alida2$X4),
+          alida2$GRD99 == 6 ~ as.numeric(alida2$X5))))$G10
+
+G11<-(alida2 %>%
+        select(alida2$GRD99) %>%
+        mutate(G11 = case_when(
+          alida2$GRD99 == 8 ~ as.numeric(alida2$X4),
+          alida2$GRD99 == 7 ~ as.numeric(alida2$X5),
+          alida2$GRD99 == 6 ~ as.numeric(alida2$X6))))$G11
+
+
+G12<- (alida2 %>%
+         select(alida2$GRD99) %>%
+         mutate(G12 = case_when(
+           alida2$GRD99 == 8 ~ as.numeric(alida2$X5),
+           alida2$GRD99 == 7 ~ as.numeric(alida2$X6),
+           alida2$GRD99 == 6 ~ as.numeric(alida2$X7))))$G12
+
+
+alida2$G6<-G6
+alida2$G7<-G7
+alida2$G8<-G8
+alida2$G9<-G9
+alida2$G10<-G10
+alida2$G11<-G11
+alida2$G12<-G12
+
+describe(alida2)
+
+#------------------------------------
+pdf("SlopeInterceptTimeSeriesAlida2.pdf", height=5, width=6)
+plot(c(1, 6), c(-10, 10),
+     xlab="Time",
+     ylab="Score",
+     type='n')
+for (i in 1:34) {
+  lines(c(1:6), alida2[i,29:34], type='l', lwd=1, col='blue')
+  lines(c(1, 6), c(-0, 0), type='l', lty=1, col=1)
+}
+dev.off()
+
+# ----------------------------------
+# Creating the fixed LGC loading matrix.
+
+numIndicators <- 6
+
+L1 <- rep(1, numIndicators)
+L2 <- seq(0, (numIndicators-1), by=1)
+
+# ----------------------------------
+# Creating Latent Growth Curve model with no moderator.
+
+manifests <- paste("G", 7:12, sep="")
+latents <- c("Intercept", "Slope")
+controls <-c("SX","totinc","c1alc") #trying to account for sex, income and friend alc use
+
+nomoderator <- mxModel("nomoderator",
+                  type="RAM",
+                  manifestVars=c(manifests,controls,"RA"), 
+                  latentVars=c(latents,"dummyRA"),
+                  
+                  mxPath(from="Intercept", to=manifests,
+                         arrows=1, free=FALSE, values=L1),
+                  
+                  mxPath(from="Slope", to=manifests,
+                         arrows=1, free=FALSE, values=L2),
+                  
+                  mxPath(from=manifests,
+                         arrows=2, free=TRUE, values=.5 ),
+                 
+                  mxPath(from=c("Intercept", "Slope"),
+                         arrows=2, free=TRUE, values=.8, 
+                         labels=c("VI", "VS"), lbound=0.00001 ),
+                 
+                  mxPath(from="Intercept", to="Slope",
+                         arrows=2, free=TRUE, values=.8, 
+                         labels="CIS" ),
+                 
+                  mxPath(from=controls, to="Slope",
+                         arrows=1, free=TRUE, values=.3),
+                  
+                  mxPath(from=controls, to="Intercept",
+                         arrows=1, free=TRUE, values=.3),
+                  
+                  mxPath(from=controls, 
+                         arrows=2, free=TRUE, values=.3), 
+        
+                  mxPath(from="one", to=c(latents,controls), 
+                         arrows=1, free=TRUE, 
+                         values=.3),
+                  
+                  mxData(observed=alida2, type="raw")
+                  )
+
+
+# ----------------------------------
+# Fit the LGC model and examine the summary results.
+
+nomoderatorFit <- mxRun(nomoderator)
+
+refmodelnomod <- mxRefModels(nomoderatorFit, run=TRUE) 
+summary(nomoderatorFit, refModels=refmodelnomod)
+
+# ----------------------------------
+# Create Latent Growth Curve model with moderator.
+model1withMod <- mxModel(nomoderator,
+                                                mxPath(from=latents, to="dummyRA",
+                                                       arrows=1, free=TRUE, values=0.2, labels=c("b1","b2")
+                                                ),
+                                                mxPath(from="dummyRA", to=manifests,
+                                                       arrows=1, free=FALSE, labels=c("data.RA","data.RA")
+                                                ),
+                                                name="model1withMod")
+
+#---------------------------------------
+# Fit the LGC model and examine the summary results.
+
+model1withModFit <- mxRun(model1withMod)
+
+summary(model1withModFit)
+
+# ----------------------------------
+# Compare the two models
+
+mxCompare(nomoderatorFit
+          , c(model1withModFit ))

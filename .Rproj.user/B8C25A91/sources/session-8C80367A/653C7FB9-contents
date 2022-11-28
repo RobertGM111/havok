@@ -1,0 +1,126 @@
+#Lorenz Attractor
+#Generate Data
+##Set Lorenz Parameters
+parameters <- c(s = 10, r = 28, b = 8/3)
+n <- 3
+state <- c(X = -8, Y = 8, Z =27) ##Inital Values
+
+#Intergrate
+dt <- 0.001
+tspan <- seq(dt, 200, dt)
+N <- length(tspan)
+
+Lorenz <- function(t, state, parameters) {
+ with(as.list(c(state, parameters)), {
+   dX <- s * (Y - X)
+   dY <- X * (r - Z) - Y
+   dZ <- X * Y - b * Z
+   list(c(dX, dY, dZ))
+ })
+}
+
+out <- ode(y = state, times = tspan, func = Lorenz, parms = parameters, rtol = 1e-12, atol = 1e-12)
+xdat <- out[, "X"]
+
+p <- Sys.time()
+hav <- havok(xdat = xdat, dt = dt, stackmax = 100, lambda = 0,
+            rmax = 15, polyOrder = 1, useSine = FALSE, useSINDy = FALSE)
+Sys.time() - p
+plot(hav)
+
+library(e1071)
+steps <- seq(1,5000,5)
+Time <- hav$havokSS$t[steps]
+Vr <- hav$Vr[,hav$r][steps]
+dat <- data.frame(Vr,Time)
+
+model <- svm(Vr ~ Time , data = dat)
+
+
+
+plot(Time, Vr, type="l")
+lines(dat$Time, predictedY, col = "red", type="l")
+
+
+tuneResult <- tune(svm, Vr ~ Time,  data = dat,
+                   ranges = list(epsilon = seq(0.6,.8,0.1), cost = seq(15000,16000,100)))
+
+
+print(tuneResult)
+# Draw the tuning graph
+plot(tuneResult)
+
+tunedModel <- tuneResult$best.model
+
+predictedY <- predict(model, data = dat)
+plot(Time, Vr, type="l")
+lines(dat$Time, predictedY, col = "red", type="l")
+
+predictedTuned <- predict(tunedModel, data = dat)
+plot(Time, Vr, type="l")
+lines(dat$Time, predictedTuned, col = "red", type="l")
+
+fit <- nnetar(Vr, lambda=0.5)
+forc <- forecast(fit, PI=TRUE, h=200)
+autoplot(forc)
+
+
+
+
+### SEM HAVOK
+
+modDat <- cbind(hav$Vr, hav$dVrdt)
+colnames(modDat) <- c(paste("V", 1:15, sep = ""), paste("dVdt", 1:15, sep = ""))
+modDat2 <- scale(modDat)
+mod <- '
+dVdt1 ~ V2
+dVdt2 ~ dV2_b1*V1 + dV2_b2*V3
+#dVdt3 ~ dV3_b1*V2 #+ dV3_b2*V4
+
+
+
+dVdt1 ~ 1
+dVdt2 ~ 1
+#dVdt3 ~ 1
+dVdt1 ~~ dVdt1
+dVdt2 ~~ dVdt2
+#dVdt3 ~~ dVdt3
+
+
+V1 ~ 1
+V2 ~ 1
+V3 ~ 1
+#V4 ~ 1
+V1 ~~ V1
+V2 ~~ V2
+V3 ~~ V3
+#V4 ~~ V4
+
+
+dV2_b1 == -dV2_b2
+#dV3_b1 == -dV3_b2
+
+'
+
+res <- lavaan(mod,data = modDat2)
+summary(res, fit.measures = TRUE)
+
+semPaths(res, whatLabels = "est")
+
+
+
+
+source('https://vipbg.vcu.edu/vipbg/OpenMx2/software/getOpenMx.R')
+library(OpenMx)
+
+Amat <- matrix(0, nrow = 30, ncol = 30)
+
+
+for(i in 1:(nrow(Amat)-1)){
+   Amat[i,i+1] <- .2
+   Amat[i+1,i] <- .2
+}
+
+
+
+

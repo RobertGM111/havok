@@ -1,0 +1,494 @@
+#Set directory
+setwd(DIRECTORY)
+
+# Load Imputation Library
+library(imputeTS)
+library(MASS)
+library(sfsmisc)
+library(devtools)
+library(nonlinearTseries)
+library(geometry)
+library(deSolve)
+install_github("RobertGM111/Tangle")
+library(Tangle)
+
+# Load Data
+dat <- read.csv("twiceDailyAverage_data.csv")
+
+# Clean Data
+dat <- dat[,-1]
+
+## Remove >20% missing
+badRows <- which(rowSums(is.na(dat[,2:73]))>72*.2)
+dat <- dat[-badRows,]
+rownames(dat) <- 1:nrow(dat)
+
+#Impute Remaining Data
+dat$Tangle <- NA
+dat$numImputed <- apply(dat[,2:73], 1, function(x) sum(is.na(x)))
+
+for( i in 1:nrow(dat)){
+  dat[i,2:73] <- t(na_interpolation(t(dat[i,2:73])))
+}
+
+# calculate Tangle
+for( i in 1:nrow(dat)){
+  dat[i,"Tangle"] <- tangle(as.vector(t(dat[i,2:73])),tau=1,returnMats = FALSE)
+  print(i)
+  flush.console()
+}
+
+# Separate Data
+dat_affect <- dat[which(dat$measure=="neg_pos"),]
+dat_anx <- dat[which(dat$measure=="calm_anxious"),]
+
+# Compare Complexity to Number of Imputed Values
+## Affect
+mean(dat_affect[, "numImputed"])
+impModAf <- rlm(Tangle ~ numImputed, dat = dat_affect)
+summary(impModAf)
+f.robftest(impModAf, var=c("numImputed"))
+
+## Anxiety
+mean(dat_anx[, "numImputed"])
+impModAx <- rlm(Tangle ~ numImputed, dat = dat_anx)
+summary(impModAx)
+f.robftest(impModAx, var=c("numImputed"))
+
+## Joint
+mean(dat[, "numImputed"])
+impModAll <- rlm(Tangle ~ numImputed, dat = dat)
+summary(impModAll)
+f.robftest(impModAll, var=c("numImputed"))
+
+# Standardize Model Data
+dat_affect_std <- dat_affect
+dat_anx_std <- dat_anx
+dat_affect_std[,c(74:80,82)] <- scale(dat_affect[,c(74:80,82)])
+dat_anx_std[,c(74:80,82)] <- scale(dat_anx[,c(74:80,82)])
+
+# Compare low vs high tangle series
+low_tangle_affect_std <- which(dat_affect_std$Tangle==min(dat_affect_std$Tangle))
+high_tangle_affect_std <- which(dat_affect_std$Tangle==max(dat_affect_std$Tangle))
+
+plot(t(dat_affect_std[low_tangle_affect_std,2:73]-10),type="l",ylim=c(-10,10), col = "red")
+lines(t(dat_affect_std[high_tangle_affect_std,2:73]), col = "blue")
+
+low_tangle_anx_std <- which(dat_anx_std$Tangle==min(dat_anx_std$Tangle))
+high_tangle_anx_std <- which(dat_anx_std$Tangle==max(dat_anx_std$Tangle))
+
+plot(t(dat_affect_std[low_tangle_anx_std,2:73]-10),type="l",ylim=c(-10,10), col = "red")
+lines(t(dat_affect_std[high_tangle_anx_std,2:73]), col = "blue")
+
+
+# Model Data
+mod1_tot_affect_std <- lm(Tangle ~ -1 + DERStotal , data = dat_affect_std)
+#plot(mod1_anx_std) # Assumptions of standard lm not met
+summary(mod1_tot_affect_std)
+
+# No effect on total
+mod1_affect_std_robust_tot <- rlm(Tangle ~ -1 + DERStotal, data = dat_affect_std)
+summary(mod1_affect_std_robust_tot)
+f.robftest(mod1_affect_std_robust_tot, var=c("DERStotal"))
+
+# Subscales
+mod1_affect_std <- lm(Tangle ~ -1 + DERS_nonacceptance +
+                DERS_goalDirected +
+                DERS_impulse +
+                DERS_access +
+                DERS_awareness +
+                DERS_clarity , data = dat_affect_std)
+plot(mod1_affect_std)
+summary(mod1_affect_std)
+
+mod1_affect_std_robust <- rlm(Tangle ~ -1 + DERS_nonacceptance +
+                    DERS_goalDirected +
+                    DERS_impulse +
+                    DERS_access +
+                    DERS_awareness +
+                    DERS_clarity , data = dat_affect_std)
+summary(mod1_affect_std_robust)
+f.robftest(mod1_affect_std_robust, var=c("DERS_nonacceptance"))
+f.robftest(mod1_affect_std_robust, var=c("DERS_goalDirected"))
+f.robftest(mod1_affect_std_robust, var=c("DERS_impulse"))
+f.robftest(mod1_affect_std_robust, var=c("DERS_access"))
+f.robftest(mod1_affect_std_robust, var=c("DERS_awareness"))
+f.robftest(mod1_affect_std_robust, var=c("DERS_clarity"))
+
+# No effect on total
+mod1_tot <- lm(Tangle ~ -1 + DERStotal , data = dat_anx_std)
+#plot(mod1_anx_std)
+summary(mod1_tot)
+
+mod1_anx_std_robust_tot <- rlm(Tangle ~ -1 + DERStotal, data = dat_anx_std)
+summary(mod1_anx_std_robust_tot)
+f.robftest(mod1_anx_std_robust_tot, var=c("DERStotal"))
+
+mod1_anx_std <- lm(Tangle ~ -1 + DERS_nonacceptance +
+                    DERS_goalDirected +
+                    DERS_impulse +
+                    DERS_access +
+                    DERS_awareness +
+                    DERS_clarity , data = dat_anx_std)
+#plot(mod1_anx_std)
+summary(mod1_anx_std)
+
+mod1_anx_std_robust <- rlm(Tangle ~ -1 + DERS_nonacceptance +
+                 DERS_goalDirected +
+                 DERS_impulse +
+                 DERS_access +
+                 DERS_awareness +
+                 DERS_clarity, data = dat_anx_std)
+summary(mod1_anx_std_robust)
+f.robftest(mod1_anx_std_robust, var=c("DERS_nonacceptance"))
+f.robftest(mod1_anx_std_robust, var=c("DERS_goalDirected"))
+f.robftest(mod1_anx_std_robust, var=c("DERS_impulse"))
+f.robftest(mod1_anx_std_robust, var=c("DERS_access"))
+f.robftest(mod1_anx_std_robust, var=c("DERS_awareness"))
+f.robftest(mod1_anx_std_robust, var=c("DERS_clarity"))
+
+
+
+#### ANALYSIS FIGURES #######
+# Figure 1
+tiff(filename = "Figure1.tiff",
+     width = 170, height = 56, units = "mm", pointsize = 12,
+     bg = "white",  res = 300, compression = "lzw")
+par(mai=c(.1,.1,.2,.1))
+par(mfrow=c(1,3))
+
+
+########## A
+library(nonlinearTseries)
+
+Lor <- lorenz(time=seq(0,200,.01),do.plot = FALSE)
+plot(x=NULL, y=NULL, type="n", xlab=NA, ylab=NA,
+     frame=FALSE, col=rgb(0,0,0,.1), main="a",
+     xlim=c(-20,20),ylim=c(-4,50),
+     xaxt='n', yaxt='n')
+lines(Lor$x,Lor$z,col=rgb(0,0,0,alpha = .2),lwd=1)
+
+
+########## B
+Ros<- rossler(time=seq(0,500,.01),do.plot = FALSE)
+plot(x=NULL, y=NULL, type="n", xlab=NA, ylab=NA,
+     frame=FALSE, col=rgb(0,0,0,.1), main="b",
+     xlim=c(-10,12),ylim=c(-11,8),
+     xaxt='n', yaxt='n')
+lines(Ros$x,Ros$y,col=rgb(0,0,0,.2),lwd=1)
+
+########## C
+XP <- read.csv("XP.csv")
+XP <- t(XP[1,])
+tau.ami = timeLag(XP, technique = "ami",
+                  lag.max = 100, do.plot = FALSE)
+emb.dim = estimateEmbeddingDim(XP, time.lag = tau.ami,
+                               max.embedding.dim = 15,do.plot = FALSE)
+tak = buildTakens(XP,embedding.dim = emb.dim, time.lag = tau.ami)
+plot(x=NULL, y=NULL, type="n", xlab=NA, ylab=NA,
+     xlim=c(-.8, .6), ylim=c(-.8, .6),frame=FALSE,main="c",
+     xaxt='n', yaxt='n')
+lines(tak[,1], tak[,2], col=rgb(0,0,0,.2),lwd=1)
+
+dev.off()
+
+
+# Figure 2
+set.seed(1337)
+tiff(filename = "Figure2.tiff",
+     width = 85, height = 56, units = "mm",
+     bg = "white",  res = 300, compression = "lzw")
+
+par(mai=c(.1,.1,.1,.1))
+
+
+x <- c(0,0,1,2,3,3,2,1,0)
+y <- c(1,2,3,3,2,1,0,0,1)
+plot(x=NULL, y=NULL, type="n", xlab=NA, ylab=NA,
+     frame=FALSE,
+     xlim=c(0,3),ylim=c(0,3),
+     xaxt='n', yaxt='n')
+lines(x,y,lwd=2)
+points(x,y,pch=16)
+x <- runif(8,.5,2.5)
+y <- runif(8,.5,2.5)
+points(x,y,pch=16)
+
+dev.off()
+
+# Figure 3
+tiff(filename = "Figure3.tiff",
+     width = 170, height = 56, units = "mm", pointsize = 12,
+     bg = "white",  res = 300, compression = "lzw")
+par(mai=c(.1,.1,.2,.1))
+par(mfrow=c(1,3))
+
+XP <- read.csv("XP.csv")
+XP <- t(XP[1,seq(1,ncol(XP),length.out = 300)])
+tau.ami = timeLag(XP, technique = "ami",
+                  lag.max = 100, do.plot = FALSE)
+emb.dim = estimateEmbeddingDim(XP, time.lag = tau.ami,
+                               max.embedding.dim = 15,do.plot = FALSE)
+tak = buildTakens(XP,embedding.dim = emb.dim, time.lag = tau.ami)
+plot(x=NULL, y=NULL, type="n", xlab=NA, ylab=NA,
+     xlim=c(-.8, .6), ylim=c(-.8, .6),frame=FALSE,main="a",
+     xaxt='n', yaxt='n')
+lines(tak[,1], tak[,2], col=rgb(0,0,0),lwd=1)
+
+N<-nrow(tak)# Number of samples
+S<-diag(N) # Generate "upshift" matrix
+S<-S[,c(dim(S)[2],(1:(dim(S)[2]-1)))]
+W<-((diag(N)+S)/2)# Generate Updating matrix
+
+for (i in 1:100){
+  tak <- W%*%tak
+  tak <- scale(tak)
+}
+plot(x=NULL, y=NULL, type="n", xlab=NA, ylab=NA,
+     xlim=c(-4, 3), ylim=c(-4, 2),frame=FALSE,main="b",
+     xaxt='n', yaxt='n')
+lines(tak[,1], tak[,2], col=rgb(0,0,0),lwd=1)
+
+for (i in 1:8708){
+  tak <- W%*%tak
+  tak <- scale(tak)
+}
+plot(x=NULL, y=NULL, type="n", xlab=NA, ylab=NA,
+     xlim=c(-2, 2), ylim=c(-2, 2),frame=FALSE,main="c",
+     xaxt='n', yaxt='n')
+lines(tak[,1], tak[,2], col=rgb(0,0,0),lwd=1)
+
+
+dev.off()
+
+# Figure 4
+set.seed(532452)
+
+#### Simulation Parameters ###
+ts_length <- seq(20,100,20)
+
+
+#### Uniform Noise ####
+ts_unif <- runif(1000,0,1)
+unif_res <- rep(NA,length(ts_length))
+k <- 1
+for(i in ts_length){
+  x<-ts_unif[1:i]
+  xMat<-buildTakens(x,3,1)
+  N <- nrow(xMat)
+  S<-diag(N)
+  S<-S[,c(dim(S)[2],(1:(dim(S)[2]-1)))]
+  W<-((diag(N)+S)/2)
+  Ku<-1
+  while(dim(convhulln(cbind(xMat[,1],xMat[,2])))[1]!=N &
+        dim(convhulln(cbind(xMat[,1],xMat[,3])))[1]!=N &
+        dim(convhulln(cbind(xMat[,2],xMat[,3])))[1]!=N){
+    xMat<-scale(xMat)
+    xMat<-W%*%xMat
+    flush.console()
+    Ku<-Ku+1
+    unif_res[k] <- Ku
+  }
+  k <- k + 1
+  print(i)
+}
+unif_tangle <- log(unif_res)/ts_length
+
+
+#### Normal Noise ####
+# ts_norm <- rnorm(1000,0,1)
+# norm_res <- rep(NA,length(ts_length))
+# k <- 1
+# for(i in ts_length){
+#   x<-ts_norm[1:i]
+#   xMat<-buildTakens(x,3,1)
+#   N <- nrow(xMat)
+#   S<-diag(N)
+#   S<-S[,c(dim(S)[2],(1:(dim(S)[2]-1)))]
+#   W<-((diag(N)+S)/2)
+#   Ku<-1
+#
+#   while(dim(convhulln(cbind(xMat[,1],xMat[,2])))[1]!=N &
+#         dim(convhulln(cbind(xMat[,1],xMat[,3])))[1]!=N &
+#         dim(convhulln(cbind(xMat[,2],xMat[,3])))[1]!=N){
+#     xMat<-scale(xMat)
+#     xMat<-W%*%xMat
+#     flush.console()
+#     Ku<-Ku+1
+#     norm_res[k] <- Ku
+#   }
+#   k <- k + 1
+#   print(i)
+# }
+# norm_tangle <- log(norm_res)/ts_length
+
+#### Lorenz ####
+ts_lor<- lorenz(do.plot = F,time = seq(0, 50, by = 0.1),start = c(1, 1, 1))
+lor_res <- rep(NA,length(ts_length))
+k <- 1
+for(i in ts_length){
+  xMat<-cbind(ts_lor$x[1:i],
+              ts_lor$y[1:i],
+              ts_lor$z[1:i])
+  N <- nrow(xMat)
+  S<-diag(N)
+  S<-S[,c(dim(S)[2],(1:(dim(S)[2]-1)))]
+  W<-((diag(N)+S)/2)
+  Ku<-1
+
+  while(dim(convhulln(cbind(xMat[,1],xMat[,2])))[1]!=N &
+        dim(convhulln(cbind(xMat[,1],xMat[,3])))[1]!=N &
+        dim(convhulln(cbind(xMat[,2],xMat[,3])))[1]!=N){
+    xMat<-scale(xMat)
+    xMat<-W%*%xMat
+    flush.console()
+    Ku<-Ku+1
+    lor_res[k] <- Ku
+  }
+  k <- k + 1
+  print(i)
+}
+lor_tangle <- log(lor_res)/ts_length
+
+#### Rossler ####
+ts_ros<- rossler(do.plot = F,time = seq(0, 100, by = 0.2))
+ros_res <- rep(NA,length(ts_length))
+k <- 1
+for(i in ts_length){
+  xMat<-cbind(ts_ros$x[1:i],
+              ts_ros$y[1:i],
+              ts_ros$z[1:i])
+  N <- nrow(xMat)
+  S<-diag(N)
+  S<-S[,c(dim(S)[2],(1:(dim(S)[2]-1)))]
+  W<-((diag(N)+S)/2)
+  Ku<-1
+
+  while(dim(convhulln(cbind(xMat[,1],xMat[,2])))[1]!=N &
+        dim(convhulln(cbind(xMat[,1],xMat[,3])))[1]!=N &
+        dim(convhulln(cbind(xMat[,2],xMat[,3])))[1]!=N){
+    xMat<-scale(xMat)
+    xMat<-W%*%xMat
+    flush.console()
+    Ku<-Ku+1
+    ros_res[k] <- Ku
+  }
+  k <- k + 1
+  print(i)
+}
+ros_tangle <- log(ros_res)/ts_length
+
+#### HR neuron ####
+
+parameters<-c(a=1,b=3,I=4,c=1,d=5,r=0.0021,s=4,Xr=-8/5)
+state<-c(x=0,y=0,z=0)
+HRneuron<-function(t,state,parameters){
+  with(as.list(c(state, parameters)),{
+    dx<-y-z+I+b*x^2-a*x^3
+    dy<--y+c-d*x^2
+    dz<-r*s*x-r*z-r*s*Xr
+    list(c(dx,dy,dz))
+  })
+}
+times<-seq(0,100,by=.1)
+out <- ode(y = state, times = times, func = HRneuron, parms = parameters)
+
+ts_HRN <- ode(y = state, times = times, func = HRneuron, parms = parameters)
+HRN_res <- rep(NA,length(ts_length))
+k <- 1
+for(i in ts_length){
+  xMat<-cbind(ts_HRN[1:i,2],
+              ts_HRN[1:i,3],
+              ts_HRN[1:i,4])
+  N <- nrow(xMat)
+  S<-diag(N)
+  S<-S[,c(dim(S)[2],(1:(dim(S)[2]-1)))]
+  W<-((diag(N)+S)/2)
+  Ku<-1
+
+  while(dim(convhulln(cbind(xMat[,1],xMat[,2])))[1]!=N &
+        dim(convhulln(cbind(xMat[,1],xMat[,3])))[1]!=N &
+        dim(convhulln(cbind(xMat[,2],xMat[,3])))[1]!=N){
+    xMat<-scale(xMat)
+    xMat<-W%*%xMat
+    flush.console()
+    Ku<-Ku+1
+    HRN_res[k] <- Ku
+  }
+  k <- k + 1
+  print(i)
+}
+HRN_res[which(is.na(HRN_res))] <-1
+HRN_tangle <- log(HRN_res)/ts_length
+
+#### Sine Wave
+
+ts_Sin<- sin(seq(0,32*pi,length.out=1000)) + rnorm(1000,0,.05)
+Sin_res <- rep(NA,length(ts_length))
+k <- 1
+for(i in ts_length){
+  xMat<-buildTakens(ts_Sin[1:i],3,1)
+  xMat <- svd(xMat)$u
+  N <- nrow(xMat)
+  S<-diag(N)
+  S<-S[,c(dim(S)[2],(1:(dim(S)[2]-1)))]
+  W<-((diag(N)+S)/2)
+  Ku<-1
+
+  while(dim(convhulln(cbind(xMat[,1],xMat[,2])))[1]!=N &
+        dim(convhulln(cbind(xMat[,1],xMat[,3])))[1]!=N &
+        dim(convhulln(cbind(xMat[,2],xMat[,3])))[1]!=N){
+    xMat<-scale(xMat)
+    xMat<-W%*%xMat
+    flush.console()
+    Ku<-Ku+1
+    Sin_res[k] <- Ku
+  }
+  k <- k + 1
+  print(i)
+}
+Sin_res[which(is.na(Sin_res))] <- 1
+Sin_tangle <- log(Sin_res)/ts_length
+
+range(unif_tangle)
+range(lor_tangle)
+range(ros_tangle)
+range(HRN_tangle)
+range(Sin_tangle)
+
+tangleDat <- data.frame(unif_tangle,
+                        lor_tangle,
+                        ros_tangle,
+                        HRN_tangle,
+                        Sin_tangle)
+write.csv(tangleDat,"tangleDat.csv",row.names = FALSE)
+tiff(filename = "Figure4.tiff",
+     width = 85, height = 85, units = "mm",
+     bg = "white",  res = 300, compression = "lzw")
+par(mgp=c(1,.5,0))
+
+#tangleDat <- read.csv("tangleDat.csv")
+plot(ts_length,tangleDat$unif_tangle,xlab = "T", ylab = "Tangle",type="l",ylim = c(min(c(tangleDat$unif_tangle,
+                                                                                         tangleDat$lor_tangle,
+                                                                                         tangleDat$ros_tangle,
+                                                                                         tangleDat$HRN_tangle)),
+                                                                                   max(c(tangleDat$unif_tangle,
+                                                                                         tangleDat$lor_tangle,
+                                                                                         tangleDat$ros_tangle,
+                                                                                         tangleDat$HRN_tangle))),
+     lwd=1,cex.axis=.4,cex.lab=.4)
+
+lines(ts_length,tangleDat$lor_tangle,lwd=1,lty=2)
+lines(ts_length,tangleDat$ros_tangle,lwd=1,lty=3)
+lines(ts_length,tangleDat$HRN_tangle,lwd=1,lty=4)
+lines(ts_length,tangleDat$Sin_tangle,lwd=3,lty=6)
+
+legend("topright",legend = c("(A) Uniform", "(B) Lorenz", "(C) Rossler", "(D) Neuron", "(E) Sine"),
+       lty=c(1,2,3,4,6),cex=.4,lwd=1, seg.len = 5)
+
+dev.off()
+
+# Figure 5
+
+
+

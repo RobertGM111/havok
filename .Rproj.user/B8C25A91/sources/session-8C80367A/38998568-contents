@@ -1,0 +1,10 @@
+plotBuff <- (.1 * (max(x$U[, 1:x$r]) - min(x$U[, 1:x$r])))
+
+graphics::plot(x$U[,1], ylab = "Ur", xlab = "Time",
+               type = "l",
+               xaxt = "n",
+               col = grDevices::rainbow(x$r)[1],
+               ylim = c(min(x$U[,1:x$r]) - (.1*plotBuff), max(x$U[,1:x$r]) + (.1*plotBuff)))
+
+graphics::axis(1, at = seq(0, length(x$U[,1]), length.out = 10),
+               labels = round(seq(0, x$params["stackmax",], length.out = 10)*x$params["dt",], 2))

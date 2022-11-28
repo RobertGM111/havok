@@ -1,0 +1,116 @@
+#### Lorenz ####
+setwd("~/Box Sync/MyProjects/Tangle")
+#setwd("C:/Users/Blood/Box Sync/MyProjects/Tangle")
+library(nonlinearTseries)
+library(geometry)
+library(deSolve)
+library(devtools)
+#install_github("RobertGM111/Tangle")
+library(Tangle)
+library(pracma)
+library(fractaldim)
+library(lsr)
+
+set.seed(532452)
+
+#Error Sims
+
+ts_length <- 75
+errorConds <- c(.01, .05, .10, .20, .50)
+nsims <- 1000
+
+ts_lor <- lorenz(do.plot = F, time = seq(0, 50, by = 0.1), start = c(1, 1, 1))$x[1:ts_length]
+
+ts_ros <- rossler(do.plot = F,time = seq(0, 100, by = 0.2))$x[1:ts_length]
+
+parameters<-c(a=1,b=3,I=4,c=1,d=5,r=0.0021,s=4,Xr=-8/5)
+state<-c(x=0,y=0,z=0)
+HRneuron<-function(t,state,parameters){
+  with(as.list(c(state, parameters)),{
+    dx<-y-z+I+b*x^2-a*x^3
+    dy<--y+c-d*x^2
+    dz<-r*s*x-r*z-r*s*Xr
+    list(c(dx,dy,dz))
+  })
+}
+times<-seq(0,100,by=.1)
+
+
+ts_HRN <- ode(y = state, times = times, func = HRneuron, parms = parameters)[1:ts_length, 2]
+
+ts_dat <- cbind(ts_lor, ts_ros, ts_HRN)
+
+numSeries <- ncol(ts_dat)
+
+resArraySim1 <- array(NA, dim=c(numSeries, 
+                                nsims, 
+                                length(errorConds)))
+
+ts_temp <- rep(NA, length(ts_lor))
+
+for (i in 1:numSeries) {
+  for (j in 1:nsims) {
+    for (k in 1:length(errorConds)) {
+      ts_temp <- ts_dat[ , i] 
+      ts_temp <- ts_temp + rnorm(length(ts_temp), 0, sqrt(var(ts_temp) * errorConds[k]))
+      resArraySim1[i, j, k] <- tangle(ts_temp, tau = 1, returnMats = FALSE)
+      print(paste(i,j,k))
+      flush.console()
+    }
+  }
+}
+
+save(resArraySim1, file ="ErrorSim_pt2.RData")
+
+
+resArraySim2 <- array(NA, dim=c(numSeries, 
+                                nsims, 
+                                3))
+
+ts_temp <- rep(NA, length(ts_lor))
+
+
+
+for (i in 1:numSeries) {
+  for (j in 1:nsims) {
+    ts_temp <- ts_dat[ , i] 
+    ts_temp <- ts_temp + rnorm(length(ts_temp), 0, sqrt(var(ts_temp) * .33333))
+    resArraySim2[i, j, 1] <- tangle(ts_temp, tau = 1, returnMats = FALSE)
+    resArraySim2[i, j, 2] <- approx_entropy(ts_temp, edim = 2, r = 0.2*sd(ts_lor), elag = 1)
+    resArraySim2[i, j, 3] <- mean(fd.estimate(ts_temp,methods = "boxcount",
+                                         window.size = 10, step.size = 1,
+                                         plot.loglog = FALSE, nlags = 5)$fd)
+    print(paste("Complex",i,j,k))
+    flush.console()
+
+  }
+}
+
+save(resArraySim2, file = "ComplexSim.RData")
+
+
+lorDat <- rbind(resArraySim1[1,,], resArraySim[1,,])
+rosDat <- rbind(resArraySim1[2,,], resArraySim[2,,])
+HRNDat <- rbind(resArraySim1[3,,], resArraySim[3,,])
+
+lorDat <- rbind(resArraySim2[1,,], resArraySim[1,,])
+rosDat <- rbind(resArraySim2[2,,], resArraySim[2,,])
+HRNDat <- rbind(resArraySim2[3,,], resArraySim[3,,])
+
+ttestMat <- matrix(NA, nrow = 5, ncol = 9)
+
+for (i in 1:5) {
+  ttestMat[i, 1] <- t.test(lorDat[,i], rosDat[,i])$statistic
+  ttestMat[i, 2] <- t.test(lorDat[,i], rosDat[,i])$p.value
+  ttestMat[i, 3] <- cohensD(lorDat[,i], rosDat[,i])
+  ttestMat[i, 4] <- t.test(lorDat[,i], HRNDat[,i])$statistic
+  ttestMat[i, 5] <- t.test(lorDat[,i], HRNDat[,i])$p.value
+  ttestMat[i, 6] <- cohensD(lorDat[,i], HRNDat[,i])
+  ttestMat[i, 7] <- t.test(HRNDat[,i], rosDat[,i])$statistic
+  ttestMat[i, 8] <- t.test(HRNDat[,i], rosDat[,i])$p.value
+  ttestMat[i, 9] <- cohensD(HRNDat[,i], rosDat[,i])
+}
+
+
+
+

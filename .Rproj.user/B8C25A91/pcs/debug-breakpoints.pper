@@ -1,0 +1,36 @@
+{
+    "debugBreakpointsState": {
+        "breakpoints": [
+            {
+                "id": 0,
+                "path": "~/Box Sync/UpworkProjects/FernandoCorreia/Jan_5_2022/HelperFunctons/multipleGroupLGC2.R",
+                "line_number": 136,
+                "function_steps": "",
+                "function_name": "multipleGroupLGC2",
+                "state": 2,
+                "editor_state": 2,
+                "editor_line_number": 136,
+                "is_pending_debug_completion": false,
+                "needs_updated_steps": false,
+                "type": 0,
+                "is_package_breakpoint": false,
+                "package_name": ""
+            },
+            {
+                "id": 1,
+                "path": "~/Box Sync/UpworkProjects/FernandoCorreia/Jan_31_2022/HelperFunctons/condLGC3.R",
+                "line_number": 83,
+                "function_steps": "",
+                "function_name": "condLGC3",
+                "state": 2,
+                "editor_state": 2,
+                "editor_line_number": 83,
+                "is_pending_debug_completion": false,
+                "needs_updated_steps": false,
+                "type": 0,
+                "is_package_breakpoint": false,
+                "package_name": ""
+            }
+        ]
+    }
+}
