@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 **NOTE: This package is in active development (beta), updates regularly, and may have bugs. Please report any bugs to the package maintainer.**
 
-This package allows for modeling of chaotic systems as intermittently forced linear systems through the use of Hankel Alternative View of Koopman (HAVOK) analysis (Brunton, Brunton, Proctor, Kaiser, & Kutz, 2017). This package has additional functionality for the SINDy algorithm (Brunton, Proctor, & Kutz, 2016).
+This package allows for modeling of chaotic systems as intermittently forced linear systems through the use of Hankel Alternative View of Koopman (HAVOK) analysis (Brunton, Brunton, Proctor, Kaiser, & Kutz, 2017). This package has additional functionality for the SINDy algorithm (Brunton, Proctor, & Kutz, 2016), as well as other nonlinear analysis methods.
 
 
 ## Installation
@@ -74,7 +74,7 @@ hav <- havok(xdat = xdat, dt = dt)
 
 To plot the resulting time series and forcing term use `plot(hav)`
 
-```{r plotting, eval=TRUE}
+```{r plotting, eval=TRUE, echo = TRUE}
 plot(hav, what = "both")
 ```
 

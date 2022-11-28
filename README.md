@@ -10,7 +10,8 @@ This package allows for modeling of chaotic systems as intermittently
 forced linear systems through the use of Hankel Alternative View of
 Koopman (HAVOK) analysis (Brunton, Brunton, Proctor, Kaiser, & Kutz,
 2017). This package has additional functionality for the SINDy algorithm
-(Brunton, Proctor, & Kutz, 2016).
+(Brunton, Proctor, & Kutz, 2016), as well as other nonlinear analysis
+methods.
 
 ## Installation
 
