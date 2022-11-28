@@ -64,6 +64,8 @@ t <- out[,"time"]
 
 # Run HAVOK Analysis
 hav <- havok(xdat = xdat, dt = dt)
+#> Warning in havok(xdat = xdat, dt = dt): Agument "devMethod" not selected.
+#> Defaulting to devMethod = "FOCD"
 ```
 
 To plot the resulting time series and forcing term use `plot(hav)`
@@ -72,15 +74,13 @@ To plot the resulting time series and forcing term use `plot(hav)`
 plot(hav, what = "both")
 ```
 
-<img src="man/figures/README-plotting-1.png" width="100%" />
-
 ## References
 
--   Brunton, S. L., Brunton, B. W., Proctor, J. L., Kaiser, E., &
-    Kutz, J. N. (2017). Chaos as an intermittently forced linear system.
-    Nature communications, 8(1), 19.
+- Brunton, S. L., Brunton, B. W., Proctor, J. L., Kaiser, E., &
+  Kutz, J. N. (2017). Chaos as an intermittently forced linear system.
+  Nature communications, 8(1), 19.
 
--   Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2016). Discovering
-    governing equations from data by sparse identification of nonlinear
-    dynamical systems. Proceedings of the National Academy of Sciences,
-    113(15), 3932-3937.
+- Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2016). Discovering
+  governing equations from data by sparse identification of nonlinear
+  dynamical systems. Proceedings of the National Academy of Sciences,
+  113(15), 3932-3937.
