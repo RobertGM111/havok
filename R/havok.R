@@ -37,7 +37,7 @@
 #' \item{\code{sys} - }{HAVOK model represented in state-space form.}
 #' \item{\code{normTheta} - }{Normalized matrix of candidate functions obtained from \code{\link{pool_data}}.}
 #' \item{\code{Xi} - }{A matrix of sparse coefficients obtained from \code{\link{sparsify_dynamics}}.}
-#' \item{\code{Vr} - }{The reduced rank V matrix of the SVD of the Hankel matrix of the time series.}}
+#' \item{\code{Vr} - }{The reduced rank V matrix of the SVD of the Hankel matrix of the time series.}
 #' \item{\code{Ur} - }{The reduced rank U matrix of the SVD of the Hankel matrix of the time series.}
 #' \item{\code{sigsr} - }{Values of the diagonal of the reduced rank \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}
 #' \item{\code{Vr_aligned} - }{Vr truncated based upon \code{devMethod}}}
