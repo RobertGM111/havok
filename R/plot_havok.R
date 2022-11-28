@@ -51,7 +51,7 @@
 #' @export
 plot.havok <- function(x, what = "interactive", ...) {
 
-  if (what == "interactive"){
+  if (tolower(what) == "interactive"){
 
     cat("--- Please select a plot type by number ---\n
         Plot Types:
@@ -70,7 +70,7 @@ plot.havok <- function(x, what = "interactive", ...) {
 
       if (what == 1){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
-        graphics::plot(x$havokSS$t, scale(x$Vr[,1]), type = "l", xlab = "Time", ylab = "V1 vs. V1_hat", ...)
+        graphics::plot(x$havokSS$t, scale(x$Vr_aligned[,1]), type = "l", xlab = "Time", ylab = "V1 vs. V1_hat", ...)
         graphics::lines(x$havokSS$t, scale(x$havokSS$y[1,]), col = "red")
         graphics::legend("topleft", legend = c("V1", "Predicted V1"), lwd = c(1,1), col = c("black", "red"))
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
@@ -78,20 +78,20 @@ plot.havok <- function(x, what = "interactive", ...) {
 
       if (what == 2){
         graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
-        graphics::plot(x$havokSS$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
+        graphics::plot(x$havokSS$t, x$Vr_aligned[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
         graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
       }
 
       if (what == 3){
         graphics::par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
 
-        graphics::plot(x$havokSS$t, scale(x$Vr[,1]), type = "l", xlab = "Time", ylab = "V1 vs. V1_hat", ...)
+        graphics::plot(x$havokSS$t, scale(x$Vr_aligned[,1]), type = "l", xlab = "Time", ylab = "V1 vs. V1_hat", ...)
         graphics::lines(x$havokSS$t, scale(x$havokSS$y[1,]), col = "red")
         graphics::legend("topleft", legend = c("V1", "Predicted V1"), lwd = c(1,1), col = c("black", "red"))
 
         graphics::par(mai = c(1, 1.0, 0.1, 0.1))
 
-        graphics::plot(x$havokSS$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
+        graphics::plot(x$havokSS$t, x$Vr_aligned[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
 
         graphics::par(mfrow=c(1,1), mai = c(1.02, 0.82, 0.82, 0.42))
       }
@@ -163,7 +163,7 @@ plot.havok <- function(x, what = "interactive", ...) {
 
   if (what == 1 | tolower(what) == "reconstruction"){
     graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
-    graphics::plot(x$havokSS$t, scale(x$Vr[,1]), type = "l", xlab = "Time", ylab = "V1 vs. V1_hat", ...)
+    graphics::plot(x$havokSS$t, scale(x$Vr_aligned[,1]), type = "l", xlab = "Time", ylab = "V1 vs. V1_hat", ...)
     graphics::lines(x$havokSS$t, scale(x$havokSS$y[1,]), col = "red")
     graphics::legend("topleft", legend = c("V1", "Predicted V1"), lwd = c(1,1), col = c("black", "red"))
     graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
@@ -171,20 +171,20 @@ plot.havok <- function(x, what = "interactive", ...) {
 
   if (what == 2 | tolower(what) == "forcing"){
     graphics::par(mai = c(0.9, 0.8, 0.1, 0.1))
-    graphics::plot(x$havokSS$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
+    graphics::plot(x$havokSS$t, x$Vr_aligned[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
     graphics::par(mai = c(1.02, 0.82, 0.82, 0.42))
   }
 
   if (what == 3 | tolower(what) == "both"){
     graphics::par(mfrow=c(2,1), mai = c(0.5, 1.0, 0.1, 0.1))
 
-    graphics::plot(x$havokSS$t, scale(x$Vr[,1]), type = "l", xlab = "Time", ylab = "V1 vs. V1_hat", ...)
+    graphics::plot(x$havokSS$t, scale(x$Vr_aligned[,1]), type = "l", xlab = "Time", ylab = "V1 vs. V1_hat", ...)
     graphics::lines(x$havokSS$t, scale(x$havokSS$y[1,]), col = "red")
     graphics::legend("topleft", legend = c("V1", "Predicted V1"), lwd = c(1,1), col = c("black", "red"))
 
     graphics::par(mai = c(1, 1.0, 0.1, 0.1))
 
-    graphics::plot(x$havokSS$t, x$Vr[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
+    graphics::plot(x$havokSS$t, x$Vr_aligned[,x$r], type = "l", xlab = "Time", ylab = "Forcing", ...)
 
     graphics::par(mfrow=c(1,1), mai = c(1.02, 0.82, 0.82, 0.42))
   }
