@@ -14,5 +14,7 @@ License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 4.0.0)
-Imports: pracma (>= 2.2.5), control (>= 0.2.5), stats (>= 3.5.2), graphics (>= 3.5.2), grDevices (>= 3.5.2)
+Imports: pracma (>= 2.2.5), control (>= 0.2.5), stats (>= 3.5.2),
+  graphics (>= 3.5.2), grDevices (>= 3.5.2), rsvd (>= 1.0.5), moments (>= 0.14.1),
+  parallel (>= 4.2.2)
 RoxygenNote: 7.1.0
