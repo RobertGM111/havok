@@ -69,6 +69,27 @@
 #'                               'R2 = %{text:.2f}',
 #'                               '<extra></extra>')) %>%
 #'   layout(title = 'R2') 
+#' 
+#' 
+#' 
+#' plot_ly(data = results, type = "scatter", x = ~stackmax,
+#' y = ~r, colors= "BrBG" , color = ~ kurtosis, size = ~ kurtosis*(-1),
+#' mode = "markers", text = ~kurtosis,
+#' hovertemplate = paste('stackmax = %{x}',
+#'                       '<br>r = %{y}<br>',
+#'                       'kurtosis = %{text:.2f}',
+#'                       '<extra></extra>')) %>%
+#'   layout(title = 'kurtosis')
+#' 
+#' plot_ly(data = results, x = ~stackmax, y = ~r,
+#'colors = "viridis" , color = ~prop2sd, size = ~prop2sd * (-1),
+#'mode = "markers", text = ~prop2sd,
+#'hovertemplate = paste('stackmax = %{x}',
+#'                      '<br>r = %{y}<br>',
+#'                      'prop2sd = %{text:.2f}',
+#'                      '<extra></extra>')) %>%
+#'  layout(title = 'prop2sd')
+#' 
 #' }
 #' @export
 
