@@ -105,17 +105,7 @@ dt <- 0.25   # 4 measurements per day
 results <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58)
 ```
 
-```{r, echo = FALSE}
-
-plot_ly(data = results, type = "scatter", x = ~stackmax,
-        y = ~r, colors= "PiYG" , color = ~ R2, size = ~ R2,
-        mode = "markers", text = ~R2,
-        hovertemplate = paste('stackmax = %{x}',
-                              '<br>r = %{y}<br>',
-                              'R2 = %{text:.2f}',
-                              '<extra></extra>')) %>%
-  layout(title = 'R2') 
-```
+![R2 Values](man/figures/README-plotting-2.png)
 
 ## References
 
