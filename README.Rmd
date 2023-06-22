@@ -1,5 +1,6 @@
 ---
 output: github_document
+always_allow_html: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -17,7 +18,7 @@ knitr::opts_chunk$set(
 
 **NOTE: This package is in active development (beta), updates regularly, and may have bugs. Please report any bugs to the package maintainer.**
 
-This package allows for modeling of chaotic systems as intermittently forced linear systems through the use of Hankel Alternative View of Koopman (HAVOK) analysis (Brunton, Brunton, Proctor, Kaiser, & Kutz, 2017). This package has additional functionality for the SINDy algorithm (Brunton, Proctor, & Kutz, 2016), as well as other nonlinear analysis methods.
+This package allows for modeling of chaotic systems as intermittently forced linear systems through the use of Hankel Alternative View of Koopman (HAVOK) analysis (Brunton, Brunton, Proctor, Kaiser, & Kutz, 2017). This package has additional functionality for the SINDy algorithm (Brunton, Proctor, & Kutz, 2016), as well as other nonlinear analysis methods. This package also contains functionality for model optimization through parallel processing via the `phavok()` function.
 
 
 ## Installation
@@ -34,9 +35,9 @@ install.packages("havok")
 ```
 -->
 
-## Example
+## Examples
 
-### Lorenz attractor
+### Lorenz attractor - Basic `havok()` Function Usage
 
 Simulate data from a Lorenz attractor.
 
@@ -79,8 +80,47 @@ plot(hav, what = "both")
 ```
 
 
+### Internet Trolls - Parameter Optimization via Parallel Processing
+
+Load internet trolls data (Full data available at [www.fivethirtyeight.com](https://fivethirtyeight.com/features/why-were-sharing-3-million-russian-troll-tweets/?fbclid=IwAR0PEu76Gtl_jHaXvghjmdQOAio_qgqe-bJp6ZQRbh5mt94EPQ884IA0XCA). The original data file for this example contains data from June 19, 2015, to Dec. 31, 2017.
+
+```{r}
+data("Internet_Trolls")
+```
+
+Conduct parameter optimization via `phavok()`
+
+```{r}
+#'# Russian Twitter Troll Activity Example
+
+library(plotly)
+
+# troll activity extracted 4 times per day during the US presidential  election year 2016 on 11 different topics 
+right <- results.all$avg.all.date[results.all$avg.all.date$Type=="Right",] # only right-wing trolls
+xdat <- right$Topic3  # Russian Twitter troll posting activity on the topic of Racial Justice/Black Lives Matter
+dt <- 0.25   # 4 measurements per day
+
+# All possible rs within specified stackmax range, no sparsification dimension
+
+results <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58)
+```
+
+```{r, echo = FALSE}
+
+plot_ly(data = results, type = "scatter", x = ~stackmax,
+        y = ~r, colors= "PiYG" , color = ~ R2, size = ~ R2,
+        mode = "markers", text = ~R2,
+        hovertemplate = paste('stackmax = %{x}',
+                              '<br>r = %{y}<br>',
+                              'R2 = %{text:.2f}',
+                              '<extra></extra>')) %>%
+  layout(title = 'R2') 
+```
+
 ## References
 
 * Brunton, S. L., Brunton, B. W., Proctor, J. L., Kaiser, E., & Kutz, J. N. (2017). Chaos as an intermittently forced linear system. Nature communications, 8(1), 19.
 
 * Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2016). Discovering governing equations from data by sparse identification of nonlinear dynamical systems. Proceedings of the National Academy of Sciences, 113(15), 3932-3937.
+
+* Moulder, R. G., Martynova, E., & Boker, S. M. (2021). Extracting nonlinear dynamics from psychological and behavioral time series through HAVOK analysis. Multivariate Behavioral Research, 1-25.
