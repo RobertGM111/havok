@@ -40,10 +40,36 @@
 #' \item{\code{kurtosis} - }{Pearson's measure of kurtosis of the forcing term value distribution.}
 #' \item{\code{prop2sd} - }{Proportion of the forcing values exceeding the threshold of +-2 standard deviations.}
 #' \item{\code{prop1.5sd} - }{Proportion of the forcing values exceeding the threshold of +-1.5 standard deviations.}
-#' \item{\code{prop1sd} - }{Proportion of the forcing values exceeding the threshold of +-1 standard deviation.}
+#' \item{\code{prop1sd} - }{Proportion of the forcing values exceeding the threshold of +-1 standard deviation.}}
 #' @references S. L. Brunton, B. W. Brunton, J. L. Proctor, E. Kaiser, and J. N. Kutz,
 #' "Chaos as an intermittently forced linear system," Nature Communications, 8(19):1-9, 2017.
 #' @examples
+#' \dontrun{
+#' # Russian Twitter Troll Activity Example
+#' 
+#' library(plotly)
+#' 
+#' out <- load("~/Downloads/results.all.trolls.RData")  # Contains time series of Russian Twitter 
+#' # troll activity extracted 4 times per day during the US presidential  election year 2016 on 11 different topics 
+#' right <- results.all$avg.all.date[results.all$avg.all.date$Type=="Right",] # only right-wing trolls
+#' xdat <- right$Topic3  # Russian Twitter troll posting activity on the topic of Racial Justice/Black Lives Matter
+#' dt <- 0.25   # 4 measurements per day
+#' 
+#' # All possible rs within specified stackmax range, no sparsification dimension
+#' 
+#' results <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58)
+#' 
+#' 
+#' 
+#' plot_ly(data = results, type = "scatter", x = ~stackmax,
+#'         y = ~r, colors= "PiYG" , color = ~ R2, size = ~ R2,
+#'         mode = "markers", text = ~R2,
+#'         hovertemplate = paste('stackmax = %{x}',
+#'                               '<br>r = %{y}<br>',
+#'                               'R2 = %{text:.2f}',
+#'                               '<extra></extra>')) %>%
+#'   layout(title = 'R2') 
+#' }
 #' @export
 
 phavok <- function(xdat, dt = 1, stackmaxes = NA, rs = NA, random = 0, 
