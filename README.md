@@ -92,21 +92,6 @@ data("Internet_Trolls")
 Conduct parameter optimization via `phavok()`
 
 ``` r
-#'# Russian Twitter Troll Activity Example
-
-library(plotly)
-#> Loading required package: ggplot2
-#> 
-#> Attaching package: 'plotly'
-#> The following object is masked from 'package:ggplot2':
-#> 
-#>     last_plot
-#> The following object is masked from 'package:stats':
-#> 
-#>     filter
-#> The following object is masked from 'package:graphics':
-#> 
-#>     layout
 
 # troll activity extracted 4 times per day during the US presidential  election year 2016 on 11 different topics 
 right <- results.all$avg.all.date[results.all$avg.all.date$Type=="Right",] # only right-wing trolls
@@ -121,6 +106,17 @@ results <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58)
 <figure>
 <img src="man/figures/README-plotting-2.png" alt="R2 Values" />
 <figcaption aria-hidden="true">R2 Values</figcaption>
+</figure>
+
+``` r
+phav <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10, sparsify = T)
+```
+
+<figure>
+<img src="man/figures/README-plotting-3.png"
+alt="R2 Values with Sparsification" />
+<figcaption aria-hidden="true">R2 Values with
+Sparsification</figcaption>
 </figure>
 
 ## References

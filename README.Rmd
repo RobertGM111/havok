@@ -91,9 +91,6 @@ data("Internet_Trolls")
 Conduct parameter optimization via `phavok()`
 
 ```{r}
-#'# Russian Twitter Troll Activity Example
-
-library(plotly)
 
 # troll activity extracted 4 times per day during the US presidential  election year 2016 on 11 different topics 
 right <- results.all$avg.all.date[results.all$avg.all.date$Type=="Right",] # only right-wing trolls
@@ -106,6 +103,10 @@ results <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58)
 ```
 
 ![R2 Values](man/figures/README-plotting-2.png)
+```{r}
+phav <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10, sparsify = T)
+```
+![R2 Values with Sparsification](man/figures/README-plotting-3.png)
 
 ## References
 
