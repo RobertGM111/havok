@@ -49,9 +49,9 @@
 #' 
 #' library(plotly)
 #' 
-#' out <- load("~/Downloads/results.all.trolls.RData")  # Contains time series of Russian Twitter 
+#' load("~/Downloads/results.all.trolls.RData")  # Contains time series of Russian Twitter 
 #' # troll activity extracted 4 times per day during the US presidential  election year 2016 on 11 different topics 
-#' right <- results.all$avg.all.date[results.all$avg.all.date$Type=="Right",] # only right-wing trolls
+#' right <- results.all.truncated[results.all.truncated$Type=="Right",] # only right-wing trolls
 #' xdat <- right$Topic3  # Russian Twitter troll posting activity on the topic of Racial Justice/Black Lives Matter
 #' dt <- 0.25   # 4 measurements per day
 #' 
