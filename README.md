@@ -94,7 +94,7 @@ Conduct parameter optimization via `phavok()`
 ``` r
 
 # troll activity extracted 4 times per day during the US presidential  election year 2016 on 11 different topics 
-right <- results.all$avg.all.date[results.all$avg.all.date$Type=="Right",] # only right-wing trolls
+right <- results.all.truncated[results.all.truncated$Type=="Right",] # only right-wing trolls
 xdat <- right$Topic3  # Russian Twitter troll posting activity on the topic of Racial Justice/Black Lives Matter
 dt <- 0.25   # 4 measurements per day
 
@@ -109,7 +109,7 @@ results <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58)
 </figure>
 
 ``` r
-phav <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10, sparsify = T)
+phav <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10, random = 0.5, sparsify = T, sparserandom = 0.4)
 ```
 
 <figure>
