@@ -106,7 +106,7 @@ results <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58)
 ```{r}
 phav <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10, random = 0.5, sparsify = T, sparserandom = 0.4)
 ```
-![R2 Values with Sparsification](man/figures/README-plotting-3.png)
+![R2 Values with Sparsification and Random Hyperparameter Value Selection](man/figures/README-plotting-3.png)
 
 ## References
 

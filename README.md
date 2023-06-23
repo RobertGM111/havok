@@ -114,9 +114,9 @@ phav <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10, random = 0.5
 
 <figure>
 <img src="man/figures/README-plotting-3.png"
-alt="R2 Values with Sparsification" />
-<figcaption aria-hidden="true">R2 Values with
-Sparsification</figcaption>
+alt="R2 Values with Sparsification and Random Hyperparameter Value Selection" />
+<figcaption aria-hidden="true">R2 Values with Sparsification and Random
+Hyperparameter Value Selection</figcaption>
 </figure>
 
 ## References
