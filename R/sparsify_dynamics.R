@@ -6,6 +6,7 @@
 #' @param Theta A matrix of candidate functions.
 #' @param dXdt A matrix of first order derivatives of the variables of interest with respect to time.
 #' @param lambda A numeric value; sparsification threshold.
+#' @param loops An integer; number of times sequential thresholded least-squares procedure is repeated.
 #' @return  A matrix of sparse coefficients.
 #' @references Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2016). Discovering
 #' governing equations from data by sparse identification of nonlinear dynamical
@@ -13,20 +14,20 @@
 #' @examples
 #' \dontrun{
 #' sparsify_dynamics(Theta, dXdt, lambda, n)
-#' sparsify_dynamics(Theta, dXdt, 0.1, 10)
-#' sparsify_dynamics(pool_data(yIn, 15, 5, TRUE), dXdt, 0, 15)
+#' sparsify_dynamics(Theta, dXdt, .005, 10)
+#' sparsify_dynamics(pool_data(yIn, 15, 5, TRUE), dXdt, .1, 1)
 #' }
 ###################################
 #' @export
-sparsify_dynamics <- function(Theta, dXdt, lambda){
-
+sparsify_dynamics <- function(Theta, dXdt, lambda, loops=1){
+  
   n <- ncol(as.matrix(dXdt))
-
+  
   # Original regression result
   Xi <- pracma::mldivide(Theta, dXdt)
-
+  
   # lambda is our sparsification knob.
-  for (k in 1:10) {
+  for (k in 1:loops) {
     smallinds <- abs(Xi) < lambda    #find small coefficients
     Xi[smallinds] <- 0                # and threshold
     for (ind in 1:n) {                   # n is state dimension
