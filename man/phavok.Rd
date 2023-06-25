@@ -82,17 +82,16 @@ combination that corresponds to the selected model.
 
 library(plotly)
 
-out <- load("~/Downloads/results.all.trolls.RData")  # Contains time series of Russian Twitter 
-# troll activity extracted 4 times per day during the US presidential  election year 2016 on 11 different topics 
-right <- results.all$avg.all.date[results.all$avg.all.date$Type=="Right",] # only right-wing trolls
+data("Internet_Trolls")  # Contains time series of Russian Twitter 
+# troll activity extracted 4 times per day during the US presidential  
+# election year 2016 on 11 different topics 
+right <- results.all.truncated[results.all.truncated$Type=="Right",] # only right-wing trolls
 xdat <- right$Topic3  # Russian Twitter troll posting activity on the topic of Racial Justice/Black Lives Matter
 dt <- 0.25   # 4 measurements per day
 
 # All possible rs within specified stackmax range, no sparsification dimension
 
 results <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58)
-
-
 
 plot_ly(data = results, type = "scatter", x = ~stackmax,
         y = ~r, colors= "PiYG" , color = ~ R2, size = ~ R2,
@@ -102,7 +101,97 @@ plot_ly(data = results, type = "scatter", x = ~stackmax,
                               'R2 = \%{text:.2f}',
                               '<extra></extra>')) \%>\%
   layout(title = 'R2') 
+
+
+
+plot_ly(data = results, type = "scatter", x = ~stackmax,
+y = ~r, colors= "BrBG" , color = ~ kurtosis, size = ~ kurtosis*(-1),
+mode = "markers", text = ~kurtosis,
+hovertemplate = paste('stackmax = \%{x}',
+                      '<br>r = \%{y}<br>',
+                      'kurtosis = \%{text:.2f}',
+                      '<extra></extra>')) \%>\%
+  layout(title = 'kurtosis')
+
+plot_ly(data = results, x = ~stackmax, y = ~r,
+colors = "viridis" , color = ~prop2sd, size = ~prop2sd * (-1),
+mode = "markers", text = ~prop2sd,
+hovertemplate = paste('stackmax = \%{x}',
+                     '<br>r = \%{y}<br>',
+                     'prop2sd = \%{text:.2f}',
+                     '<extra></extra>')) \%>\%
+ layout(title = 'prop2sd')
+
+
+
+results <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10, sparsify = T)
+
+
+plot_ly(data = results, type = 'scatter3d', x = ~stackmax,
+       y = ~r, z = ~LambdaDeletions, colors= "PiYG" , color = ~ R2,
+      mode = "markers", text = ~R2,
+       marker = list(
+        size = ~R2*20,
+         opacity = 1
+       ),
+       hovertemplate = paste('stackmax = \%{x}',
+                             '<br>r = \%{y}<br>',
+                             'LambdaDeletions = \%{z}<br>',
+                             'R2 = \%{text:.2f}',
+                             '<extra></extra>')) \%>\%
+ layout(title = 'R2')
+
+
+# Selected range of rs in the specified stackmax range with sparsification dimension, 
+# 0.3 proportion of stackmax * r values selected randomly
+
+results <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10,  random = 0.3, sparsify = T)
+
+
+plot_ly(data = results, type = 'scatter3d', x = ~stackmax,
+      y = ~r, z = ~LambdaDeletions, colors= "PiYG" , color = ~ R2,
+      mode = "markers", text = ~R2,
+      marker = list(
+        size = ~R2*20,
+        opacity = 1
+      ),
+      hovertemplate = paste('stackmax = \%{x}',
+                             '<br>r = \%{y}<br>',
+                             'LambdaDeletions = \%{z}<br>',
+                            'R2 = \%{text:.2f}',
+                             '<extra></extra>')) \%>\%
+ layout(title = 'R2')
+
+
+
+
+# Selected range of rs in the specified stackmax range with sparsification dimension, 
+# 0.3 proportion of stackmax * r values selected randomly, 0.4 proportion of 
+# sparsification thresholds selected randomly
+
+
+results <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10,
+ random = 0.5, sparsify = T, sparserandom = 0.4)
+
+
+
+plot_ly(data = results, type = 'scatter3d', x = ~stackmax,
+       y = ~r, z = ~LambdaDeletions, colors= "PiYG" , color = ~ R2,
+       mode = "markers", text = ~R2,
+      marker = list(
+        size = ~R2*20,
+        opacity = 1
+      ),
+      hovertemplate = paste('stackmax = \%{x}',
+                             '<br>r = \%{y}<br>',
+                            'LambdaDeletions = \%{z}<br>',
+                             'R2 = \%{text:.2f}',
+                            '<extra></extra>')) \%>\%
+ layout(title = 'R2')
+
+
 }
+
 }
 \references{
 S. L. Brunton, B. W. Brunton, J. L. Proctor, E. Kaiser, and J. N. Kutz,

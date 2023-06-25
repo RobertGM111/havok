@@ -59,8 +59,6 @@
 #' 
 #' results <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58)
 #' 
-#' 
-#' 
 #' plot_ly(data = results, type = "scatter", x = ~stackmax,
 #'         y = ~r, colors= "PiYG" , color = ~ R2, size = ~ R2,
 #'         mode = "markers", text = ~R2,
@@ -91,6 +89,76 @@
 #'  layout(title = 'prop2sd')
 #' 
 #' }
+#' 
+#' phav <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10, sparsify = T)
+#'
+#' results <- as.data.frame(do.call(rbind,phav)) 
+
+#' plot_ly(data = results, type = 'scatter3d', x = ~stackmax,
+#'        y = ~r, z = ~LambdaDeletions, colors= "PiYG" , color = ~ R2,
+#'       mode = "markers", text = ~R2,
+#'        marker = list(
+#'         size = ~R2*20,
+#'          opacity = 1
+#'        ),
+#'        hovertemplate = paste('stackmax = %{x}',
+#'                              '<br>r = %{y}<br>',
+#'                              'LambdaDeletions = %{z}<br>',
+#'                              'R2 = %{text:.2f}',
+#'                              '<extra></extra>')) %>%
+#'  layout(title = 'R2')
+#'
+#'
+#' # Selected range of rs in the specified stackmax range with sparsification dimension, 
+#' # 0.3 proportion of stackmax * r values selected randomly
+#'
+#' phav <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10,  random = 0.3, sparsify = T)
+#'
+#' results <- as.data.frame(do.call(rbind,phav)) 
+#'
+#' plot_ly(data = results, type = 'scatter3d', x = ~stackmax,
+#'       y = ~r, z = ~LambdaDeletions, colors= "PiYG" , color = ~ R2,
+#'       mode = "markers", text = ~R2,
+#'       marker = list(
+#'         size = ~R2*20,
+#'         opacity = 1
+#'       ),
+#'       hovertemplate = paste('stackmax = %{x}',
+#'                              '<br>r = %{y}<br>',
+#'                              'LambdaDeletions = %{z}<br>',
+#'                             'R2 = %{text:.2f}',
+#'                              '<extra></extra>')) %>%
+#'  layout(title = 'R2')
+#'
+#'
+#'
+#'
+#' # Selected range of rs in the specified stackmax range with sparsification dimension, 
+#' # 0.3 proportion of stackmax * r values selected randomly, 0.4 proportion of sparsification thresholds selected randomly
+#'
+#'
+#' phav <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10, random = 0.5, sparsify = T, sparserandom = 0.4)
+#'
+#' results <- as.data.frame(do.call(rbind,phav)) 
+#'
+#'
+#' plot_ly(data = results, type = 'scatter3d', x = ~stackmax,
+#'        y = ~r, z = ~LambdaDeletions, colors= "PiYG" , color = ~ R2,
+#'        mode = "markers", text = ~R2,
+#'       marker = list(
+#'         size = ~R2*20,
+#'         opacity = 1
+#'       ),
+#'       hovertemplate = paste('stackmax = %{x}',
+#'                              '<br>r = %{y}<br>',
+#'                             'LambdaDeletions = %{z}<br>',
+#'                              'R2 = %{text:.2f}',
+#'                             '<extra></extra>')) %>%
+#'  layout(title = 'R2')
+#' 
+#' 
+#' 
+#' 
 #' @export
 
 phavok <- function(xdat, dt = 1, stackmaxes = NA, rs = NA, random = 0, 

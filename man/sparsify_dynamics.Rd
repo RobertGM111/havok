@@ -4,7 +4,7 @@
 \alias{sparsify_dynamics}
 \title{Matrix Sparsification for SINDy Algorithm}
 \usage{
-sparsify_dynamics(Theta, dXdt, lambda)
+sparsify_dynamics(Theta, dXdt, lambda, loops = 1)
 }
 \arguments{
 \item{Theta}{A matrix of candidate functions.}
@@ -12,6 +12,8 @@ sparsify_dynamics(Theta, dXdt, lambda)
 \item{dXdt}{A matrix of first order derivatives of the variables of interest with respect to time.}
 
 \item{lambda}{A numeric value; sparsification threshold.}
+
+\item{loops}{An integer; number of times sequential thresholded least-squares procedure is repeated.}
 }
 \value{
 A matrix of sparse coefficients.
@@ -24,8 +26,8 @@ Sparse identification of nonlinear dynamical systems" (Brunton, Proctor, & Kutz,
 \examples{
 \dontrun{
 sparsify_dynamics(Theta, dXdt, lambda, n)
-sparsify_dynamics(Theta, dXdt, 0.1, 10)
-sparsify_dynamics(pool_data(yIn, 15, 5, TRUE), dXdt, 0, 15)
+sparsify_dynamics(Theta, dXdt, .005, 10)
+sparsify_dynamics(pool_data(yIn, 15, 5, TRUE), dXdt, .1, 1)
 }
 }
 \references{

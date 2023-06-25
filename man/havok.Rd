@@ -4,9 +4,10 @@
 \alias{havok}
 \title{Hankel Alternative View of Koopman (HAVOK) Analysis}
 \usage{
-havok(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
+havok(xdat, dt = 1, stackmax = 100, lambda = 0, loops = 1, 
+             lambda_increase = FALSE, center = TRUE,
              rmax = 15, rset = NA, rout = NA,
-             useSINDy = TRUE, polyOrder = 1, useSine = FALSE,
+             polyOrder = 1, useSine = FALSE,
              discrete = FALSE, devMethod = c("FOCD", "GLLA"),
              gllaEmbed = NA, alignSVD = TRUE)
 }
@@ -19,6 +20,8 @@ havok(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
 
 \item{lambda}{A numeric value; sparsification threshold.}
 
+\item{lambda_increase}{Logical; should the sparsification threshold be multiplied by the sparsified column index?}
+
 \item{center}{Logical; should \code{xdat} be centered around 0?}
 
 \item{rmax}{An integer; maximum number of singular vectors to include.}
@@ -27,15 +30,11 @@ havok(xdat, dt = 1, stackmax = 100, lambda = 0, center = TRUE,
 
 \item{rout}{An integer or vector of integers; excludes columns of singular values from analysis.}
 
-\item{useSINDy}{Logical; should the SINDy algorithm be used during model creation?}
-
 \item{polyOrder}{An integer from 0 to 5; if useSINDy = TRUE, the highest degree of polynomials
 included in the matrix of candidate functions.}
 
-\item{useSine}{Logical; if useSINDy = TRUE, should sine and cosine functions
-of variables should be added to the library of potential candidate functions?
-If TRUE, candidate function matrix is augmented with sine and cosine functions
-of integer multiples 1 through 10.}
+\item{useSine}{Logical; should sine and cosine functions of variables be added to the library of potential candidate functions?
+If TRUE, candidate function matrix is augmented with sine and cosine functions of integer multiples 1 through 10.}
 
 \item{discrete}{Logical; is the underlying system discrete?}
 
@@ -58,6 +57,7 @@ An object of class 'havok' with the following components: \itemize{
 \item{\code{Ur} - }{The reduced rank U matrix of the SVD of the Hankel matrix of the time series.}
 \item{\code{sigsr} - }{Values of the diagonal of the reduced rank \eqn{\Sigma} matrix of the SVD of the Hankel matrix of the time series.}
 \item{\code{Vr_aligned} - }{Vr truncated based upon \code{devMethod}}}
+\item{\code{R2} - }{Squared correlation between the model predicted v_1 and v_1 exracted from SVD. A model fit estimate.}
 }
 \description{
 Data-driven decomposition of chaotic time series into an intermittently
@@ -104,8 +104,8 @@ dt <- ECG_measurements[2,"time"] - ECG_measurements[1,"time"]
 stackmax <- 25
 rmax <- 5
 lambda <- .001
-hav <- havok(xdat = xdat, dt = dt, stackmax = stackmax, lambda = lambda,
-            rmax = 5, polyOrder = 1, useSine = FALSE)
+hav <- havok(xdat = xdat, dt = dt, stackmax = stackmax, lambda = lambda, 
+            lambda_increase = TRUE, loops = 10, rmax = 5, polyOrder = 1, useSine = FALSE)
 plot(hav)
 }
 }
