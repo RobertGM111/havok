@@ -49,8 +49,9 @@
 #' 
 #' library(plotly)
 #' 
-#' load("~/Downloads/results.all.trolls.RData")  # Contains time series of Russian Twitter 
-#' # troll activity extracted 4 times per day during the US presidential  election year 2016 on 11 different topics 
+#' data("Internet_Trolls")  # Contains time series of Russian Twitter 
+#' # troll activity extracted 4 times per day during the US presidential  
+#' # election year 2016 on 11 different topics 
 #' right <- results.all.truncated[results.all.truncated$Type=="Right",] # only right-wing trolls
 #' xdat <- right$Topic3  # Russian Twitter troll posting activity on the topic of Racial Justice/Black Lives Matter
 #' dt <- 0.25   # 4 measurements per day
@@ -80,20 +81,19 @@
 #'   layout(title = 'kurtosis')
 #' 
 #' plot_ly(data = results, x = ~stackmax, y = ~r,
-#'colors = "viridis" , color = ~prop2sd, size = ~prop2sd * (-1),
-#'mode = "markers", text = ~prop2sd,
-#'hovertemplate = paste('stackmax = %{x}',
+#' colors = "viridis" , color = ~prop2sd, size = ~prop2sd * (-1),
+#' mode = "markers", text = ~prop2sd,
+#' hovertemplate = paste('stackmax = %{x}',
 #'                      '<br>r = %{y}<br>',
 #'                      'prop2sd = %{text:.2f}',
 #'                      '<extra></extra>')) %>%
 #'  layout(title = 'prop2sd')
 #' 
-#' }
 #' 
-#' phav <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10, sparsify = T)
+#' 
+#' results <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10, sparsify = T)
 #'
-#' results <- as.data.frame(do.call(rbind,phav)) 
-
+#' 
 #' plot_ly(data = results, type = 'scatter3d', x = ~stackmax,
 #'        y = ~r, z = ~LambdaDeletions, colors= "PiYG" , color = ~ R2,
 #'       mode = "markers", text = ~R2,
@@ -112,9 +112,8 @@
 #' # Selected range of rs in the specified stackmax range with sparsification dimension, 
 #' # 0.3 proportion of stackmax * r values selected randomly
 #'
-#' phav <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10,  random = 0.3, sparsify = T)
+#' results <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10,  random = 0.3, sparsify = T)
 #'
-#' results <- as.data.frame(do.call(rbind,phav)) 
 #'
 #' plot_ly(data = results, type = 'scatter3d', x = ~stackmax,
 #'       y = ~r, z = ~LambdaDeletions, colors= "PiYG" , color = ~ R2,
@@ -134,12 +133,13 @@
 #'
 #'
 #' # Selected range of rs in the specified stackmax range with sparsification dimension, 
-#' # 0.3 proportion of stackmax * r values selected randomly, 0.4 proportion of sparsification thresholds selected randomly
+#' # 0.3 proportion of stackmax * r values selected randomly, 0.4 proportion of 
+#' # sparsification thresholds selected randomly
 #'
 #'
-#' phav <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10, random = 0.5, sparsify = T, sparserandom = 0.4)
+#' results <- phavok(xdat = xdat, dt = dt, stackmaxes = 28:58, rs = 2:10,
+#'  random = 0.5, sparsify = T, sparserandom = 0.4)
 #'
-#' results <- as.data.frame(do.call(rbind,phav)) 
 #'
 #'
 #' plot_ly(data = results, type = 'scatter3d', x = ~stackmax,
@@ -157,7 +157,7 @@
 #'  layout(title = 'R2')
 #' 
 #' 
-#' 
+#' }
 #' 
 #' @export
 
